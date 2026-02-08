@@ -1,0 +1,13 @@
+<svg width="800" height="480" viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" rx="30" fill="url(#bg)"/>
+  <circle cx="560" cy="150" r="72" fill="#FDE047"/>
+  <path d="M170 360C240 260 320 200 430 145" stroke="#E2E8F0" stroke-width="12" stroke-linecap="round"/>
+  <rect x="145" y="295" width="90" height="26" rx="13" transform="rotate(-22 145 295)" fill="#E2E8F0"/>
+  <text x="46" y="78" fill="#FFFFFF" font-size="54" font-family="Arial, sans-serif" font-weight="700">TENNIS</text>
+</svg>
