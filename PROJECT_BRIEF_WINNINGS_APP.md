@@ -63,3 +63,7 @@ Open: `http://localhost:3000`
 
 ## Quick Recall Summary
 "Winnings app is a Next.js + Tailwind local web dashboard built from `Winnings.xlsx`, currently showing prize tiers by round/category with a glossy UI and sport selection. Next milestone is deploy to Vercel and/or upgrade to true player-level winnings when richer data is provided."
+
+## Recall Keyword
+- **Keyword:** `winnings`
+- If user says "winnings", treat it as a request to quickly recall this project brief and continue from current state.
