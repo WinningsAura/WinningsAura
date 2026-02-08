@@ -10,6 +10,10 @@ const categoryImage: Record<SportCategory, string> = {
   "Mixed Doubles": "/card-mixed.svg",
 };
 
+const sheetNames = ["Tennis Grand Slams", "ATP and WTA", "Cricket", "All Sports Match Total Times"] as const;
+
+type SheetName = (typeof sheetNames)[number];
+
 const tournaments = [
   { key: "australianOpenAud", label: "Australian Open", short: "AO", icon: "🇦🇺" },
   { key: "usOpenUsd", label: "US Open", short: "USO", icon: "🇺🇸" },
@@ -19,7 +23,7 @@ const tournaments = [
 ] as const;
 
 export default function TennisStatsPage() {
-  const [playerName, setPlayerName] = useState("");
+  const [selectedSheet, setSelectedSheet] = useState<SheetName>("Tennis Grand Slams");
   const [category, setCategory] = useState<SportCategory>("Singles");
 
   const rows = useMemo(() => winningsByCategory[category], [category]);
@@ -30,43 +34,39 @@ export default function TennisStatsPage() {
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/35 via-slate-950/65 to-slate-950/90" />
 
       <main className="relative z-10 mx-auto w-full max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
-        <section className="mb-6 overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-2xl backdrop-blur-xl">
-          <div className="relative h-40 w-full sm:h-52">
-            <Image src="/tennis-court.svg" alt="Tennis court" fill className="object-cover" />
-            <div className="absolute inset-0 bg-black/35" />
-            <p className="absolute left-6 top-5 text-sm uppercase tracking-[0.25em] text-cyan-200">Tennis Prize Money Dashboard</p>
-            <h1 className="absolute left-6 bottom-5 text-3xl font-bold sm:text-5xl">Tennis Stats</h1>
-          </div>
+        <section className="mb-6 rounded-3xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
+          <p className="text-sm uppercase tracking-[0.25em] text-cyan-200">Tennis Prize Money Dashboard</p>
+          <h1 className="mt-2 text-3xl font-bold sm:text-5xl">Tennis Stats</h1>
+          <p className="mt-3 max-w-3xl text-white/80">Select a tournament sheet and category to view prize money.</p>
 
-          <div className="p-6 sm:p-8">
-            <p className="max-w-3xl text-white/80">
-              Select a category to view tournament prize money. Add a player name for presentation context.
-            </p>
-
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div>
-              <label className="mb-2 block text-sm font-semibold text-cyan-100">Player Name</label>
-              <input
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-cyan-100">Tournament</label>
+              <select
                 className="w-full rounded-xl border border-white/30 bg-black/20 px-4 py-3 outline-none transition focus:border-cyan-300"
-                placeholder="e.g., Carlos Alcaraz"
-                value={playerName}
-                onChange={(e) => setPlayerName(e.target.value)}
-              />
-              </div>
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-cyan-100">Category</label>
-                <select
-                  className="w-full rounded-xl border border-white/30 bg-black/20 px-4 py-3 outline-none transition focus:border-cyan-300"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value as SportCategory)}
-                >
-                  {categories.map((c) => (
-                    <option className="bg-slate-900" key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                value={selectedSheet}
+                onChange={(e) => setSelectedSheet(e.target.value as SheetName)}
+              >
+                {sheetNames.map((name) => (
+                  <option className="bg-slate-900" key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-cyan-100">Category</label>
+              <select
+                className="w-full rounded-xl border border-white/30 bg-black/20 px-4 py-3 outline-none transition focus:border-cyan-300"
+                value={category}
+                onChange={(e) => setCategory(e.target.value as SportCategory)}
+              >
+                {categories.map((c) => (
+                  <option className="bg-slate-900" key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </section>
@@ -91,11 +91,9 @@ export default function TennisStatsPage() {
           ))}
         </section>
 
-        {playerName ? (
-          <div className="mb-6 rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm">
-            Showing prize tiers for <span className="font-semibold text-cyan-200">{playerName}</span> in {category}.
-          </div>
-        ) : null}
+        <div className="mb-6 rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm">
+          Active sheet: <span className="font-semibold text-cyan-200">{selectedSheet}</span>
+        </div>
 
         <div className="overflow-x-auto rounded-2xl border border-white/20 bg-black/25 backdrop-blur-sm">
           <table className="min-w-full text-left text-sm">
