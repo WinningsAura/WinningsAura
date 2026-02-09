@@ -101,24 +101,21 @@ export default function TennisStatsPage() {
   }, [rows, selectedSheet, selectedCategory]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
-      <Image src="/hero-tennis.svg" alt="Sports hero background" fill priority className="object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/35 via-slate-950/65 to-slate-950/90" />
-
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] text-[#F5E6B3]">
       <main className="relative z-10 mx-auto w-full max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
-        <section className="mb-6 rounded-3xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
-          <p className="text-sm uppercase tracking-[0.25em] text-cyan-200">Tennis Prize Money Dashboard</p>
-          <h1 className="mt-2 text-3xl font-bold sm:text-5xl">Tennis Stats</h1>
+        <section className="mb-6 rounded-3xl border border-amber-300/30 bg-black/55 p-6 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:p-8">
+          <p className="text-sm uppercase tracking-[0.25em] text-amber-300/90">Tennis Prize Money Dashboard</p>
+          <h1 className="mt-2 text-3xl font-bold text-amber-100 sm:text-5xl">Tennis Stats</h1>
 
           <div className="mt-6 max-w-md">
-            <label className="mb-2 block text-sm font-semibold text-cyan-100">Tournament</label>
+            <label className="mb-2 block text-sm font-semibold text-amber-100/90">Tournament</label>
             <select
-              className="w-full rounded-xl border border-white/30 bg-black/20 px-4 py-3 outline-none transition focus:border-cyan-300"
+              className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none transition focus:border-amber-200"
               value={selectedSheet}
               onChange={(e) => setSelectedSheet(e.target.value as SheetName)}
             >
               {sheetNames.map((name) => (
-                <option className="bg-slate-900" key={name} value={name}>
+                <option className="bg-black" key={name} value={name}>
                   {name}
                 </option>
               ))}
@@ -131,31 +128,33 @@ export default function TennisStatsPage() {
                 key={c}
                 onClick={() => setSelectedCategory(c)}
                 className={`group overflow-hidden rounded-2xl border text-left transition ${
-                  selectedCategory === c ? "border-cyan-300/80 ring-2 ring-cyan-300/40" : "border-white/20 hover:border-cyan-300/40"
+                  selectedCategory === c
+                    ? "border-amber-200/90 ring-2 ring-amber-300/35"
+                    : "border-amber-200/30 hover:border-amber-200/70"
                 }`}
               >
                 <div className="relative h-28 w-full">
                   <Image src={categoryImage[c]} alt={`${c} category`} fill className="object-cover" />
-                  <div className="absolute inset-0 bg-black/35 group-hover:bg-black/20" />
-                  <p className="absolute bottom-2 left-3 text-base font-semibold">{c}</p>
+                  <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30" />
+                  <p className="absolute bottom-2 left-3 text-base font-semibold text-amber-100">{c}</p>
                 </div>
               </button>
             ))}
           </div>
         </section>
 
-        {loading ? <p className="mb-4 text-sm text-cyan-100">Loading data...</p> : null}
+        {loading ? <p className="mb-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mb-4 text-sm text-rose-300">Error: {error}</p> : null}
 
-        <h2 className="mb-3 text-xl font-semibold text-cyan-100">{processed.sectionHeader}</h2>
+        <h2 className="mb-3 text-xl font-semibold text-amber-100">{processed.sectionHeader}</h2>
 
-        <div className="overflow-x-auto rounded-2xl border border-white/20 bg-black/25 backdrop-blur-sm">
+        <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 shadow-[0_0_40px_rgba(245,185,59,0.08)] backdrop-blur-sm">
           <table className="min-w-full text-left text-sm">
             {processed.header.length > 0 ? (
-              <thead className="bg-white/15 text-cyan-100">
+              <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                 <tr>
                   {processed.header.map((cell, idx) => (
-                    <th key={`${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap">
+                    <th key={`${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
                       {cell || `Column ${idx + 1}`}
                     </th>
                   ))}
@@ -164,9 +163,9 @@ export default function TennisStatsPage() {
             ) : null}
             <tbody>
               {processed.body.map((row, rIdx) => (
-                <tr key={rIdx} className="border-t border-white/10 odd:bg-black/10 even:bg-black/20">
+                <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45 hover:bg-amber-200/10">
                   {row.map((cell, cIdx) => (
-                    <td key={`${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top">
+                    <td key={`${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
                       {cell || "—"}
                     </td>
                   ))}
