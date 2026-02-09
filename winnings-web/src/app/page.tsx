@@ -21,7 +21,18 @@ export default function HomePage() {
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <main className="mx-auto w-full max-w-6xl">
         <header className="mb-6 rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:mb-8 sm:rounded-3xl sm:p-8">
-          <p className="text-xs uppercase tracking-[0.24em] text-amber-300/90 sm:text-sm">Winnings App</p>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
+            <p className="text-xs uppercase tracking-[0.24em] text-amber-300/90 sm:text-sm">Winnings App</p>
+            <nav className="flex items-center gap-2 text-sm sm:gap-3">
+              <Link href="/" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">
+                Home
+              </Link>
+              <Link href="/about-us" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">
+                About Us
+              </Link>
+            </nav>
+          </div>
+
           <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">Sports Home</h1>
           <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">A classy black-gold experience for sports prize money analytics.</p>
         </header>

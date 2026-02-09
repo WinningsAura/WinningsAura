@@ -9,6 +9,7 @@ const sheetToCsv: Record<string, string> = {
   "ATP and WTA": "ATP and WTA.csv",
   Cricket: "Cricket.csv",
   "All Sports Match Total Times": "All Sports Match Total Times.csv",
+  "About Us": "About Us.csv",
 };
 
 function parseCsv(text: string): string[][] {
