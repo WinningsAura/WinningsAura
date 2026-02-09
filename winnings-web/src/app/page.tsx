@@ -4,7 +4,7 @@ import Link from "next/link";
 const sports = [
   {
     name: "Tennis",
-    image: "/icon-tennis.svg",
+    image: "https://media.tenor.com/zlC-2rVE6QUAAAAd/tennis-sports.gif",
     href: "/tennis-stats",
     description: "Explore premium tennis prize money insights and category-level views.",
   },
@@ -51,7 +51,11 @@ export default function HomePage() {
               className="group overflow-hidden rounded-2xl border border-amber-300/30 bg-black/50 shadow-2xl backdrop-blur-sm transition hover:border-amber-200/80 hover:shadow-[0_0_50px_rgba(245,185,59,0.2)] sm:rounded-3xl"
             >
               <div className="relative h-44 w-full sm:h-52 lg:h-56">
-                <Image src={sport.image} alt={`${sport.name} icon`} fill className="object-cover transition duration-500 group-hover:scale-105" />
+                {sport.name === "Tennis" ? (
+                  <img src={sport.image} alt={`${sport.name} gif`} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                ) : (
+                  <Image src={sport.image} alt={`${sport.name} icon`} fill className="object-cover transition duration-500 group-hover:scale-105" />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
                 <p className="absolute bottom-3 left-3 text-xl font-bold text-amber-100 sm:bottom-4 sm:left-4 sm:text-2xl">{sport.name}</p>
               </div>
