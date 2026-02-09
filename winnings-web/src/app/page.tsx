@@ -33,6 +33,9 @@ export default function HomePage() {
               <Link href="/contact-us" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">
                 Contact Us
               </Link>
+              <Link href="/admin/contact-submissions" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">
+                Admin
+              </Link>
             </nav>
           </div>
 

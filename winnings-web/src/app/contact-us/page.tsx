@@ -8,6 +8,7 @@ type FormState = {
   email: string;
   phone: string;
   message: string;
+  website: string; // honeypot
 };
 
 const initialState: FormState = {
@@ -15,6 +16,7 @@ const initialState: FormState = {
   email: "",
   phone: "",
   message: "",
+  website: "",
 };
 
 export default function ContactUsPage() {
@@ -50,9 +52,18 @@ export default function ContactUsPage() {
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <main className="mx-auto w-full max-w-3xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
         <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Contact Us</h1>
-        <p className="mt-2 text-amber-100/80">Share your details and message. We will save it in our contact sheet.</p>
+        <p className="mt-2 text-amber-100/80">Share your details and message. We will save it in our contact submissions file.</p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
+          <input
+            tabIndex={-1}
+            autoComplete="off"
+            value={form.website}
+            onChange={(e) => setForm({ ...form, website: e.target.value })}
+            className="hidden"
+            aria-hidden="true"
+          />
+
           <div>
             <label className="mb-1 block text-sm">Name *</label>
             <input
@@ -84,7 +95,7 @@ export default function ContactUsPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm">Message *</label>
+            <label className="mb-1 block text-sm">Message * (min 10 chars)</label>
             <textarea
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}

@@ -1,0 +1,83 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+type Submission = {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  submittedAt: string;
+};
+
+export default function ContactSubmissionsAdminPage() {
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function load() {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Failed to load submissions");
+      setSubmissions(Array.isArray(data.submissions) ? data.submissions : []);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Unknown error");
+      setSubmissions([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Admin: Contact Submissions</h1>
+          <button onClick={load} className="rounded-xl border border-amber-200/40 px-4 py-2 text-sm hover:border-amber-200">
+            Refresh
+          </button>
+        </div>
+
+        {loading ? <p className="mb-3 text-sm text-amber-100/80">Loading...</p> : null}
+        {error ? <p className="mb-3 text-sm text-rose-300">{error}</p> : null}
+
+        <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
+          <table className="min-w-full text-left text-sm">
+            <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+              <tr>
+                <th className="px-4 py-3">Submitted At</th>
+                <th className="px-4 py-3">Name</th>
+                <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Phone</th>
+                <th className="px-4 py-3">Message</th>
+              </tr>
+            </thead>
+            <tbody>
+              {submissions.map((s, idx) => (
+                <tr key={idx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
+                  <td className="px-4 py-3 whitespace-nowrap">{s.submittedAt || "—"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.name || "—"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.email || "—"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.phone || "—"}</td>
+                  <td className="px-4 py-3">{s.message || "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
+          ← Back to Sports Home
+        </Link>
+      </main>
+    </div>
+  );
+}
