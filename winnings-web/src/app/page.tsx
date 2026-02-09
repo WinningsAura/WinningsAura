@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const sports = [
@@ -10,7 +9,7 @@ const sports = [
   },
   {
     name: "Cricket",
-    image: "/icon-cricket.svg",
+    image: "/cricket-playing.gif",
     href: "/cricket-stats",
     description: "Discover cricket stats and winnings dashboards (expanding soon).",
   },
@@ -51,12 +50,8 @@ export default function HomePage() {
               className="group overflow-hidden rounded-2xl border border-amber-300/30 bg-black/50 shadow-2xl backdrop-blur-sm transition hover:border-amber-200/80 hover:shadow-[0_0_50px_rgba(245,185,59,0.2)] sm:rounded-3xl"
             >
               <div className="relative h-44 w-full sm:h-52 lg:h-56">
-                {sport.name === "Tennis" ? (
-                  <img src={sport.image} alt={`${sport.name} gif`} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-                ) : (
-                  <Image src={sport.image} alt={`${sport.name} icon`} fill className="object-cover transition duration-500 group-hover:scale-105" />
-                )}
-                <div className={`absolute inset-0 bg-gradient-to-t ${sport.name === "Tennis" ? "from-black/55 via-black/15" : "from-black/80 via-black/35"} to-transparent`} />
+                <img src={sport.image} alt={`${sport.name} gif`} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
                 <p className="absolute bottom-3 left-3 text-xl font-bold text-amber-100 sm:bottom-4 sm:left-4 sm:text-2xl">{sport.name}</p>
               </div>
               <div className="p-4 text-sm text-amber-100/85 sm:p-5">{sport.description}</div>
