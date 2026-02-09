@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
-const sheetNames = ["Tennis Grand Slams", "ATP and WTA", "Cricket", "All Sports Match Total Times"] as const;
+const sheetNames = ["Tennis Grand Slams", "ATP and WTA"] as const;
 type SheetName = (typeof sheetNames)[number];
 
 type Category = "Singles" | "Doubles" | "Mixed Doubles";
@@ -108,7 +108,7 @@ export default function TennisStatsPage() {
           <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">Tennis Stats</h1>
 
           <div className="mt-5 max-w-md">
-            <label className="mb-2 block text-sm font-semibold text-amber-100/90">Tournament</label>
+            <label className="mb-2 block text-sm font-semibold text-amber-100/90">Tennis Events</label>
             <select
               className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-sm text-amber-100 outline-none transition focus:border-amber-200 sm:text-base"
               value={selectedSheet}

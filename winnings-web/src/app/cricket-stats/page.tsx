@@ -1,12 +1,80 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
 export default function CricketStatsPage() {
+  const [rows, setRows] = useState<string[][]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadData() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`/api/sheet-data?sheet=${encodeURIComponent("Cricket")}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || "Failed to fetch cricket data");
+        if (!cancelled) setRows(Array.isArray(data.rows) ? data.rows : []);
+      } catch (e) {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : "Unknown error");
+          setRows([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadData();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const header = useMemo(() => rows[0] ?? [], [rows]);
+  const body = useMemo(() => (rows.length > 1 ? rows.slice(1) : []), [rows]);
+
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#065f46,#020617_55%)] px-4 py-10 text-white sm:px-8">
-      <main className="mx-auto max-w-4xl rounded-3xl border border-white/20 bg-white/10 p-8 backdrop-blur-xl">
-        <h1 className="text-3xl font-bold">Cricket Stats</h1>
-        <p className="mt-3 text-white/80">This section is ready and can be connected to cricket data next.</p>
-        <Link href="/" className="mt-6 inline-block rounded-xl border border-white/30 px-4 py-2 text-sm hover:border-cyan-300">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
+        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Cricket Stats</h1>
+        <p className="mt-2 text-amber-100/80">Live data from the Cricket sheet.</p>
+
+        {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
+        {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
+
+        <div className="mt-5 overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
+          <table className="min-w-full text-left text-sm">
+            {header.length > 0 ? (
+              <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+                <tr>
+                  {header.map((cell, idx) => (
+                    <th key={`${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
+                      {cell || `Column ${idx + 1}`}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            ) : null}
+            <tbody>
+              {body.map((row, rIdx) => (
+                <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
+                  {row.map((cell, cIdx) => (
+                    <td key={`${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
+                      {cell || "—"}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
           ← Back to Sports Home
         </Link>
       </main>
