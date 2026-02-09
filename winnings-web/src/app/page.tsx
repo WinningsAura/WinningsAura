@@ -4,7 +4,7 @@ import Link from "next/link";
 const sports = [
   {
     name: "Tennis",
-    image: "https://media.tenor.com/zlC-2rVE6QUAAAAd/tennis-sports.gif",
+    image: "/tennis-playing.gif",
     href: "/tennis-stats",
     description: "Explore premium tennis prize money insights and category-level views.",
   },
@@ -56,7 +56,7 @@ export default function HomePage() {
                 ) : (
                   <Image src={sport.image} alt={`${sport.name} icon`} fill className="object-cover transition duration-500 group-hover:scale-105" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
+                <div className={`absolute inset-0 bg-gradient-to-t ${sport.name === "Tennis" ? "from-black/55 via-black/15" : "from-black/80 via-black/35"} to-transparent`} />
                 <p className="absolute bottom-3 left-3 text-xl font-bold text-amber-100 sm:bottom-4 sm:left-4 sm:text-2xl">{sport.name}</p>
               </div>
               <div className="p-4 text-sm text-amber-100/85 sm:p-5">{sport.description}</div>
