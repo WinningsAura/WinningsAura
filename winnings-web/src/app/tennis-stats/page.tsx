@@ -148,6 +148,24 @@ export default function TennisStatsPage() {
 
   const maxChart = useMemo(() => Math.max(1, ...chartData.map((d) => d.value)), [chartData]);
 
+  const linePoints = useMemo(() => {
+    if (chartData.length === 0) return "";
+    const width = 680;
+    const height = 220;
+    const padX = 24;
+    const padY = 20;
+    const plotW = width - padX * 2;
+    const plotH = height - padY * 2;
+
+    return chartData
+      .map((d, i) => {
+        const x = padX + (chartData.length === 1 ? plotW / 2 : (i * plotW) / (chartData.length - 1));
+        const y = padY + (1 - d.value / maxChart) * plotH;
+        return `${x},${y}`;
+      })
+      .join(" ");
+  }, [chartData, maxChart]);
+
   function onSort(colIdx: number) {
     if (sortCol === colIdx) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     else {
@@ -164,8 +182,8 @@ export default function TennisStatsPage() {
           <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">Tennis Stats</h1>
 
           <div className="mt-3">
-            <a href="#prize-chart" className="text-sm text-amber-200 underline underline-offset-4 hover:text-amber-100">
-              Jump to prize money chart
+            <a href="#prize-chart" className="inline-block rounded-xl border border-amber-200/40 p-1 hover:border-amber-200/80">
+              <Image src="/graph-line-icon.svg" alt="Open line graph" width={220} height={90} />
             </a>
           </div>
 
@@ -269,18 +287,25 @@ export default function TennisStatsPage() {
             </select>
           </div>
 
-          <div className="space-y-2">
-            {chartData.map((d) => (
-              <div key={d.label}>
-                <div className="mb-1 flex items-center justify-between text-xs text-amber-100/90">
-                  <span>{d.label}</span>
-                  <span>{d.raw || "—"}</span>
+          <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-3">
+            <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
+              <line x1="24" y1="200" x2="656" y2="200" stroke="rgba(253,230,138,0.35)" />
+              <line x1="24" y1="20" x2="24" y2="200" stroke="rgba(253,230,138,0.35)" />
+              <polyline fill="none" stroke="#FBBF24" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" points={linePoints} />
+              {chartData.map((d, i) => {
+                const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
+                const y = 20 + (1 - d.value / maxChart) * (220 - 40);
+                return <circle key={`${d.label}-${i}`} cx={x} cy={y} r="4" fill="#FDE68A" />;
+              })}
+            </svg>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {chartData.map((d) => (
+                <div key={d.label} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
+                  <div className="font-semibold">{d.label}</div>
+                  <div>{d.raw || "—"}</div>
                 </div>
-                <div className="h-3 w-full rounded bg-amber-100/10">
-                  <div className="h-3 rounded bg-gradient-to-r from-amber-400 to-yellow-200" style={{ width: `${(d.value / maxChart) * 100}%` }} />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
       </main>
