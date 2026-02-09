@@ -6,8 +6,48 @@ import { useEffect, useMemo, useState } from "react";
 const sheetNames = ["Tennis Grand Slams", "ATP and WTA", "Cricket", "All Sports Match Total Times"] as const;
 type SheetName = (typeof sheetNames)[number];
 
+type Category = "Singles" | "Doubles" | "Mixed Doubles";
+const categories: Category[] = ["Singles", "Doubles", "Mixed Doubles"];
+
+const categoryImage: Record<Category, string> = {
+  Singles: "/card-singles.svg",
+  Doubles: "/card-doubles.svg",
+  "Mixed Doubles": "/card-mixed.svg",
+};
+
+function findRowIndex(rows: string[][], text: string) {
+  return rows.findIndex((r) => (r[0] || "").toLowerCase().includes(text.toLowerCase()));
+}
+
+function filterTennisByCategory(rows: string[][], category: Category) {
+  if (rows.length === 0) return rows;
+
+  const singlesStart = findRowIndex(rows, "Singles Mens and Womens");
+  const doublesStart = findRowIndex(rows, "Doubles Men's and Women's");
+  const mixedStart = findRowIndex(rows, "Mixed Doubles");
+
+  if (singlesStart === -1 && doublesStart === -1 && mixedStart === -1) return rows;
+
+  if (category === "Singles" && singlesStart !== -1) {
+    const end = doublesStart !== -1 ? doublesStart : rows.length;
+    return rows.slice(singlesStart, end);
+  }
+
+  if (category === "Doubles" && doublesStart !== -1) {
+    const end = mixedStart !== -1 ? mixedStart : rows.length;
+    return rows.slice(doublesStart, end);
+  }
+
+  if (category === "Mixed Doubles" && mixedStart !== -1) {
+    return rows.slice(mixedStart);
+  }
+
+  return rows;
+}
+
 export default function TennisStatsPage() {
   const [selectedSheet, setSelectedSheet] = useState<SheetName>("Tennis Grand Slams");
+  const [selectedCategory, setSelectedCategory] = useState<Category>("Singles");
   const [rows, setRows] = useState<string[][]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,8 +79,13 @@ export default function TennisStatsPage() {
     };
   }, [selectedSheet]);
 
-  const header = useMemo(() => rows[0] ?? [], [rows]);
-  const body = useMemo(() => (rows.length > 1 ? rows.slice(1) : []), [rows]);
+  const visibleRows = useMemo(() => {
+    if (selectedSheet !== "Tennis Grand Slams") return rows;
+    return filterTennisByCategory(rows, selectedCategory);
+  }, [rows, selectedSheet, selectedCategory]);
+
+  const header = useMemo(() => visibleRows[0] ?? [], [visibleRows]);
+  const body = useMemo(() => (visibleRows.length > 1 ? visibleRows.slice(1) : []), [visibleRows]);
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
@@ -67,6 +112,28 @@ export default function TennisStatsPage() {
               ))}
             </select>
           </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {categories.map((c) => (
+              <button
+                key={c}
+                onClick={() => setSelectedCategory(c)}
+                className={`group overflow-hidden rounded-2xl border text-left transition ${
+                  selectedCategory === c ? "border-cyan-300/80 ring-2 ring-cyan-300/40" : "border-white/20 hover:border-cyan-300/40"
+                }`}
+              >
+                <div className="relative h-28 w-full">
+                  <Image src={categoryImage[c]} alt={`${c} category`} fill className="object-cover" />
+                  <div className="absolute inset-0 bg-black/35 group-hover:bg-black/20" />
+                  <p className="absolute bottom-2 left-3 text-base font-semibold">{c}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {selectedSheet !== "Tennis Grand Slams" ? (
+            <p className="mt-3 text-xs text-cyan-100/80">Category selection is optimized for the Tennis Grand Slams sheet.</p>
+          ) : null}
         </section>
 
         {loading ? <p className="mb-4 text-sm text-cyan-100">Loading data...</p> : null}
