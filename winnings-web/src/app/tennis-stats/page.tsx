@@ -19,7 +19,7 @@ function findRowIndex(rows: string[][], text: string) {
   return rows.findIndex((r) => (r[0] || "").toLowerCase().includes(text.toLowerCase()));
 }
 
-function filterTennisByCategory(rows: string[][], category: Category) {
+function sliceCategoryRows(rows: string[][], category: Category) {
   if (rows.length === 0) return rows;
 
   const singlesStart = findRowIndex(rows, "Singles Mens and Womens");
@@ -43,6 +43,10 @@ function filterTennisByCategory(rows: string[][], category: Category) {
   }
 
   return rows;
+}
+
+function dropFirstColumn(rows: string[][]) {
+  return rows.map((r) => (r.length > 1 ? r.slice(1) : r));
 }
 
 export default function TennisStatsPage() {
@@ -79,13 +83,22 @@ export default function TennisStatsPage() {
     };
   }, [selectedSheet]);
 
-  const visibleRows = useMemo(() => {
-    if (selectedSheet !== "Tennis Grand Slams") return rows;
-    return filterTennisByCategory(rows, selectedCategory);
-  }, [rows, selectedSheet, selectedCategory]);
+  const processed = useMemo(() => {
+    if (selectedSheet !== "Tennis Grand Slams") {
+      const header = rows[0] ?? [];
+      const body = rows.length > 1 ? rows.slice(1) : [];
+      return { sectionHeader: selectedSheet, header, body };
+    }
 
-  const header = useMemo(() => visibleRows[0] ?? [], [visibleRows]);
-  const body = useMemo(() => (visibleRows.length > 1 ? visibleRows.slice(1) : []), [visibleRows]);
+    const sectionRows = sliceCategoryRows(rows, selectedCategory);
+    if (sectionRows.length === 0) return { sectionHeader: selectedCategory, header: [], body: [] as string[][] };
+
+    const withoutCategoryColumn = dropFirstColumn(sectionRows);
+    const header = withoutCategoryColumn[0] ?? [];
+    const body = withoutCategoryColumn.length > 1 ? withoutCategoryColumn.slice(1) : [];
+
+    return { sectionHeader: selectedCategory, header, body };
+  }, [rows, selectedSheet, selectedCategory]);
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
@@ -96,7 +109,6 @@ export default function TennisStatsPage() {
         <section className="mb-6 rounded-3xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
           <p className="text-sm uppercase tracking-[0.25em] text-cyan-200">Tennis Prize Money Dashboard</p>
           <h1 className="mt-2 text-3xl font-bold sm:text-5xl">Tennis Stats</h1>
-          <p className="mt-3 max-w-3xl text-white/80">Based on tournament selection, exact Excel sheet data is displayed below.</p>
 
           <div className="mt-6 max-w-md">
             <label className="mb-2 block text-sm font-semibold text-cyan-100">Tournament</label>
@@ -130,21 +142,19 @@ export default function TennisStatsPage() {
               </button>
             ))}
           </div>
-
-          {selectedSheet !== "Tennis Grand Slams" ? (
-            <p className="mt-3 text-xs text-cyan-100/80">Category selection is optimized for the Tennis Grand Slams sheet.</p>
-          ) : null}
         </section>
 
         {loading ? <p className="mb-4 text-sm text-cyan-100">Loading data...</p> : null}
         {error ? <p className="mb-4 text-sm text-rose-300">Error: {error}</p> : null}
 
+        <h2 className="mb-3 text-xl font-semibold text-cyan-100">{processed.sectionHeader}</h2>
+
         <div className="overflow-x-auto rounded-2xl border border-white/20 bg-black/25 backdrop-blur-sm">
           <table className="min-w-full text-left text-sm">
-            {header.length > 0 ? (
+            {processed.header.length > 0 ? (
               <thead className="bg-white/15 text-cyan-100">
                 <tr>
-                  {header.map((cell, idx) => (
+                  {processed.header.map((cell, idx) => (
                     <th key={`${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap">
                       {cell || `Column ${idx + 1}`}
                     </th>
@@ -153,7 +163,7 @@ export default function TennisStatsPage() {
               </thead>
             ) : null}
             <tbody>
-              {body.map((row, rIdx) => (
+              {processed.body.map((row, rIdx) => (
                 <tr key={rIdx} className="border-t border-white/10 odd:bg-black/10 even:bg-black/20">
                   {row.map((cell, cIdx) => (
                     <td key={`${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top">
