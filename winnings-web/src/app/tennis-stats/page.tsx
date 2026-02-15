@@ -437,10 +437,10 @@ export default function TennisStatsPage() {
 
     const starts: Array<{ idx: number; title: string }> = [];
     rows.forEach((r, idx) => {
-      const t = cleanRoundDisplay(r[0] || "");
-      const n = normalizeRoundLabel(t);
+      const rowText = r.map((c) => cleanRoundDisplay(c || "")).join(" ").trim();
+      const n = normalizeRoundLabel(rowText);
       if (getAtpWtaSectionKey(n)) {
-        starts.push({ idx, title: t });
+        starts.push({ idx, title: rowText || cleanRoundDisplay(r[0] || "") });
       }
     });
 
