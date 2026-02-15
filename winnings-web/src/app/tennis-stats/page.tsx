@@ -137,61 +137,89 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
   const colR32R64Combined = idxOf("r32r64");
   const colQ2 = idxOf("q2");
   const colQ1 = idxOf("q1");
+  const colOtherRounds = idxOf("otherrounds");
   const colR64 = colR64Direct !== -1 ? colR64Direct : colR32R64Combined;
-
-  // If R32 and R64 resolve to the same combined column (e.g., "R32 / R64"),
-  // split values at render-time so they are not duplicated.
-  const sameR32R64Column = colR32 !== -1 && colR32 === colR64;
 
   if (colTournament === -1 || colWinner === -1) return null;
 
-  const tournamentRows = dataRows.filter((r) => {
+  type TournamentEntry = {
+    row: string[];
+    currency: string;
+    extras: Partial<Record<"r16" | "r32" | "r64" | "q2" | "q1", string>>;
+  };
+
+  const entries: TournamentEntry[] = [];
+
+  dataRows.forEach((r) => {
     const t = cleanRoundDisplay(r[colTournament] || "");
-    if (!t) return false;
     const n = normalizeRoundLabel(t);
-    if (n === "tournament") return false;
-    if (n.includes("notes") || n.includes("source") || n.includes("whereavailable") || n.includes("prizemoneysummary")) return false;
-    const hasMoneyLike = [colWinner, colFinalist, colSemi, colQuarter, colR16, colR32, colR64, colQ2, colQ1]
-      .filter((i) => i !== -1)
-      .some((i) => /\d/.test(r[i] || ""));
-    return hasMoneyLike;
-  });
+    const otherRaw = colOtherRounds !== -1 ? r[colOtherRounds] || "" : "";
 
-  if (!tournamentRows.length) return null;
+    if (t && n !== "tournament" && !n.includes("notes") && !n.includes("source") && !n.includes("whereavailable") && !n.includes("prizemoneysummary")) {
+      const hasMoneyLike = [colWinner, colFinalist, colSemi, colQuarter, colR16, colR32, colR64, colQ2, colQ1, colOtherRounds]
+        .filter((i) => i !== -1)
+        .some((i) => /\d/.test(r[i] || ""));
 
-  const tournaments = tournamentRows.map((r) => cleanTournamentName(r[colTournament] || ""));
-  const currencies = tournamentRows.map((r) => (colCurrency !== -1 ? (r[colCurrency] || "") : ""));
+      if (hasMoneyLike) {
+        const entry: TournamentEntry = {
+          row: r,
+          currency: colCurrency !== -1 ? r[colCurrency] || "" : "",
+          extras: {},
+        };
 
-  const roundDefs: Array<{ label: string; col: number }> = [
-    { label: "Winner", col: colWinner },
-    { label: "Runner up", col: colFinalist },
-    { label: "Semi Finalists", col: colSemi },
-    { label: "Quarter Finalists", col: colQuarter },
-    { label: "Round of 16", col: colR16 },
-    { label: "Round of 32", col: colR32 },
-    { label: "Round of 64", col: colR64 },
-    { label: "Q2", col: colQ2 },
-    { label: "Q1", col: colQ1 },
-  ].filter((x) => x.col !== -1);
+        const parsed = parseOtherRoundsText(otherRaw);
+        if (parsed) entry.extras[parsed.key] = parsed.raw;
 
-  const body = roundDefs.map((round) => {
-    const vals = tournamentRows.map((r, i) => {
-      const raw = r[round.col] || "";
-
-      if (sameR32R64Column) {
-        const parts = raw.split("/").map((p) => p.trim());
-        if (normalizeRoundLabel(round.label) === "roundof32") {
-          return cleanMoneyByCurrency(parts[0] || raw, currencies[i] || "");
-        }
-        if (normalizeRoundLabel(round.label) === "roundof64") {
-          return cleanMoneyByCurrency(parts[1] || "", currencies[i] || "");
-        }
+        entries.push(entry);
       }
+      return;
+    }
 
-      return cleanMoneyByCurrency(raw, currencies[i] || "");
-    });
-    return [round.label, ...vals];
+    if (!t && otherRaw && entries.length) {
+      const parsed = parseOtherRoundsText(otherRaw);
+      if (parsed) entries[entries.length - 1].extras[parsed.key] = parsed.raw;
+    }
   });
+
+  if (!entries.length) return null;
+
+  const tournaments = entries.map((e) => cleanTournamentName(e.row[colTournament] || ""));
+
+  const roundDefs: Array<{ label: string; key: "winner" | "runnerup" | "semi" | "quarter" | "r16" | "r32" | "r64" | "q2" | "q1"; col: number }> = [
+    { label: "Winner", key: "winner", col: colWinner },
+    { label: "Runner up", key: "runnerup", col: colFinalist },
+    { label: "Semi Finalists", key: "semi", col: colSemi },
+    { label: "Quarter Finalists", key: "quarter", col: colQuarter },
+    { label: "Round of 16", key: "r16", col: colR16 },
+    { label: "Round of 32", key: "r32", col: colR32 },
+    { label: "Round of 64", key: "r64", col: colR64 },
+    { label: "Q2", key: "q2", col: colQ2 },
+    { label: "Q1", key: "q1", col: colQ1 },
+  ];
+
+  const body = roundDefs
+    .map((round) => {
+      const vals = entries.map((entry) => {
+        const raw = round.col !== -1 ? entry.row[round.col] || "" : "";
+
+        if ((round.key === "r32" || round.key === "r64") && colR32 !== -1 && colR32 === colR64) {
+          const parts = raw.split("/").map((p) => p.trim());
+          if (round.key === "r32") return cleanMoneyByCurrency(parts[0] || raw, entry.currency || "");
+          if (round.key === "r64") return cleanMoneyByCurrency(parts[1] || "", entry.currency || "");
+        }
+
+        const fallback = round.key === "r16" || round.key === "r32" || round.key === "r64" || round.key === "q2" || round.key === "q1"
+          ? entry.extras[round.key]
+          : "";
+
+        return cleanMoneyByCurrency(raw || fallback || "", entry.currency || "");
+      });
+
+      const hasAnyValue = vals.some((v) => v !== "—");
+      if (!hasAnyValue) return null;
+      return [round.label, ...vals];
+    })
+    .filter(Boolean) as string[][];
 
   return { title, header: ["Round", ...tournaments], body };
 }
@@ -236,6 +264,18 @@ function cleanMoneyByCurrency(value: string, currency: string) {
   if (cur === "EUR") return `€${formatted}`;
   if (cur === "GBP") return `£${formatted}`;
   return formatted;
+}
+
+function parseOtherRoundsText(value: string) {
+  const text = cleanRoundDisplay(value);
+  const n = normalizeRoundLabel(text);
+  const isTarget = (k: string) => n.includes(k) || n.startsWith(k);
+  if (isTarget("r16")) return { key: "r16", raw: text };
+  if (isTarget("r32") || n.includes("2ndr")) return { key: "r32", raw: text };
+  if (isTarget("r64") || n.includes("1str")) return { key: "r64", raw: text };
+  if (isTarget("q2")) return { key: "q2", raw: text };
+  if (isTarget("q1")) return { key: "q1", raw: text };
+  return null;
 }
 
 function formatAxisMoney(value: number) {
