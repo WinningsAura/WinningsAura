@@ -196,16 +196,17 @@ function getGrandSlamRoundRank(value: string) {
   const v = normalizeRoundLabel(value);
 
   // Canonical order:
-  // Winner, Runner up, Semifinalists, Quarterfinalists, Round of 16, 32, 64, First Round, Q3, Q2, Q1
+  // Winner, Runner up, Semifinalists, Quarterfinalists, Round of 16, Third Round, Second Round, First Round, Q3, Q2, Q1
   if (v.includes("winner")) return 0;
   if (v.includes("runnerup") || (v.includes("runner") && v.includes("up")) || v.includes("finalist")) return 1;
   if (v.includes("semifinal") || v.includes("semifinalist") || v.includes("semif") || v.includes("semi") || v === "sf") return 2;
   if (v.includes("quarterfinal") || v.includes("quarterfinalist") || v.includes("quarter") || v === "qf") return 3;
 
   if (v.includes("roundof16") || v === "round16" || v.includes("r16")) return 4;
-  if (v.includes("roundof32") || v === "round32" || v.includes("r32")) return 5;
-  if (v.includes("roundof64") || v === "round64" || v.includes("r64")) return 6;
 
+  // Different sheets use either Round-of naming or ordinal round names.
+  if (v.includes("roundof32") || v === "round32" || v.includes("r32") || v.includes("thirdround")) return 5;
+  if (v.includes("roundof64") || v === "round64" || v.includes("r64") || v.includes("secondround")) return 6;
   if (v.includes("firstround") || v.includes("roundof128") || v === "round128" || v.includes("r128") || v === "round1" || v.includes("r1")) return 7;
 
   if (v === "q3" || v.includes("qualifying3")) return 8;
@@ -376,7 +377,6 @@ export default function TennisStatsPage() {
     if (sectionRows.length === 0) return { sectionHeader: selectedCategory, header: [], body: [] as string[][] };
 
     const withoutCategoryColumn = dropFirstColumn(sectionRows);
-    const header = withoutCategoryColumn[0] ?? [];
     const body = withoutCategoryColumn.length > 1 ? withoutCategoryColumn.slice(1) : [];
 
     // For Tennis Grand Slams, show only: Round + 4 slam columns.
@@ -407,7 +407,7 @@ export default function TennisStatsPage() {
       .filter((r) => getGrandSlamRoundRank(r[0] || "") !== Number.MAX_SAFE_INTEGER);
 
     return { sectionHeader: selectedCategory, header: slamHeader, body: prizeRows };
-  }, [rows, selectedSheet, selectedCategory]);
+  }, [rows, selectedSheet, selectedCategory, atpWtaSections]);
 
   const sortedBody = useMemo(() => {
     const copy = [...processed.body];
