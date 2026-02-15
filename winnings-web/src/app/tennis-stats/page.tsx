@@ -195,7 +195,20 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
 
   if (!entries.length) return null;
 
-  const tournaments = entries.map((e) => cleanTournamentName(e.row[colTournament] || ""));
+  let filteredEntries = entries;
+  if (normalizeRoundLabel(title).includes("2025atp250")) {
+    filteredEntries = entries.filter((e) => {
+      const n = normalizeRoundLabel(cleanTournamentName(e.row[colTournament] || ""));
+      if (!n) return false;
+      if (n.includes("wta250")) return false;
+      if (n.includes("nottinghamopen") || n.includes("transylvaniaopen") || n.includes("hobartinternational") || n.includes("hongkongtennisopen") || n.includes("copacolsanitas")) return false;
+      return true;
+    });
+  }
+
+  if (!filteredEntries.length) return null;
+
+  const tournaments = filteredEntries.map((e) => cleanTournamentName(e.row[colTournament] || ""));
 
   const roundDefs: Array<{ label: string; key: "winner" | "runnerup" | "semi" | "quarter" | "r16" | "r32" | "r64" | "q2" | "q1"; col: number }> = [
     { label: "Winner", key: "winner", col: colWinner },
@@ -211,7 +224,7 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
 
   const body = roundDefs
     .map((round) => {
-      const vals = entries.map((entry) => {
+      const vals = filteredEntries.map((entry) => {
         const raw = round.col !== -1 ? entry.row[round.col] || "" : "";
 
         if ((round.key === "r32" || round.key === "r64") && colR32 !== -1 && colR32 === colR64) {
