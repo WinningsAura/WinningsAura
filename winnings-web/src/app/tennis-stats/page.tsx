@@ -23,6 +23,7 @@ const STORAGE_SHEET_KEY = "tennisStats.selectedSheet";
 const STORAGE_CATEGORY_KEY = "tennisStats.selectedCategory";
 const STORAGE_ROUND_KEY = "tennisStats.selectedRound";
 const STORAGE_SORT_DIR_KEY = "tennisStats.sortDir";
+const STORAGE_ATP_WTA_EVENT_KEY = "tennisStats.selectedAtpWtaEvent";
 
 type Category = "Singles" | "Doubles" | "Mixed Doubles";
 const categories: Category[] = ["Singles", "Doubles", "Mixed Doubles"];
@@ -342,6 +343,7 @@ export default function TennisStatsPage() {
   const [sortCol, setSortCol] = useState<number>(0);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [selectedRound, setSelectedRound] = useState<string>("");
+  const [selectedAtpWtaEvent, setSelectedAtpWtaEvent] = useState<string>("");
 
   useEffect(() => {
     try {
@@ -349,6 +351,7 @@ export default function TennisStatsPage() {
       const savedCategory = localStorage.getItem(STORAGE_CATEGORY_KEY);
       const savedRound = localStorage.getItem(STORAGE_ROUND_KEY);
       const savedSortDir = localStorage.getItem(STORAGE_SORT_DIR_KEY);
+      const savedAtpWtaEvent = localStorage.getItem(STORAGE_ATP_WTA_EVENT_KEY);
 
       if (savedSheet && (sheetNames as readonly string[]).includes(savedSheet)) {
         setSelectedSheet(savedSheet as SheetName);
@@ -361,6 +364,9 @@ export default function TennisStatsPage() {
       }
       if (savedSortDir === "asc" || savedSortDir === "desc") {
         setSortDir(savedSortDir);
+      }
+      if (savedAtpWtaEvent) {
+        setSelectedAtpWtaEvent(savedAtpWtaEvent);
       }
     } catch {
       // Ignore storage errors and continue with defaults.
@@ -432,6 +438,15 @@ export default function TennisStatsPage() {
     }
   }, [sortDir, prefsLoaded]);
 
+  useEffect(() => {
+    if (!prefsLoaded) return;
+    try {
+      localStorage.setItem(STORAGE_ATP_WTA_EVENT_KEY, selectedAtpWtaEvent || "");
+    } catch {
+      // Ignore storage errors.
+    }
+  }, [selectedAtpWtaEvent, prefsLoaded]);
+
   const atpWtaSections = useMemo(() => {
     if (selectedSheet !== "ATP and WTA") return [] as Array<{ title: string; header: string[]; body: string[][] }>;
 
@@ -462,10 +477,20 @@ export default function TennisStatsPage() {
     return sections;
   }, [rows, selectedSheet]);
 
+  const selectedAtpWtaSection = useMemo(() => {
+    if (selectedSheet !== "ATP and WTA") return null;
+    return atpWtaSections.find((s) => s.title === selectedAtpWtaEvent) || atpWtaSections[0] || null;
+  }, [selectedSheet, atpWtaSections, selectedAtpWtaEvent]);
+
+  useEffect(() => {
+    if (selectedSheet !== "ATP and WTA") return;
+    const hasCurrent = atpWtaSections.some((s) => s.title === selectedAtpWtaEvent);
+    if (!hasCurrent) setSelectedAtpWtaEvent(atpWtaSections[0]?.title || "");
+  }, [selectedSheet, atpWtaSections, selectedAtpWtaEvent]);
+
   const processed = useMemo(() => {
     if (selectedSheet === "ATP and WTA") {
-      const first = atpWtaSections[0];
-      if (first) return { sectionHeader: first.title, header: first.header, body: first.body };
+      if (selectedAtpWtaSection) return { sectionHeader: selectedAtpWtaSection.title, header: selectedAtpWtaSection.header, body: selectedAtpWtaSection.body };
       return { sectionHeader: selectedSheet, header: [], body: [] as string[][] };
     }
 
@@ -509,7 +534,7 @@ export default function TennisStatsPage() {
       .filter((r) => getGrandSlamRoundRank(r[0] || "") !== Number.MAX_SAFE_INTEGER);
 
     return { sectionHeader: selectedCategory, header: slamHeader, body: prizeRows };
-  }, [rows, selectedSheet, selectedCategory, atpWtaSections]);
+  }, [rows, selectedSheet, selectedCategory, selectedAtpWtaSection]);
 
   const sortedBody = useMemo(() => {
     const copy = [...processed.body];
@@ -606,44 +631,62 @@ export default function TennisStatsPage() {
             </select>
           </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 sm:gap-4">
-            {categories.map((c) => (
-              <button
-                key={c}
-                onClick={() => setSelectedCategory(c)}
-                className={`group overflow-hidden rounded-xl border text-left transition sm:rounded-2xl ${
-                  selectedCategory === c
-                    ? "border-amber-200/90 ring-2 ring-amber-300/35"
-                    : "border-amber-200/30 hover:border-amber-200/70"
-                }`}
-              >
-                <div className="relative h-24 w-full sm:h-28">
-                  <Image src={categoryImage[c]} alt={`${c} category`} fill className="object-cover" />
-                  <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30" />
-                  <p className="absolute bottom-2 left-3 text-sm font-semibold text-amber-100 sm:text-base">{c}</p>
-                </div>
-              </button>
-            ))}
-          </div>
+          {selectedSheet === "Tennis Grand Slams" ? (
+            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 sm:gap-4">
+              {categories.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setSelectedCategory(c)}
+                  className={`group overflow-hidden rounded-xl border text-left transition sm:rounded-2xl ${
+                    selectedCategory === c
+                      ? "border-amber-200/90 ring-2 ring-amber-300/35"
+                      : "border-amber-200/30 hover:border-amber-200/70"
+                  }`}
+                >
+                  <div className="relative h-24 w-full sm:h-28">
+                    <Image src={categoryImage[c]} alt={`${c} category`} fill className="object-cover" />
+                    <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30" />
+                    <p className="absolute bottom-2 left-3 text-sm font-semibold text-amber-100 sm:text-base">{c}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {atpWtaSections.map((sec) => (
+                <button
+                  key={sec.title}
+                  onClick={() => setSelectedAtpWtaEvent(sec.title)}
+                  className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
+                    selectedAtpWtaSection?.title === sec.title
+                      ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
+                      : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
+                  }`}
+                >
+                  {sec.title}
+                </button>
+              ))}
+            </div>
+          )}
         </section>
 
         {loading ? <p className="mb-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mb-4 text-sm text-rose-300">Error: {error}</p> : null}
 
         {selectedSheet === "ATP and WTA" ? (
-          <div className="space-y-6">
-            {atpWtaSections.map((sec) => (
-              <section key={sec.title} className="rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
-                <h2 className="mb-3 text-lg font-semibold text-amber-100 sm:text-xl">{sec.title}</h2>
+          selectedAtpWtaSection ? (
+            <div className="space-y-6">
+              <section key={selectedAtpWtaSection.title} className="rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
+                <h2 className="mb-3 text-lg font-semibold text-amber-100 sm:text-xl">{selectedAtpWtaSection.title}</h2>
                 <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-2">
                   <table className="w-full table-fixed text-left text-xs sm:text-sm">
                     <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                       <tr>
-                        {sec.header.map((cell, idx) => {
+                        {selectedAtpWtaSection.header.map((cell, idx) => {
                           const [line1, line2] = splitHeaderTwoLines(cell || `Column ${idx + 1}`);
                           return (
                             <th
-                              key={`${sec.title}-${idx}`}
+                              key={`${selectedAtpWtaSection.title}-${idx}`}
                               className={`px-2 py-2 text-center font-semibold align-middle ${idx === 0 ? "w-32" : ""}`}
                             >
                               <span className="inline-flex flex-col items-center leading-tight">
@@ -656,14 +699,14 @@ export default function TennisStatsPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {sec.body.map((row, rIdx) => (
-                        <tr key={`${sec.title}-${rIdx}`} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
+                      {selectedAtpWtaSection.body.map((row, rIdx) => (
+                        <tr key={`${selectedAtpWtaSection.title}-${rIdx}`} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
                           {row.map((cell, cIdx) => (
                             <td
-                              key={`${sec.title}-${rIdx}-${cIdx}`}
+                              key={`${selectedAtpWtaSection.title}-${rIdx}-${cIdx}`}
                               className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-nowrap text-[11px] sm:text-sm"}`}
                             >
-                              {formatCurrencyByHeader(sec.header[cIdx] || "", cell || "")}
+                              {formatCurrencyByHeader(selectedAtpWtaSection.header[cIdx] || "", cell || "")}
                             </td>
                           ))}
                         </tr>
@@ -672,8 +715,8 @@ export default function TennisStatsPage() {
                   </table>
                 </div>
               </section>
-            ))}
-          </div>
+            </div>
+          ) : null
         ) : (
           <>
             <div className="mb-3 flex items-center gap-2">
