@@ -59,7 +59,6 @@ export default function ContactUsPage() {
               <summary className="cursor-pointer list-none rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Menu</summary>
               <div className="absolute right-0 z-20 mt-2 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 shadow-2xl">
                 <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">About Us</Link>
-                <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Contact Us</Link>
                 <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Tennis</Link>
                 <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Cricket</Link>
               </div>
