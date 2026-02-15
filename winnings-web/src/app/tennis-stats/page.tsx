@@ -7,6 +7,13 @@ const sheetNames = ["Tennis Grand Slams", "ATP and WTA"] as const;
 type SheetName = (typeof sheetNames)[number];
 
 const ATP_WTA_SECTION_ORDER = ["masters1000", "atp500events", "wta1000", "2025wta500", "2025atp250"] as const;
+const ATP_WTA_SECTION_HEADINGS = new Set([
+  "masters1000eventssingles",
+  "atp500eventssingles",
+  "wta1000singles",
+  "2025wta500prizemoneysingles",
+  "2025atp250prizemoneysummarysinglesonly",
+]);
 const STORAGE_SHEET_KEY = "tennisStats.selectedSheet";
 const STORAGE_CATEGORY_KEY = "tennisStats.selectedCategory";
 const STORAGE_ROUND_KEY = "tennisStats.selectedRound";
@@ -403,13 +410,7 @@ export default function TennisStatsPage() {
     rows.forEach((r, idx) => {
       const t = cleanRoundDisplay(r[0] || "");
       const n = normalizeRoundLabel(t);
-      if (
-        n.includes("masters1000") ||
-        n.includes("atp500events") ||
-        n.includes("wta1000") ||
-        n.includes("2025wta500") ||
-        n.includes("2025atp250")
-      ) {
+      if (ATP_WTA_SECTION_HEADINGS.has(n)) {
         starts.push({ idx, title: t });
       }
     });
