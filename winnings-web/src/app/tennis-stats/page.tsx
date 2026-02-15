@@ -694,7 +694,7 @@ export default function TennisStatsPage() {
                 <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                   {chartData.map((d, i) => (
                     <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
-                      <div className="font-semibold">{d.label}</div>
+                      <div className="font-semibold whitespace-nowrap">{d.label}</div>
                       <div>{formatCurrencyByHeader(d.label, d.raw || "")}</div>
                     </div>
                   ))}
