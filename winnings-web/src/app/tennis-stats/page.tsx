@@ -151,7 +151,7 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
     const n = normalizeRoundLabel(t);
     if (n === "tournament") return false;
     if (n.includes("notes") || n.includes("source") || n.includes("whereavailable") || n.includes("prizemoneysummary")) return false;
-    const hasMoneyLike = [colWinner, colFinalist, colSemi, colQuarter, colR16, colR32]
+    const hasMoneyLike = [colWinner, colFinalist, colSemi, colQuarter, colR16, colR32, colR64, colQ2, colQ1]
       .filter((i) => i !== -1)
       .some((i) => /\d/.test(r[i] || ""));
     return hasMoneyLike;
