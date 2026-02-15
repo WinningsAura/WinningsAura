@@ -111,6 +111,11 @@ function cleanRoundDisplay(value: string) {
   return (value || "").replace(/[?�\uFFFD]/g, "").trim();
 }
 
+function cleanTournamentName(value: string) {
+  const text = cleanRoundDisplay(value);
+  return text.replace(/\s*[-–—:]?\s*total\s*prize\s*pool.*$/i, "").trim();
+}
+
 function buildAtpWtaSection(allRows: string[][], start: number, end: number, title: string) {
   const sectionRows = allRows.slice(start, end);
   const headerRowRel = sectionRows.findIndex((r) => normalizeRoundLabel(r[0] || "") === "tournament");
@@ -153,7 +158,7 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
 
   if (!tournamentRows.length) return null;
 
-  const tournaments = tournamentRows.map((r) => cleanRoundDisplay(r[colTournament] || ""));
+  const tournaments = tournamentRows.map((r) => cleanTournamentName(r[colTournament] || ""));
   const currencies = tournamentRows.map((r) => (colCurrency !== -1 ? (r[colCurrency] || "") : ""));
 
   const roundDefs: Array<{ label: string; col: number }> = [
