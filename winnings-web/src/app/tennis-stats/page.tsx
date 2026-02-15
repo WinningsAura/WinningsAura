@@ -563,17 +563,23 @@ export default function TennisStatsPage() {
               <section key={sec.title} className="rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
                 <h2 className="mb-3 text-lg font-semibold text-amber-100 sm:text-xl">{sec.title}</h2>
                 <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-2">
-                  <table className="w-max min-w-[980px] table-auto text-left text-xs sm:text-sm">
+                  <table className="w-full table-fixed text-left text-xs sm:text-sm">
                     <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                       <tr>
-                        {sec.header.map((cell, idx) => (
-                          <th
-                            key={`${sec.title}-${idx}`}
-                            className={`px-2 py-2 text-center font-semibold align-middle ${idx === 0 ? "w-32 whitespace-normal" : "whitespace-nowrap"}`}
-                          >
-                            {cell || `Column ${idx + 1}`}
-                          </th>
-                        ))}
+                        {sec.header.map((cell, idx) => {
+                          const [line1, line2] = splitHeaderTwoLines(cell || `Column ${idx + 1}`);
+                          return (
+                            <th
+                              key={`${sec.title}-${idx}`}
+                              className={`px-2 py-2 text-center font-semibold align-middle ${idx === 0 ? "w-32" : ""}`}
+                            >
+                              <span className="inline-flex flex-col items-center leading-tight">
+                                <span>{line1}</span>
+                                {line2 ? <span>{line2}</span> : null}
+                              </span>
+                            </th>
+                          );
+                        })}
                       </tr>
                     </thead>
                     <tbody>
@@ -582,7 +588,7 @@ export default function TennisStatsPage() {
                           {row.map((cell, cIdx) => (
                             <td
                               key={`${sec.title}-${rIdx}-${cIdx}`}
-                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-nowrap"}`}
+                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-normal break-words"}`}
                             >
                               {formatCurrencyByHeader(sec.header[cIdx] || "", cell || "")}
                             </td>
