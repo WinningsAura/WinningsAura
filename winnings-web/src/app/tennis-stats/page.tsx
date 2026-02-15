@@ -577,7 +577,7 @@ export default function TennisStatsPage() {
                       {sec.body.map((row, rIdx) => (
                         <tr key={`${sec.title}-${rIdx}`} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
                           {row.map((cell, cIdx) => (
-                            <td key={`${sec.title}-${rIdx}-${cIdx}`} className="px-2 py-2 text-center align-top break-words text-amber-50/95">
+                            <td key={`${sec.title}-${rIdx}-${cIdx}`} className="px-2 py-2 text-center align-top whitespace-nowrap text-amber-50/95">
                               {formatCurrencyByHeader(sec.header[cIdx] || "", cell || "")}
                             </td>
                           ))}
