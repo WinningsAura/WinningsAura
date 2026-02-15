@@ -1,0 +1,63 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#140021"/>
+      <stop offset="0.5" stop-color="#071b34"/>
+      <stop offset="1" stop-color="#1a0624"/>
+    </linearGradient>
+    <radialGradient id="gold" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(780 220) rotate(90) scale(260 420)">
+      <stop stop-color="#FDE68A" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#FDE68A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#gold)"/>
+
+  <circle cx="180" cy="180" r="220" fill="#22D3EE" opacity="0.2"/>
+  <circle cx="1420" cy="160" r="260" fill="#C084FC" opacity="0.22"/>
+  <circle cx="820" cy="900" r="360" fill="#F59E0B" opacity="0.12"/>
+
+  <!-- stadium lights -->
+  <g opacity="0.25" stroke="#fff" stroke-width="6">
+    <line x1="120" y1="110" x2="420" y2="270"/>
+    <line x1="1480" y1="110" x2="1180" y2="270"/>
+  </g>
+
+  <!-- left silhouette lifting trophy -->
+  <g fill="#05070D" opacity="0.88">
+    <path d="M420 760C420 670 480 600 560 600C640 600 700 670 700 760V920H420V760Z"/>
+    <circle cx="560" cy="540" r="58"/>
+    <rect x="542" y="402" width="36" height="170" rx="18" transform="rotate(-28 560 402)"/>
+    <path d="M585 350H650V380C650 412 624 438 592 438H585V350Z"/>
+    <rect x="607" y="334" width="20" height="30" fill="#0b1220"/>
+  </g>
+
+  <!-- center silhouette with trophy -->
+  <g fill="#04060B" opacity="0.9">
+    <path d="M690 790C690 680 765 600 860 600C955 600 1030 680 1030 790V950H690V790Z"/>
+    <circle cx="860" cy="530" r="62"/>
+    <rect x="842" y="380" width="36" height="160"/>
+    <path d="M820 340H900V375C900 410 873 438 840 438H820V340Z"/>
+    <path d="M900 355H940C940 390 920 410 900 410Z"/>
+    <path d="M820 355H780C780 390 800 410 820 410Z"/>
+  </g>
+
+  <!-- right silhouette with racket + cup -->
+  <g fill="#060910" opacity="0.88">
+    <path d="M1050 770C1050 680 1115 615 1195 615C1275 615 1340 680 1340 770V930H1050V770Z"/>
+    <circle cx="1195" cy="555" r="56"/>
+    <rect x="1178" y="420" width="32" height="135"/>
+    <ellipse cx="1290" cy="470" rx="45" ry="65" fill="none" stroke="#0a0f1a" stroke-width="16"/>
+    <rect x="1278" y="518" width="24" height="100" fill="#0a0f1a"/>
+  </g>
+
+  <!-- confetti -->
+  <g opacity="0.65">
+    <circle cx="720" cy="220" r="5" fill="#FDE68A"/>
+    <circle cx="760" cy="260" r="4" fill="#22D3EE"/>
+    <circle cx="820" cy="210" r="4" fill="#C084FC"/>
+    <circle cx="900" cy="250" r="5" fill="#F59E0B"/>
+    <circle cx="980" cy="220" r="4" fill="#FDE68A"/>
+  </g>
+</svg>

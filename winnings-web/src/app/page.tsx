@@ -18,8 +18,10 @@ const sports = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_10%_20%,rgba(255,0,128,0.55),transparent_38%),radial-gradient(circle_at_85%_15%,rgba(0,200,255,0.5),transparent_35%),radial-gradient(circle_at_20%_85%,rgba(130,255,0,0.35),transparent_34%),radial-gradient(circle_at_80%_80%,rgba(255,170,0,0.42),transparent_36%),linear-gradient(135deg,#1a0033_0%,#12001f_30%,#001a2e_65%,#0a0014_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-      <main className="mx-auto w-full max-w-6xl">
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,#1a0033_0%,#12001f_30%,#001a2e_65%,#0a0014_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <Image src="/sports-legends-bg.svg" alt="Sports legends background" fill priority className="object-cover opacity-35" />
+      <div className="absolute inset-0 bg-black/45" />
+      <main className="relative z-10 mx-auto w-full max-w-6xl">
         <header className="mb-6 rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:mb-8 sm:rounded-3xl sm:p-8">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
             <p className="text-xs uppercase tracking-[0.24em] text-amber-300/90 sm:text-sm">Winnings App</p>
