@@ -39,6 +39,16 @@ export default function ContactSubmissionsAdminPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
+          <p className="text-xs uppercase tracking-[0.22em] text-amber-300/90 sm:text-sm">Winnings App</p>
+          <nav className="flex items-center gap-2 text-sm sm:gap-3">
+            <Link href="/" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Home</Link>
+            <Link href="/about-us" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">About Us</Link>
+            <Link href="/contact-us" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Contact Us</Link>
+            <Link href="/admin/contact-submissions" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Admin</Link>
+          </nav>
+        </div>
+
         <div className="mb-4 flex items-center justify-between gap-3">
           <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Admin: Contact Submissions</h1>
           <button onClick={load} className="rounded-xl border border-amber-200/40 px-4 py-2 text-sm hover:border-amber-200">
