@@ -198,7 +198,7 @@ function getGrandSlamRoundRank(value: string) {
   // Canonical order:
   // Winner, Runner up, Semifinalists, Quarterfinalists, Round of 16, Third Round, Second Round, First Round, Q3, Q2, Q1
   if (v.includes("winner")) return 0;
-  if (v.includes("runnerup") || (v.includes("runner") && v.includes("up")) || v.includes("finalist")) return 1;
+  if (v.includes("runnerup") || (v.includes("runner") && v.includes("up")) || v === "final") return 1;
   if (v.includes("semifinal") || v.includes("semifinalist") || v.includes("semif") || v.includes("semi") || v === "sf") return 2;
   if (v.includes("quarterfinal") || v.includes("quarterfinalist") || v.includes("quarter") || v === "qf") return 3;
 
@@ -209,9 +209,9 @@ function getGrandSlamRoundRank(value: string) {
   if (v.includes("roundof64") || v === "round64" || v.includes("r64") || v.includes("secondround")) return 6;
   if (v.includes("firstround") || v.includes("roundof128") || v === "round128" || v.includes("r128") || v === "round1" || v.includes("r1")) return 7;
 
-  if (v === "q3" || v.includes("qualifying3")) return 8;
-  if (v === "q2" || v.includes("qualifying2")) return 9;
-  if (v === "q1" || v.includes("qualifying1")) return 10;
+  if (v === "q3" || v.includes("qualifying3") || v.includes("qualifyinground3")) return 8;
+  if (v === "q2" || v.includes("qualifying2") || v.includes("qualifyinground2")) return 9;
+  if (v === "q1" || v.includes("qualifying1") || v.includes("qualifyinground1")) return 10;
 
   return Number.MAX_SAFE_INTEGER;
 }
