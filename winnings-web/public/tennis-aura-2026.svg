@@ -1,0 +1,47 @@
+<svg width="1400" height="840" viewBox="0 0 1400 840" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07090F"/>
+      <stop offset="0.55" stop-color="#12192A"/>
+      <stop offset="1" stop-color="#241130"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1140 130) rotate(130) scale(420 310)">
+      <stop stop-color="#06B6D4" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#06B6D4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="court" x1="180" y1="160" x2="930" y2="640">
+      <stop stop-color="#0D2034"/>
+      <stop offset="1" stop-color="#0A1422"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1400" height="840" fill="url(#bg)"/>
+  <rect width="1400" height="840" fill="url(#halo)"/>
+
+  <g opacity="0.92">
+    <rect x="110" y="120" width="820" height="540" rx="28" fill="url(#court)" stroke="#67E8F9" stroke-opacity="0.55" stroke-width="3"/>
+    <line x1="520" y1="150" x2="520" y2="630" stroke="#BAE6FD" stroke-opacity="0.8" stroke-width="3"/>
+    <line x1="140" y1="390" x2="900" y2="390" stroke="#BAE6FD" stroke-opacity="0.8" stroke-width="3"/>
+    <rect x="140" y="245" width="760" height="290" stroke="#BAE6FD" stroke-opacity="0.7" stroke-width="3"/>
+    <line x1="320" y1="245" x2="320" y2="535" stroke="#BAE6FD" stroke-opacity="0.75" stroke-width="3"/>
+    <line x1="720" y1="245" x2="720" y2="535" stroke="#BAE6FD" stroke-opacity="0.75" stroke-width="3"/>
+    <rect x="140" y="382" width="760" height="14" fill="#E2E8F0" fill-opacity="0.9"/>
+  </g>
+
+  <g transform="translate(960 160) rotate(18)">
+    <ellipse cx="120" cy="175" rx="92" ry="118" fill="none" stroke="#F8FAFC" stroke-width="13"/>
+    <rect x="106" y="286" width="28" height="175" rx="14" fill="#D97706"/>
+    <line x1="52" y1="132" x2="188" y2="132" stroke="#CBD5E1" stroke-width="3"/>
+    <line x1="52" y1="166" x2="188" y2="166" stroke="#CBD5E1" stroke-width="3"/>
+    <line x1="52" y1="200" x2="188" y2="200" stroke="#CBD5E1" stroke-width="3"/>
+    <line x1="86" y1="86" x2="86" y2="264" stroke="#CBD5E1" stroke-width="3"/>
+    <line x1="120" y1="76" x2="120" y2="274" stroke="#CBD5E1" stroke-width="3"/>
+    <line x1="154" y1="86" x2="154" y2="264" stroke="#CBD5E1" stroke-width="3"/>
+  </g>
+
+  <g transform="translate(1160 620)">
+    <circle cx="0" cy="0" r="46" fill="#BEF264"/>
+    <path d="M-36 -12C-22 -28 22 -28 36 -12" stroke="#fff" stroke-width="5" fill="none"/>
+    <path d="M-36 12C-22 28 22 28 36 12" stroke="#fff" stroke-width="5" fill="none"/>
+  </g>
+</svg>
