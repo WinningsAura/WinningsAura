@@ -610,6 +610,8 @@ export default function TennisStatsPage() {
 
   const sortedBody = useMemo(() => {
     const copy = [...processed.body];
+    if (selectedSheet !== "Tennis Grand Slams") return copy;
+
     copy.sort((a, b) => {
       const av = a[0] ?? "";
       const bv = b[0] ?? "";
@@ -618,7 +620,7 @@ export default function TennisStatsPage() {
       return av.localeCompare(bv);
     });
     return copy;
-  }, [processed.body]);
+  }, [processed.body, selectedSheet]);
 
   const rounds = useMemo(() => sortedBody.map((r) => r[0]).filter(Boolean), [sortedBody]);
 
@@ -785,6 +787,60 @@ export default function TennisStatsPage() {
                       ))}
                     </tbody>
                   </table>
+                </div>
+              </section>
+
+              <section id="prize-chart" className="rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
+                <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <h3 className="text-lg font-semibold text-amber-100">Prize Money Chart</h3>
+                  <select
+                    className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm"
+                    value={selectedRound}
+                    onChange={(e) => setSelectedRound(e.target.value)}
+                  >
+                    {rounds.map((r, i) => (
+                      <option key={`${r}-${i}`} value={r}>
+                        {cleanRoundDisplay(r)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-3">
+                  <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
+                    {yTicks.map((t, i) => (
+                      <g key={`tick-${i}`}>
+                        <line x1="24" y1={t.y} x2="656" y2={t.y} stroke="rgba(253,230,138,0.18)" />
+                        <text x="20" y={t.y + 4} textAnchor="end" fontSize="10" fill="rgba(253,230,138,0.8)">
+                          {formatAxisMoney(t.value)}
+                        </text>
+                      </g>
+                    ))}
+                    <line x1="24" y1="200" x2="656" y2="200" stroke="rgba(253,230,138,0.35)" />
+                    <line x1="24" y1="20" x2="24" y2="200" stroke="rgba(253,230,138,0.35)" />
+                    <polyline fill="none" stroke="#FBBF24" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" points={linePoints} />
+                    {chartData.map((d, i) => {
+                      const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
+                      const y = 20 + (1 - d.value / maxChart) * (220 - 40);
+                      const labelY = Math.max(12, y - 8);
+                      return (
+                        <g key={`${d.label}-${i}`}>
+                          <circle cx={x} cy={y} r="4" fill="#FDE68A" />
+                          <text x={x} y={labelY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
+                            {`${d.label}${currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || "")) ? ` (${currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || ""))})` : ""}`}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                  <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    {chartData.map((d, i) => (
+                      <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
+                        <div className="font-semibold whitespace-nowrap">{d.label}</div>
+                        <div>{formatCurrencyByHeader(d.label, d.raw || "")}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </section>
             </div>
