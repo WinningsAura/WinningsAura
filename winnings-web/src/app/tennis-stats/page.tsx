@@ -567,7 +567,10 @@ export default function TennisStatsPage() {
                     <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                       <tr>
                         {sec.header.map((cell, idx) => (
-                          <th key={`${sec.title}-${idx}`} className="px-2 py-2 text-center font-semibold align-middle">
+                          <th
+                            key={`${sec.title}-${idx}`}
+                            className={`px-2 py-2 text-center font-semibold align-middle ${idx === 0 ? "w-32 whitespace-normal" : "whitespace-nowrap"}`}
+                          >
                             {cell || `Column ${idx + 1}`}
                           </th>
                         ))}
@@ -577,7 +580,10 @@ export default function TennisStatsPage() {
                       {sec.body.map((row, rIdx) => (
                         <tr key={`${sec.title}-${rIdx}`} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
                           {row.map((cell, cIdx) => (
-                            <td key={`${sec.title}-${rIdx}-${cIdx}`} className="px-2 py-2 text-center align-top whitespace-nowrap text-amber-50/95">
+                            <td
+                              key={`${sec.title}-${rIdx}-${cIdx}`}
+                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-nowrap"}`}
+                            >
                               {formatCurrencyByHeader(sec.header[cIdx] || "", cell || "")}
                             </td>
                           ))}
