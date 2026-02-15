@@ -26,16 +26,23 @@ body {
 }
 
 @keyframes ticker-scroll {
-  0% {
-    transform: translateX(0%);
+  from {
+    transform: translateX(0);
   }
-  100% {
+  to {
     transform: translateX(-50%);
   }
 }
 
 .ticker-track {
-  display: inline-flex;
-  min-width: 200%;
+  display: flex;
+  width: max-content;
   animation: ticker-scroll 22s linear infinite;
+  will-change: transform;
+}
+
+.ticker-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
 }
