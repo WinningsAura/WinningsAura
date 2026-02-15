@@ -129,6 +129,72 @@ function cleanTournamentName(value: string) {
   return text.replace(/\s*[-–—:]?\s*total\s*prize\s*pool.*$/i, "").trim();
 }
 
+function buildWta250FallbackSection(allRows: string[][]) {
+  const title = "2025 WTA 250 Prize Money Summary – Singles Only";
+
+  type Entry = {
+    tournament: string;
+    currency: string;
+    winner: string;
+    finalist: string;
+    semi: string;
+    quarter: string;
+    r16: string;
+    r32: string;
+    q2?: string;
+    q1?: string;
+  };
+
+  const entries: Entry[] = [];
+
+  allRows.forEach((r) => {
+    const t = cleanRoundDisplay(r[0] || "");
+    const n = normalizeRoundLabel(t);
+
+    if (t && n !== "tournament") {
+      const hasCoreMoney = [r[2], r[3], r[4], r[5], r[6], r[7]].some((v) => /\d/.test(v || ""));
+      const looksLikeWta250Tournament = n.includes("nottinghamopen") || n.includes("transylvaniaopen") || n.includes("hobartinternational") || n.includes("hongkongtennisopen") || n.includes("copacolsanitas") || n.includes("wta250");
+
+      if (hasCoreMoney && looksLikeWta250Tournament) {
+        entries.push({
+          tournament: cleanTournamentName(t),
+          currency: r[1] || "",
+          winner: r[2] || "",
+          finalist: r[3] || "",
+          semi: r[4] || "",
+          quarter: r[5] || "",
+          r16: r[6] || "",
+          r32: r[7] || "",
+        });
+      }
+      return;
+    }
+
+    if (!t && entries.length) {
+      const parsed = parseOtherRoundsText(r[7] || "");
+      if (parsed?.key === "q2") entries[entries.length - 1].q2 = parsed.raw;
+      if (parsed?.key === "q1") entries[entries.length - 1].q1 = parsed.raw;
+    }
+  });
+
+  if (!entries.length) return null;
+
+  const tournaments = entries.map((e) => e.tournament);
+  const body: string[][] = [
+    ["Winner", ...entries.map((e) => cleanMoneyByCurrency(e.winner, e.currency))],
+    ["Runner up", ...entries.map((e) => cleanMoneyByCurrency(e.finalist, e.currency))],
+    ["Semi Finalists", ...entries.map((e) => cleanMoneyByCurrency(e.semi, e.currency))],
+    ["Quarter Finalists", ...entries.map((e) => cleanMoneyByCurrency(e.quarter, e.currency))],
+    ["Round of 16", ...entries.map((e) => cleanMoneyByCurrency(e.r16, e.currency))],
+    ["Round of 32", ...entries.map((e) => cleanMoneyByCurrency(e.r32, e.currency))],
+  ];
+
+  if (entries.some((e) => e.q2)) body.push(["Q2", ...entries.map((e) => cleanMoneyByCurrency(e.q2 || "", e.currency))]);
+  if (entries.some((e) => e.q1)) body.push(["Q1", ...entries.map((e) => cleanMoneyByCurrency(e.q1 || "", e.currency))]);
+
+  return { title, header: ["Round", ...tournaments], body };
+}
+
 function buildAtpWtaSection(allRows: string[][], start: number, end: number, title: string) {
   const sectionRows = allRows.slice(start, end);
   const headerRowRel = sectionRows.findIndex((r) => normalizeRoundLabel(r[0] || "") === "tournament");
@@ -462,6 +528,12 @@ export default function TennisStatsPage() {
     const sections = starts
       .map((s, i) => buildAtpWtaSection(rows, s.idx, i + 1 < starts.length ? starts[i + 1].idx : rows.length, s.title))
       .filter(Boolean) as Array<{ title: string; header: string[]; body: string[][] }>;
+
+    const hasWta250 = sections.some((s) => normalizeRoundLabel(s.title).includes("2025wta250"));
+    if (!hasWta250) {
+      const fallbackWta250 = buildWta250FallbackSection(rows);
+      if (fallbackWta250) sections.push(fallbackWta250);
+    }
 
     sections.sort((a, b) => {
       const aKey = normalizeRoundLabel(a.title);
