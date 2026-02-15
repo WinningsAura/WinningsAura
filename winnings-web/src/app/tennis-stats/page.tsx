@@ -267,27 +267,32 @@ function cleanMoneyByCurrency(value: string, currency: string) {
   const parsed = Number(numPart.replace(/,/g, ""));
   const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numPart;
   const cur = (currency || "").toUpperCase();
+
   if (cur === "USD") return `$${formatted}`;
   if (cur === "EUR") return `€${formatted}`;
   if (cur === "GBP") return `£${formatted}`;
+
+  if (raw.includes("A$")) return `A$${formatted}`;
+  if (raw.includes("$")) return `$${formatted}`;
+  if (raw.includes("€")) return `€${formatted}`;
+  if (raw.includes("£")) return `£${formatted}`;
+
   return formatted;
 }
 
 function parseOtherRoundsText(value: string) {
   const text = cleanRoundDisplay(value);
-  const n = normalizeRoundLabel(text);
   const extractAmount = () => {
     const m = text.match(/(?:r16|r32|r64|q2|q1|3rd\s*r|2nd\s*r|1st\s*r)\s*[:\-]?\s*(.+)$/i);
     return (m?.[1] || text).trim();
   };
 
   const amount = extractAmount();
-  const isTarget = (k: string) => n.includes(k) || n.startsWith(k);
-  if (isTarget("r16") || n.includes("3rdr")) return { key: "r16", raw: amount };
-  if (isTarget("r32") || n.includes("2ndr")) return { key: "r32", raw: amount };
-  if (isTarget("r64") || n.includes("1str")) return { key: "r64", raw: amount };
-  if (isTarget("q2")) return { key: "q2", raw: amount };
-  if (isTarget("q1")) return { key: "q1", raw: amount };
+  if (/^r16\b/i.test(text) || /^3rd\s*r\b/i.test(text)) return { key: "r16", raw: amount };
+  if (/^r32\b/i.test(text) || /^2nd\s*r\b/i.test(text)) return { key: "r32", raw: amount };
+  if (/^r64\b/i.test(text) || /^1st\s*r\b/i.test(text)) return { key: "r64", raw: amount };
+  if (/^q2\b/i.test(text)) return { key: "q2", raw: amount };
+  if (/^q1\b/i.test(text)) return { key: "q1", raw: amount };
   return null;
 }
 
