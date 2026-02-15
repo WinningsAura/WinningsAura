@@ -1,0 +1,38 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="stadiumSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#102A43"/>
+      <stop offset="100%" stop-color="#243B53"/>
+    </linearGradient>
+    <radialGradient id="field" cx="0.5" cy="0.55" r="0.6">
+      <stop offset="0%" stop-color="#3BAE55"/>
+      <stop offset="100%" stop-color="#1E7A3A"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#stadiumSky)"/>
+  <ellipse cx="600" cy="430" rx="520" ry="220" fill="url(#field)" stroke="#A8E6A2" stroke-width="4"/>
+  <ellipse cx="600" cy="430" rx="180" ry="78" fill="#D8C08E" opacity="0.95"/>
+  <rect x="564" y="352" width="72" height="156" rx="20" fill="#C2A26B"/>
+
+  <g transform="translate(260 190)">
+    <path d="M0 110C0 45 52 0 118 0H170C232 0 282 47 282 110V180H0V110Z" fill="#4A5A6A"/>
+    <rect x="30" y="95" width="222" height="105" rx="48" fill="#617487"/>
+    <rect x="72" y="120" width="138" height="48" rx="24" fill="#2B3642"/>
+    <rect x="130" y="180" width="22" height="44" rx="10" fill="#3F4D5B"/>
+  </g>
+
+  <g transform="translate(790 170) rotate(16)">
+    <rect x="68" y="18" width="88" height="280" rx="22" fill="#D2A46F"/>
+    <rect x="94" y="290" width="36" height="120" rx="16" fill="#B9804E"/>
+    <line x1="82" y1="60" x2="142" y2="60" stroke="#EFD3AD" stroke-width="3"/>
+    <line x1="82" y1="98" x2="142" y2="98" stroke="#EFD3AD" stroke-width="3"/>
+    <line x1="82" y1="136" x2="142" y2="136" stroke="#EFD3AD" stroke-width="3"/>
+  </g>
+
+  <g transform="translate(940 500)">
+    <circle cx="0" cy="0" r="34" fill="#B91C1C"/>
+    <path d="M-20 -16L20 16" stroke="#FFFFFF" stroke-width="4"/>
+    <path d="M-20 16L20 -16" stroke="#FFFFFF" stroke-width="4"/>
+  </g>
+</svg>

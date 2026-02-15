@@ -1,15 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const sports = [
   {
     name: "Tennis",
-    media: "/tennis-playing.mp4",
+    image: "/tennis-home-card.svg",
     href: "/tennis-stats",
     description: "Explore premium tennis prize money insights and category-level views.",
   },
   {
     name: "Cricket",
-    media: "/cricket-playing.mp4",
+    image: "/cricket-home-card.svg",
     href: "/cricket-stats",
     description: "Discover cricket stats and winnings dashboards (expanding soon).",
   },
@@ -42,13 +43,11 @@ export default function HomePage() {
               className="group overflow-hidden rounded-2xl border border-amber-300/30 bg-black/50 shadow-2xl backdrop-blur-sm transition hover:border-amber-200/80 hover:shadow-[0_0_50px_rgba(245,185,59,0.2)] sm:rounded-3xl"
             >
               <div className="relative h-44 w-full sm:h-52 lg:h-56">
-                <video
-                  src={sport.media}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                <Image
+                  src={sport.image}
+                  alt={`${sport.name} visual`}
+                  fill
+                  className="object-cover transition duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
                 <p className="absolute bottom-3 left-3 text-xl font-bold text-amber-100 sm:bottom-4 sm:left-4 sm:text-2xl">{sport.name}</p>
