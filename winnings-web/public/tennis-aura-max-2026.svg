@@ -1,0 +1,34 @@
+<svg width="1400" height="840" viewBox="0 0 1400 840" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#12001F"/>
+    <stop offset="0.35" stop-color="#001B5E"/>
+    <stop offset="0.7" stop-color="#2A005A"/>
+    <stop offset="1" stop-color="#5E003A"/>
+  </linearGradient>
+</defs>
+<rect width="1400" height="840" fill="url(#bg)"/>
+<circle cx="1180" cy="120" r="260" fill="#ff2ea6" opacity="0.55"/>
+<circle cx="180" cy="700" r="300" fill="#00e5ff" opacity="0.55"/>
+<circle cx="690" cy="90" r="220" fill="#b8ff00" opacity="0.25"/>
+<path d="M0 180L1400 30" stroke="#ffd400" stroke-opacity="0.35" stroke-width="14"/>
+<path d="M0 260L1400 110" stroke="#00f0ff" stroke-opacity="0.35" stroke-width="14"/>
+<path d="M0 340L1400 190" stroke="#ff4fd8" stroke-opacity="0.35" stroke-width="14"/>
+<rect x="110" y="120" width="830" height="540" rx="28" fill="#09172d" stroke="#7df9ff" stroke-width="4"/>
+<rect x="145" y="160" width="760" height="460" rx="14" fill="#0f2850"/>
+<line x1="525" y1="160" x2="525" y2="620" stroke="#9ff" stroke-width="4"/>
+<line x1="145" y1="390" x2="905" y2="390" stroke="#9ff" stroke-width="4"/>
+<rect x="145" y="250" width="760" height="280" fill="none" stroke="#9ff" stroke-width="4"/>
+<line x1="325" y1="250" x2="325" y2="530" stroke="#9ff" stroke-width="4"/>
+<line x1="725" y1="250" x2="725" y2="530" stroke="#9ff" stroke-width="4"/>
+<rect x="145" y="383" width="760" height="14" fill="#fff"/>
+<g transform="translate(965 160) rotate(18)">
+  <ellipse cx="120" cy="175" rx="94" ry="120" fill="none" stroke="#fff" stroke-width="14"/>
+  <rect x="106" y="286" width="28" height="182" rx="14" fill="#ff9f1a"/>
+</g>
+<g transform="translate(1160 620)">
+  <circle cx="0" cy="0" r="48" fill="#c8ff2c"/>
+  <path d="M-36 -12C-22 -28 22 -28 36 -12" stroke="#fff" stroke-width="5" fill="none"/>
+  <path d="M-36 12C-22 28 22 28 36 12" stroke="#fff" stroke-width="5" fill="none"/>
+</g>
+</svg>

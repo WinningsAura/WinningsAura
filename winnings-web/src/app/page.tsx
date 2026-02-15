@@ -4,13 +4,13 @@ import Link from "next/link";
 const sports = [
   {
     name: "Tennis",
-    image: "/tennis-aura-2026.svg",
+    image: "/tennis-aura-max-2026.svg",
     href: "/tennis-stats",
     description: "Explore premium tennis prize money insights and category-level views.",
   },
   {
     name: "Cricket",
-    image: "/cricket-aura-2026.svg",
+    image: "/cricket-aura-max-2026.svg",
     href: "/cricket-stats",
     description: "Discover cricket stats and winnings dashboards (expanding soon).",
   },
