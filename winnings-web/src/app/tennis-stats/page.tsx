@@ -822,12 +822,17 @@ export default function TennisStatsPage() {
                     {chartData.map((d, i) => {
                       const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
                       const y = 20 + (1 - d.value / maxChart) * (220 - 40);
-                      const labelY = Math.max(12, y - 8);
+                      const symbol = currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || ""));
+                      const labelText = `${d.label}${symbol ? ` (${symbol})` : ""}`;
+                      const [line1, line2] = splitHeaderTwoLines(labelText);
+                      const placeBelow = i % 2 === 1;
+                      const baseY = placeBelow ? Math.min(210, y + 14) : Math.max(14, y - 14);
                       return (
                         <g key={`${d.label}-${i}`}>
                           <circle cx={x} cy={y} r="4" fill="#FDE68A" />
-                          <text x={x} y={labelY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
-                            {`${d.label}${currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || "")) ? ` (${currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || ""))})` : ""}`}
+                          <text x={x} y={baseY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
+                            <tspan x={x} dy="0">{line1}</tspan>
+                            {line2 ? <tspan x={x} dy="10">{line2}</tspan> : null}
                           </text>
                         </g>
                       );
