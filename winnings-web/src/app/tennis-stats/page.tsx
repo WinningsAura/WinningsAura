@@ -238,6 +238,16 @@ function formatAxisMoney(value: number) {
   return `$${Math.round(value).toLocaleString("en-US")}`;
 }
 
+function currencySymbolFromFormatted(value: string) {
+  const text = (value || "").trim();
+  if (!text) return "";
+  if (text.startsWith("A$")) return "A$";
+  if (text.startsWith("$")) return "$";
+  if (text.startsWith("€")) return "€";
+  if (text.startsWith("£")) return "£";
+  return "";
+}
+
 export default function TennisStatsPage() {
   const [selectedSheet, setSelectedSheet] = useState<SheetName>("Tennis Grand Slams");
   const [selectedCategory, setSelectedCategory] = useState<Category>("Singles");
@@ -675,7 +685,7 @@ export default function TennisStatsPage() {
                       <g key={`${d.label}-${i}`}>
                         <circle cx={x} cy={y} r="4" fill="#FDE68A" />
                         <text x={x} y={labelY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
-                          {d.label}
+                          {`${d.label}${currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || "")) ? ` (${currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || ""))})` : ""}`}
                         </text>
                       </g>
                     );
