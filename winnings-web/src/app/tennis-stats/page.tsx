@@ -588,7 +588,7 @@ export default function TennisStatsPage() {
                           {row.map((cell, cIdx) => (
                             <td
                               key={`${sec.title}-${rIdx}-${cIdx}`}
-                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-normal break-words"}`}
+                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-nowrap text-[11px] sm:text-sm"}`}
                             >
                               {formatCurrencyByHeader(sec.header[cIdx] || "", cell || "")}
                             </td>
