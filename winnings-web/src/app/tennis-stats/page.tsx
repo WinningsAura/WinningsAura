@@ -209,9 +209,9 @@ function getGrandSlamRoundRank(value: string) {
   if (v.includes("roundof64") || v === "round64" || v.includes("r64") || v.includes("secondround")) return 6;
   if (v.includes("firstround") || v.includes("roundof128") || v === "round128" || v.includes("r128") || v === "round1" || v.includes("r1")) return 7;
 
-  if (v === "q3" || v.includes("qualifying3") || v.includes("qualifyinground3")) return 8;
-  if (v === "q2" || v.includes("qualifying2") || v.includes("qualifyinground2")) return 9;
-  if (v === "q1" || v.includes("qualifying1") || v.includes("qualifyinground1")) return 10;
+  if (v === "q3" || v.includes("qualifying3") || v.includes("qualifyinground3") || (v.includes("qualifying") && v.includes("3"))) return 8;
+  if (v === "q2" || v.includes("qualifying2") || v.includes("qualifyinground2") || (v.includes("qualifying") && v.includes("2"))) return 9;
+  if (v === "q1" || v.includes("qualifying1") || v.includes("qualifyinground1") || (v.includes("qualifying") && v.includes("1"))) return 10;
 
   return Number.MAX_SAFE_INTEGER;
 }
@@ -398,6 +398,12 @@ export default function TennisStatsPage() {
       "q3",
       "q2",
       "q1",
+      "qualifying round 3",
+      "qualifying round 2",
+      "qualifying round 1",
+      "qualifying 3",
+      "qualifying 2",
+      "qualifying 1",
     ]);
 
     const startIdx = body.findIndex((r) => roundLabels.has((r[0] || "").trim().toLowerCase()));
