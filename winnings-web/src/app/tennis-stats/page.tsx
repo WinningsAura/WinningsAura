@@ -24,7 +24,7 @@ function getAtpWtaSectionDisplayTitle(title: string) {
   const n = normalizeRoundLabel(title);
   if (n.includes("masters1000")) return "Masters 1000 Events (Singles - Men)";
   if (n.includes("wta1000")) return "WTA 1000 Events (Singles - Women)";
-  if (n.includes("atp500events")) return "ATP 500 Events (Singles- Med)";
+  if (n.includes("atp500events")) return "ATP 500 Events (Singles- Men)";
   if (n.includes("2025wta500")) return "WTA 500 Events (Singles - Women)";
   if (n.includes("2025atp250")) return "ATP 250 Events (Singles - Men)";
   if (n.includes("2025wta250")) return "WTA 250 Events (Singles - Women)";
