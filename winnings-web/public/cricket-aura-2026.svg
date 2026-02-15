@@ -1,22 +1,34 @@
 <svg width="1400" height="840" viewBox="0 0 1400 840" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#070B14"/>
-      <stop offset="0.6" stop-color="#111F34"/>
-      <stop offset="1" stop-color="#1E293B"/>
+      <stop offset="0" stop-color="#060A16"/>
+      <stop offset="0.5" stop-color="#122746"/>
+      <stop offset="1" stop-color="#3A1B63"/>
     </linearGradient>
-    <radialGradient id="light" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1080 130) rotate(128) scale(420 300)">
-      <stop stop-color="#22D3EE" stop-opacity="0.42"/>
+    <radialGradient id="cyanLight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1080 120) rotate(130) scale(520 340)">
+      <stop stop-color="#22D3EE" stop-opacity="0.62"/>
       <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="field" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(610 470) rotate(90) scale(280 560)">
+    <radialGradient id="purpleLight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 640) rotate(20) scale(540 320)">
+      <stop stop-color="#C084FC" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#C084FC" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="field" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(620 500) rotate(90) scale(290 570)">
       <stop stop-color="#4ADE80"/>
       <stop offset="1" stop-color="#166534"/>
     </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
 
   <rect width="1400" height="840" fill="url(#bg)"/>
-  <rect width="1400" height="840" fill="url(#light)"/>
+  <rect width="1400" height="840" fill="url(#cyanLight)"/>
+  <rect width="1400" height="840" fill="url(#purpleLight)"/>
+
+  <path d="M0 200L1400 110" stroke="#F59E0B" stroke-opacity="0.16" stroke-width="9"/>
+  <path d="M0 280L1400 170" stroke="#22D3EE" stroke-opacity="0.14" stroke-width="9"/>
 
   <ellipse cx="620" cy="500" rx="560" ry="250" fill="url(#field)"/>
   <ellipse cx="620" cy="500" rx="230" ry="100" fill="#D6B77A" fill-opacity="0.95"/>
@@ -37,7 +49,7 @@
     <line x1="80" y1="156" x2="140" y2="156" stroke="#F4D9B8" stroke-width="3"/>
   </g>
 
-  <g transform="translate(1180 630)">
+  <g transform="translate(1180 630)" filter="url(#soft)">
     <circle cx="0" cy="0" r="42" fill="#DC2626"/>
     <path d="M-26 -20L26 20" stroke="#fff" stroke-width="4"/>
     <path d="M-26 20L26 -20" stroke="#fff" stroke-width="4"/>
