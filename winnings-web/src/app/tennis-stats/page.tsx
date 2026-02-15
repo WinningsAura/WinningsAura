@@ -670,7 +670,15 @@ export default function TennisStatsPage() {
                   {chartData.map((d, i) => {
                     const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
                     const y = 20 + (1 - d.value / maxChart) * (220 - 40);
-                    return <circle key={`${d.label}-${i}`} cx={x} cy={y} r="4" fill="#FDE68A" />;
+                    const labelY = Math.max(12, y - 8);
+                    return (
+                      <g key={`${d.label}-${i}`}>
+                        <circle cx={x} cy={y} r="4" fill="#FDE68A" />
+                        <text x={x} y={labelY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
+                          {d.label}
+                        </text>
+                      </g>
+                    );
                   })}
                 </svg>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
