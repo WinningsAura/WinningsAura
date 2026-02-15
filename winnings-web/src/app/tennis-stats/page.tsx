@@ -6,14 +6,19 @@ import { useEffect, useMemo, useState } from "react";
 const sheetNames = ["Tennis Grand Slams", "ATP and WTA"] as const;
 type SheetName = (typeof sheetNames)[number];
 
-const ATP_WTA_SECTION_ORDER = ["masters1000", "atp500events", "wta1000", "2025wta500", "2025atp250"] as const;
-const ATP_WTA_SECTION_HEADINGS = new Set([
+const ATP_WTA_SECTION_ORDER = ["masters1000", "atp500events", "wta1000", "2025wta500", "2025atp250", "2025wta250"] as const;
+const ATP_WTA_SECTION_HEADINGS = [
   "masters1000eventssingles",
   "atp500eventssingles",
   "wta1000singles",
   "2025wta500prizemoneysingles",
   "2025atp250prizemoneysummarysinglesonly",
-]);
+  "2025wta250prizemoneysummarysinglesonly",
+] as const;
+
+function getAtpWtaSectionKey(normalized: string) {
+  return ATP_WTA_SECTION_HEADINGS.find((h) => normalized.includes(h)) || null;
+}
 const STORAGE_SHEET_KEY = "tennisStats.selectedSheet";
 const STORAGE_CATEGORY_KEY = "tennisStats.selectedCategory";
 const STORAGE_ROUND_KEY = "tennisStats.selectedRound";
@@ -421,7 +426,7 @@ export default function TennisStatsPage() {
     rows.forEach((r, idx) => {
       const t = cleanRoundDisplay(r[0] || "");
       const n = normalizeRoundLabel(t);
-      if (ATP_WTA_SECTION_HEADINGS.has(n)) {
+      if (getAtpWtaSectionKey(n)) {
         starts.push({ idx, title: t });
       }
     });
