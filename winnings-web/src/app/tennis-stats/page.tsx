@@ -135,8 +135,9 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
   const colR32 = idxOf("r32");
   const colR64Direct = idxOf("r64");
   const colR32R64Combined = idxOf("r32r64");
-  const isMastersSection = normalizeRoundLabel(title).includes("masters1000");
-  const colR64 = colR64Direct !== -1 ? colR64Direct : (isMastersSection ? colR32R64Combined : -1);
+  const colQ2 = idxOf("q2");
+  const colQ1 = idxOf("q1");
+  const colR64 = colR64Direct !== -1 ? colR64Direct : colR32R64Combined;
 
   // If R32 and R64 resolve to the same combined column (e.g., "R32 / R64"),
   // split values at render-time so they are not duplicated.
@@ -169,6 +170,8 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
     { label: "Round of 16", col: colR16 },
     { label: "Round of 32", col: colR32 },
     { label: "Round of 64", col: colR64 },
+    { label: "Q2", col: colQ2 },
+    { label: "Q1", col: colQ1 },
   ].filter((x) => x.col !== -1);
 
   const body = roundDefs.map((round) => {
