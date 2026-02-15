@@ -230,6 +230,14 @@ function cleanMoneyByCurrency(value: string, currency: string) {
   return formatted;
 }
 
+function formatAxisMoney(value: number) {
+  if (!Number.isFinite(value)) return "0";
+  if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(1)}B`;
+  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`;
+  if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
+  return `$${Math.round(value).toLocaleString("en-US")}`;
+}
+
 export default function TennisStatsPage() {
   const [selectedSheet, setSelectedSheet] = useState<SheetName>("Tennis Grand Slams");
   const [selectedCategory, setSelectedCategory] = useState<Category>("Singles");
@@ -447,6 +455,15 @@ export default function TennisStatsPage() {
 
   const maxChart = useMemo(() => Math.max(1, ...chartData.map((d) => d.value)), [chartData]);
 
+  const yTicks = useMemo(() => {
+    const steps = 5;
+    return Array.from({ length: steps + 1 }, (_, i) => {
+      const value = (maxChart * (steps - i)) / steps;
+      const y = 20 + (i * (220 - 40)) / steps;
+      return { value, y };
+    });
+  }, [maxChart]);
+
   const linePoints = useMemo(() => {
     if (chartData.length === 0) return "";
     const width = 680;
@@ -639,6 +656,14 @@ export default function TennisStatsPage() {
 
               <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-3">
                 <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
+                  {yTicks.map((t, i) => (
+                    <g key={`tick-${i}`}>
+                      <line x1="24" y1={t.y} x2="656" y2={t.y} stroke="rgba(253,230,138,0.18)" />
+                      <text x="20" y={t.y + 4} textAnchor="end" fontSize="10" fill="rgba(253,230,138,0.8)">
+                        {formatAxisMoney(t.value)}
+                      </text>
+                    </g>
+                  ))}
                   <line x1="24" y1="200" x2="656" y2="200" stroke="rgba(253,230,138,0.35)" />
                   <line x1="24" y1="20" x2="24" y2="200" stroke="rgba(253,230,138,0.35)" />
                   <polyline fill="none" stroke="#FBBF24" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" points={linePoints} />
