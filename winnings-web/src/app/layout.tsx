@@ -25,9 +25,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased pb-10`}
       >
         {children}
+        <div className="fixed inset-x-0 bottom-0 z-50 overflow-hidden border-t border-amber-200/30 bg-black/85 text-amber-100">
+          <div className="ticker-track whitespace-nowrap py-2 text-xs sm:text-sm">
+            <span className="mx-6">Notice: Winning amounts are officially published by tournament organizers but may not always be fully accurate.</span>
+            <span className="mx-6">Notice: Winning amounts are officially published by tournament organizers but may not always be fully accurate.</span>
+            <span className="mx-6">Notice: Winning amounts are officially published by tournament organizers but may not always be fully accurate.</span>
+            <span className="mx-6">Notice: Winning amounts are officially published by tournament organizers but may not always be fully accurate.</span>
+          </div>
+        </div>
       </body>
     </html>
   );
