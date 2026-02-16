@@ -63,6 +63,7 @@ export default function ContactUsPage() {
                 <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">About Us</Link>
                 <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Tennis</Link>
                 <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Cricket</Link>
+                <Link href="/golf-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Golf</Link>
                 <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Contact Us</Link>
               </div>
             </div>

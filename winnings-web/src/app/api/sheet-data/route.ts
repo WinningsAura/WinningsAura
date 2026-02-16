@@ -11,6 +11,7 @@ const sheetToCsv: Record<string, string> = {
   "Tennis Grand Slams": "Tennis Grand Slams.csv",
   "ATP and WTA": "ATP and WTA.csv",
   Cricket: "Cricket.csv",
+  Golf: "Golf.csv",
   "All Sports Match Total Times": "All Sports Match Total Times.csv",
   "About Us": "About Us.csv",
 };

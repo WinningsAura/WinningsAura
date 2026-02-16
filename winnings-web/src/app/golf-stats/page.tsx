@@ -1,14 +1,235 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+
+type GolfSection = { title: string; header: string[]; body: string[][] };
+
+function clean(v: string) {
+  return (v || "").trim();
+}
+
+function parseMoney(value: string) {
+  const n = Number((value || "").replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(n) ? n : NaN;
+}
+
+function formatMoneyText(value: string) {
+  const text = clean(value);
+  if (!text) return "—";
+  if (text === "-" || text === "–" || text === "—") return "—";
+
+  const numeric = text.replace(/[^0-9.,-]/g, "").trim();
+  if (!numeric) return text;
+  const parsed = Number(numeric.replace(/,/g, ""));
+  const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numeric;
+
+  if (text.includes("$")) return `$${formatted}`;
+  return formatted;
+}
+
+function buildGolfSections(rows: string[][]): GolfSection[] {
+  const starts: Array<{ idx: number; title: string }> = [];
+  rows.forEach((r, idx) => {
+    const t = clean(r[0]);
+    if (t.toLowerCase().startsWith("golf -")) starts.push({ idx, title: t });
+  });
+
+  return starts
+    .map((s, i) => {
+      const sectionRows = rows.slice(s.idx, i + 1 < starts.length ? starts[i + 1].idx : rows.length);
+      const headerRel = sectionRows.findIndex((r) => clean(r[0]).toLowerCase() === "finish");
+      if (headerRel === -1) return null;
+
+      const header = sectionRows[headerRel].filter((c) => clean(c));
+      const width = header.length;
+      const body = sectionRows
+        .slice(headerRel + 1)
+        .map((r) => r.slice(0, width))
+        .filter((r) => clean(r[0]))
+        .filter((r) => !clean(r[0]).startsWith("…"));
+
+      if (!header.length || !body.length) return null;
+      return { title: s.title, header, body };
+    })
+    .filter(Boolean) as GolfSection[];
+}
 
 export default function GolfStatsPage() {
+  const [rows, setRows] = useState<string[][]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedSection, setSelectedSection] = useState<string>("");
+  const [selectedFinish, setSelectedFinish] = useState<string>("");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadData() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`/api/sheet-data?sheet=${encodeURIComponent("Golf")}`, { cache: "no-store" });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || "Failed to fetch golf data");
+        if (!cancelled) setRows(Array.isArray(data.rows) ? data.rows : []);
+      } catch (e) {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : "Unknown error");
+          setRows([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadData();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const sections = useMemo(() => buildGolfSections(rows), [rows]);
+
+  const activeSection = useMemo(() => sections.find((s) => s.title === selectedSection) || sections[0] || null, [sections, selectedSection]);
+
+  useEffect(() => {
+    if (!sections.length) return;
+    if (!sections.some((s) => s.title === selectedSection)) setSelectedSection(sections[0].title);
+  }, [sections, selectedSection]);
+
+  const finishes = useMemo(() => (activeSection ? activeSection.body.map((r) => r[0]).filter(Boolean) : []), [activeSection]);
+
+  useEffect(() => {
+    if (!finishes.length) return;
+    if (!selectedFinish || !finishes.includes(selectedFinish)) setSelectedFinish(finishes[0]);
+  }, [finishes, selectedFinish]);
+
+  const chartData = useMemo(() => {
+    if (!activeSection) return [] as { label: string; raw: string; value: number }[];
+    const row = activeSection.body.find((r) => r[0] === selectedFinish);
+    if (!row) return [];
+
+    return activeSection.header.slice(1).map((label, idx) => {
+      const raw = row[idx + 1] || "";
+      const value = parseMoney(raw);
+      return { label, raw, value: Number.isNaN(value) ? 0 : value };
+    });
+  }, [activeSection, selectedFinish]);
+
+  const maxY = useMemo(() => Math.max(1, ...chartData.map((d) => d.value)), [chartData]);
+
+  const linePoints = useMemo(() => {
+    if (!chartData.length) return "";
+    return chartData
+      .map((d, i) => {
+        const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
+        const y = 20 + (1 - d.value / maxY) * 180;
+        return `${x},${y}`;
+      })
+      .join(" ");
+  }, [chartData, maxY]);
+
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-      <main className="mx-auto w-full max-w-5xl rounded-2xl border border-amber-300/30 bg-black/55 p-6 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-10">
+      <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/sports-winnings-logo.svg" alt="Sports Winnings" className="h-8 w-auto sm:h-9" />
+          </Link>
+          <nav className="flex items-center gap-2 text-sm sm:gap-3">
+            <div className="group relative">
+              <button type="button" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Menu</button>
+              <div className="invisible absolute right-0 top-full z-20 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
+                <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">About Us</Link>
+                <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Tennis</Link>
+                <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Cricket</Link>
+                <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Contact Us</Link>
+              </div>
+            </div>
+          </nav>
+        </div>
+
         <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Golf Stats</h1>
-        <p className="mt-3 text-amber-100/85">Golf winnings dashboard is coming soon.</p>
-        <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
-          Back to Sports Home
-        </Link>
+        <p className="mt-2 text-amber-100/80">Golf prize money dashboard in the same table + chart flow as Tennis.</p>
+
+        {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
+        {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
+
+        <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {sections.map((sec) => (
+            <button
+              key={sec.title}
+              onClick={() => setSelectedSection(sec.title)}
+              className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
+                activeSection?.title === sec.title
+                  ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
+                  : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
+              }`}
+            >
+              {sec.title}
+            </button>
+          ))}
+        </div>
+
+        {activeSection ? (
+          <>
+            <div className="mt-6 overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
+              <table className="w-full table-fixed text-left text-xs sm:text-sm">
+                <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+                  <tr>
+                    {activeSection.header.map((cell, idx) => (
+                      <th key={`${idx}-${cell}`} className="px-2 py-2 text-center font-semibold align-middle">{cell || `Column ${idx + 1}`}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {activeSection.body.map((row, rIdx) => (
+                    <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
+                      {row.map((cell, cIdx) => (
+                        <td key={`${rIdx}-${cIdx}`} className={`px-2 py-2 text-center align-top ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-nowrap text-[11px] sm:text-sm"}`}>
+                          {cIdx === 0 ? (cell || "—") : formatMoneyText(cell || "")}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <section className="mt-8 rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
+              <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <h3 className="text-lg font-semibold text-amber-100">Prize Money Chart</h3>
+                <select className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm" value={selectedFinish} onChange={(e) => setSelectedFinish(e.target.value)}>
+                  {finishes.map((f, i) => (
+                    <option key={`${f}-${i}`} value={f}>{f}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-3">
+                <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
+                  <line x1="24" y1="200" x2="656" y2="200" stroke="rgba(253,230,138,0.35)" />
+                  <line x1="24" y1="20" x2="24" y2="200" stroke="rgba(253,230,138,0.35)" />
+                  <polyline fill="none" stroke="#FBBF24" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" points={linePoints} />
+                  {chartData.map((d, i) => {
+                    const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
+                    const y = 20 + (1 - d.value / maxY) * 180;
+                    return <circle key={`${d.label}-${i}`} cx={x} cy={y} r="4" fill="#FDE68A" />;
+                  })}
+                </svg>
+                <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+                  {chartData.map((d, i) => (
+                    <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
+                      <div className="font-semibold whitespace-nowrap">{d.label}</div>
+                      <div>{formatMoneyText(d.raw || "")}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        ) : null}
       </main>
     </div>
   );
