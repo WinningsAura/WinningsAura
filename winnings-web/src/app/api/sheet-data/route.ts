@@ -107,11 +107,7 @@ export async function GET(req: NextRequest) {
           }
         );
       }
-
-      return NextResponse.json(
-        { error: "Could not read latest Excel file. Please save/close Winnings.xlsx and refresh.", xlsxPath },
-        { status: 423 }
-      );
+      // If the workbook is temporarily locked/unreadable, fall back to CSV snapshot below.
     }
 
     const csvPath = path.resolve(process.cwd(), "..", "winnings-sheets", csvFile);
