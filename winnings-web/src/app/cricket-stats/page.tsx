@@ -35,8 +35,37 @@ export default function CricketStatsPage() {
     };
   }, []);
 
-  const header = useMemo(() => rows[0] ?? [], [rows]);
-  const body = useMemo(() => (rows.length > 1 ? rows.slice(1) : []), [rows]);
+  const contractsTable = useMemo(() => {
+    const iccHeadingIdx = rows.findIndex((r) => r.some((c) => (c || "").toLowerCase().includes("icc event prize money structures")));
+    const sectionRows = (iccHeadingIdx === -1 ? rows : rows.slice(0, iccHeadingIdx)).filter((r) => (r[0] || "").trim());
+    if (!sectionRows.length) return { header: [] as string[], body: [] as string[][] };
+
+    const header = sectionRows[0].slice(0, 5);
+    const body = sectionRows.slice(1).map((r) => r.slice(0, 5));
+    return { header, body };
+  }, [rows]);
+
+  const iccTable = useMemo(() => {
+    const headerIdx = rows.findIndex((r) => r.some((c) => (c || "").trim().toLowerCase() === "option") && r.some((c) => (c || "").toLowerCase().includes("tournament")));
+    if (headerIdx === -1) return { header: [] as string[], body: [] as string[][] };
+
+    const headerRow = rows[headerIdx].filter((c) => (c || "").trim());
+    const firstColIdx = rows[headerIdx].findIndex((c) => (c || "").trim().toLowerCase() === "option");
+    const body: string[][] = [];
+
+    for (let i = headerIdx + 1; i < rows.length; i++) {
+      const row = rows[i];
+      const option = (row[firstColIdx] || "").trim();
+      if (!option) {
+        if (body.length) break;
+        continue;
+      }
+      if (!/^\d+$/.test(option)) continue;
+      body.push(row.slice(firstColIdx, firstColIdx + 5));
+    }
+
+    return { header: headerRow, body };
+  }, [rows]);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
@@ -63,39 +92,73 @@ export default function CricketStatsPage() {
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
 
-        <div className="mt-5 overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
-          <table className="min-w-full text-left text-sm">
-            {header.length > 0 ? (
-              <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
-                <tr>
-                  {header.map((cell, idx) => (
-                    <th key={`${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
-                      {cell || `Column ${idx + 1}`}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-            ) : null}
-            <tbody>
-              {body.map((row, rIdx) => (
-                <tr
-                  key={rIdx}
-                  className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45"
-                  style={{
-                    animation: "fly-in-row 520ms ease-out both",
-                    animationDelay: `${Math.min(rIdx * 45, 900)}ms`,
-                  }}
-                >
-                  {row.map((cell, cIdx) => (
-                    <td key={`${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
-                      {cell || "—"}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <section className="mt-5">
+          <h2 className="mb-3 text-lg font-semibold text-amber-100">Central Contracts and Match Fees</h2>
+          <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
+            <table className="min-w-full text-left text-sm">
+              {contractsTable.header.length > 0 ? (
+                <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+                  <tr>
+                    {contractsTable.header.map((cell, idx) => (
+                      <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
+                        {cell || `Column ${idx + 1}`}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+              ) : null}
+              <tbody>
+                {contractsTable.body.map((row, rIdx) => (
+                  <tr
+                    key={`contracts-${rIdx}`}
+                    className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45"
+                    style={{ animation: "fly-in-row 520ms ease-out both", animationDelay: `${Math.min(rIdx * 45, 900)}ms` }}
+                  >
+                    {row.map((cell, cIdx) => (
+                      <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
+                        {cell || "—"}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="mt-8">
+          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men’s & Women’s)</h2>
+          <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
+            <table className="min-w-full text-left text-sm">
+              {iccTable.header.length > 0 ? (
+                <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+                  <tr>
+                    {iccTable.header.map((cell, idx) => (
+                      <th key={`icc-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
+                        {cell || `Column ${idx + 1}`}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+              ) : null}
+              <tbody>
+                {iccTable.body.map((row, rIdx) => (
+                  <tr
+                    key={`icc-${rIdx}`}
+                    className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45"
+                    style={{ animation: "fly-in-row 520ms ease-out both", animationDelay: `${Math.min(rIdx * 45, 900)}ms` }}
+                  >
+                    {row.map((cell, cIdx) => (
+                      <td key={`icc-${rIdx}-${cIdx}`} className="px-4 py-3 align-top text-amber-50/95">
+                        {cell || "—"}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
 
         <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
           ← Back to Sports Home
