@@ -44,7 +44,7 @@ export default function ContactSubmissionsAdminPage() {
             <img src="/sports-winnings-logo.svg" alt="Sports Winnings" className="h-8 w-auto sm:h-9" />
           </Link>
           <nav className="flex items-center gap-2 text-sm sm:gap-3">
-            <Link href="/" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Home</Link>
+            
             <div className="group relative">
               <button type="button" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Menu</button>
               <div className="invisible absolute right-0 top-full z-20 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
@@ -100,4 +100,5 @@ export default function ContactSubmissionsAdminPage() {
     </div>
   );
 }
+
 
