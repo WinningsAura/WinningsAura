@@ -3,6 +3,8 @@ import path from "path";
 import fs from "fs";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const sheetToCsv: Record<string, string> = {
   "Tennis Grand Slams": "Tennis Grand Slams.csv",
@@ -77,7 +79,14 @@ export async function GET(req: NextRequest) {
     const maxCols = rows.reduce((m, r) => Math.max(m, r.length), 0);
     const padded = rows.map((r) => [...r, ...Array(Math.max(0, maxCols - r.length)).fill("")]);
 
-    return NextResponse.json({ sheet, rows: padded });
+    return NextResponse.json(
+      { sheet, rows: padded },
+      {
+        headers: {
+          "Cache-Control": "no-store, max-age=0",
+        },
+      }
+    );
   } catch (e) {
     return NextResponse.json(
       { error: "Failed to load sheet", detail: e instanceof Error ? e.message : "Unknown" },
