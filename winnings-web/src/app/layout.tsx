@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import BottomTicker from "./shared/BottomTicker";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,18 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased pb-10`}
       >
         {children}
-        <div className="fixed inset-x-0 bottom-0 z-50 overflow-hidden border-t border-amber-200/30 bg-black/85 text-amber-100">
-          <div className="ticker-track py-2 text-xs sm:text-sm">
-            <div className="ticker-group whitespace-nowrap">
-              <span className="mx-6">Notice: Winning amounts are officially published by tournament organizers but may not always be fully accurate.</span>
-              <span className="mx-6">Notice: Winning amounts are officially published by tournament organizers but may not always be fully accurate.</span>
-            </div>
-            <div className="ticker-group whitespace-nowrap" aria-hidden>
-              <span className="mx-6">Notice: Winning amounts are officially published by tournament organizers but may not always be fully accurate.</span>
-              <span className="mx-6">Notice: Winning amounts are officially published by tournament organizers but may not always be fully accurate.</span>
-            </div>
-          </div>
-        </div>
+        <BottomTicker />
       </body>
     </html>
   );

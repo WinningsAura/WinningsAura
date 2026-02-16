@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
 const sports = [
   {
@@ -23,6 +26,19 @@ const sports = [
 ] as const;
 
 export default function HomePage() {
+  const [startIndex, setStartIndex] = useState(0);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setStartIndex((i) => (i + 1) % sports.length);
+    }, 4000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const rotatingSports = useMemo(() => {
+    return sports.map((_, i) => sports[(startIndex + i) % sports.length]);
+  }, [startIndex]);
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,#2a0a46_0%,#1f0d36_30%,#0b2842_65%,#130822_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <Image src="/sports-legends-bg.svg" alt="Sports legends background" fill priority className="object-cover opacity-55" />
@@ -51,7 +67,7 @@ export default function HomePage() {
         </header>
 
         <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
-          {sports.map((sport) => (
+          {rotatingSports.map((sport) => (
             <Link
               key={sport.name}
               href={sport.href}
