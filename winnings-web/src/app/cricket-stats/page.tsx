@@ -4,17 +4,24 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 function normalizeContractCurrency(value: string, country: string) {
-  const text = (value || "").trim();
+  let text = (value || "").trim();
   if (!text) return "";
 
-  // Preserve original ranges/units exactly; only fix broken currency glyphs from CSV encoding.
-  if (/^[?�]/.test(text)) {
-    const symbol = country.toLowerCase().includes("india")
-      ? "₹"
-      : country.toLowerCase().includes("england")
-      ? "£"
-      : "$";
-    return `${symbol}${text.replace(/^[?�]+\s*/, "")}`;
+  // Fix garbled characters from spreadsheet encoding while preserving numeric ranges.
+  text = text
+    .replace(/[\uFFFD\u001a\u007f\u0000-\u001f]+/g, "-")
+    .replace(/\?+/g, "")
+    .replace(/\s*-\s*-/g, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/(^-|-$)/g, "")
+    .trim();
+
+  const lowerCountry = country.toLowerCase();
+  const hasCurrencyPrefix = /^(₹|£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
+
+  if (!hasCurrencyPrefix) {
+    if (lowerCountry.includes("india")) text = `₹${text}`;
+    else if (lowerCountry.includes("england")) text = `£${text}`;
   }
 
   return text;
