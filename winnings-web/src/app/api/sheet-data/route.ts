@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import fs from "fs";
+import * as XLSX from "xlsx";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -60,6 +61,30 @@ function parseCsv(text: string): string[][] {
   return rows.filter((r) => r.some((c) => c.trim() !== ""));
 }
 
+function normalizeRows(rows: string[][]) {
+  const nonEmpty = rows.filter((r) => r.some((c) => (c || "").trim() !== ""));
+  const maxCols = nonEmpty.reduce((m, r) => Math.max(m, r.length), 0);
+  return nonEmpty.map((r) => [...r, ...Array(Math.max(0, maxCols - r.length)).fill("")]);
+}
+
+function loadRowsFromXlsx(xlsxPath: string, sheet: string) {
+  try {
+    const wb = XLSX.readFile(xlsxPath, { cellText: true, cellNF: false, cellDates: false });
+    const ws = wb.Sheets[sheet];
+    if (!ws) return null;
+    const aoa = XLSX.utils.sheet_to_json<(string | number | null)[]>(ws, {
+      header: 1,
+      raw: false,
+      blankrows: true,
+      defval: "",
+    });
+    const rows = aoa.map((r) => r.map((c) => String(c ?? "")));
+    return normalizeRows(rows);
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(req: NextRequest) {
   try {
     const sheet = req.nextUrl.searchParams.get("sheet");
@@ -68,19 +93,36 @@ export async function GET(req: NextRequest) {
     const csvFile = sheetToCsv[sheet];
     if (!csvFile) return NextResponse.json({ error: `Sheet not found: ${sheet}` }, { status: 404 });
 
+    const xlsxPath = path.resolve(process.cwd(), "..", "Winnings.xlsx");
+    if (fs.existsSync(xlsxPath)) {
+      const xlsxRows = loadRowsFromXlsx(xlsxPath, sheet);
+      if (xlsxRows && xlsxRows.length) {
+        return NextResponse.json(
+          { sheet, rows: xlsxRows },
+          {
+            headers: {
+              "Cache-Control": "no-store, max-age=0",
+            },
+          }
+        );
+      }
+
+      return NextResponse.json(
+        { error: "Could not read latest Excel file. Please save/close Winnings.xlsx and refresh.", xlsxPath },
+        { status: 423 }
+      );
+    }
+
     const csvPath = path.resolve(process.cwd(), "..", "winnings-sheets", csvFile);
     if (!fs.existsSync(csvPath)) {
-      return NextResponse.json({ error: `Data file missing for sheet: ${sheet}`, csvPath }, { status: 404 });
+      return NextResponse.json({ error: `Data file missing for sheet: ${sheet}`, csvPath, xlsxPath }, { status: 404 });
     }
 
     const csvText = fs.readFileSync(csvPath, "utf8");
-    const rows = parseCsv(csvText);
-
-    const maxCols = rows.reduce((m, r) => Math.max(m, r.length), 0);
-    const padded = rows.map((r) => [...r, ...Array(Math.max(0, maxCols - r.length)).fill("")]);
+    const rows = normalizeRows(parseCsv(csvText));
 
     return NextResponse.json(
-      { sheet, rows: padded },
+      { sheet, rows },
       {
         headers: {
           "Cache-Control": "no-store, max-age=0",
