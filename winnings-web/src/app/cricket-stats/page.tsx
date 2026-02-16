@@ -32,7 +32,7 @@ export default function CricketStatsPage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/sheet-data?sheet=${encodeURIComponent("Cricket")}`);
+        const res = await fetch(`/api/sheet-data?sheet=${encodeURIComponent("Cricket")}`, { cache: "no-store" });
         const data = await res.json();
         if (!res.ok) throw new Error(data?.error || "Failed to fetch cricket data");
         if (!cancelled) setRows(Array.isArray(data.rows) ? data.rows : []);
