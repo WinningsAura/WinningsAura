@@ -14,6 +14,12 @@ const sports = [
     href: "/cricket-stats",
     description: "Discover cricket stats and winnings dashboards (expanding soon).",
   },
+  {
+    name: "Golf",
+    image: "/golf-aura-max-2026.svg",
+    href: "/golf-stats",
+    description: "View golf winnings and event prize insights (coming soon).",
+  },
 ] as const;
 
 export default function HomePage() {
@@ -44,7 +50,7 @@ export default function HomePage() {
           <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">A classy black-gold experience for sports prize money analytics.</p>
         </header>
 
-        <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+        <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
           {sports.map((sport) => (
             <Link
               key={sport.name}
