@@ -3,6 +3,23 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+function normalizeContractCurrency(value: string, country: string) {
+  const text = (value || "").trim();
+  if (!text) return "";
+
+  // Preserve original ranges/units exactly; only fix broken currency glyphs from CSV encoding.
+  if (/^[?�]/.test(text)) {
+    const symbol = country.toLowerCase().includes("india")
+      ? "₹"
+      : country.toLowerCase().includes("england")
+      ? "£"
+      : "$";
+    return `${symbol}${text.replace(/^[?�]+\s*/, "")}`;
+  }
+
+  return text;
+}
+
 export default function CricketStatsPage() {
   const [rows, setRows] = useState<string[][]>([]);
   const [loading, setLoading] = useState(false);
@@ -116,7 +133,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
-                        {cell || "—"}
+                        {cIdx === 0 ? (cell || "—") : (normalizeContractCurrency(cell || "", row[0] || "") || "—")}
                       </td>
                     ))}
                   </tr>
