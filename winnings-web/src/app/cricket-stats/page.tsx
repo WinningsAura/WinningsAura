@@ -78,7 +78,14 @@ export default function CricketStatsPage() {
             ) : null}
             <tbody>
               {body.map((row, rIdx) => (
-                <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
+                <tr
+                  key={rIdx}
+                  className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45"
+                  style={{
+                    animation: "fly-in-row 520ms ease-out both",
+                    animationDelay: `${Math.min(rIdx * 45, 900)}ms`,
+                  }}
+                >
                   {row.map((cell, cIdx) => (
                     <td key={`${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
                       {cell || "—"}
