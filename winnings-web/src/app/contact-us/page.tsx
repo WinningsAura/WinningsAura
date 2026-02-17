@@ -70,7 +70,7 @@ export default function ContactUsPage() {
           </nav>
         </div>
         <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Contact Us</h1>
-        <p className="mt-2 text-amber-100/80">Share your details and message. We will save it in our contact submissions file.</p>
+        <p className="mt-2 text-amber-100/80">Share your details and message. We will get back to you soon.</p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <input
