@@ -83,11 +83,11 @@ export default function ContactSubmissionsAdminPage() {
             <tbody>
               {submissions.map((s, idx) => (
                 <tr key={idx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
-                  <td className="px-4 py-3 whitespace-nowrap">{s.submittedAt || "â€”"}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">{s.name || "â€”"}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">{s.email || "â€”"}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">{s.phone || "â€”"}</td>
-                  <td className="px-4 py-3">{s.message || "â€”"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.submittedAt || "—"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.name || "—"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.email || "—"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.phone || "—"}</td>
+                  <td className="px-4 py-3">{s.message || "—"}</td>
                 </tr>
               ))}
             </tbody>
@@ -95,7 +95,7 @@ export default function ContactSubmissionsAdminPage() {
         </div>
 
         <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
-          â† Back to Sports Home
+          ← Back to Sports Home
         </Link>
       </main>
     </div>

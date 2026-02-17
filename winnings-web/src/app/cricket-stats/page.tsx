@@ -17,11 +17,11 @@ function normalizeContractCurrency(value: string, country: string) {
     .trim();
 
   const lowerCountry = country.toLowerCase();
-  const hasCurrencyPrefix = /^(â‚¹|Â£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
+  const hasCurrencyPrefix = /^(₹|£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
 
   if (!hasCurrencyPrefix) {
-    if (lowerCountry.includes("india")) text = `â‚¹${text}`;
-    else if (lowerCountry.includes("england")) text = `Â£${text}`;
+    if (lowerCountry.includes("india")) text = `₹${text}`;
+    else if (lowerCountry.includes("england")) text = `£${text}`;
   }
 
   return text;
@@ -141,7 +141,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
-                        {cIdx === 0 ? (cell || "â€”") : (normalizeContractCurrency(cell || "", row[0] || "") || "â€”")}
+                        {cIdx === 0 ? (cell || "—") : (normalizeContractCurrency(cell || "", row[0] || "") || "—")}
                       </td>
                     ))}
                   </tr>
@@ -152,7 +152,7 @@ export default function CricketStatsPage() {
         </section>
 
         <section className="mt-8">
-          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Menâ€™s & Womenâ€™s)</h2>
+          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men’s & Women’s)</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-full text-left text-sm">
               {iccTable.header.length > 0 ? (
@@ -175,7 +175,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`icc-${rIdx}-${cIdx}`} className="px-4 py-3 align-top text-amber-50/95">
-                        {cell || "â€”"}
+                        {cell || "—"}
                       </td>
                     ))}
                   </tr>
@@ -186,7 +186,7 @@ export default function CricketStatsPage() {
         </section>
 
         <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
-          â† Back to Sports Home
+          ← Back to Sports Home
         </Link>
       </main>
     </div>
