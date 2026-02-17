@@ -15,13 +15,13 @@ const sports = [
     name: "Cricket",
     image: "/cricket-aura-max-2026.svg",
     href: "/cricket-stats",
-    description: "Discover cricket stats and winnings dashboards (expanding soon).",
+    description: "Discover cricket stats and winnings dashboards.",
   },
   {
     name: "Golf",
     image: "/golf-aura-max-2026.svg",
     href: "/golf-stats",
-    description: "View golf winnings and event prize insights (coming soon).",
+    description: "View golf winnings and event prize insights.",
   },
 ] as const;
 
