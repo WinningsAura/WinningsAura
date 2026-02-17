@@ -757,21 +757,6 @@ export default function TennisStatsPage() {
           </div>
 
           {selectedSheet === "Tennis Grand Slams" ? (
-            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
-              {grandSlamCourts.map((court) => (
-                <div key={court.name} className="overflow-hidden rounded-xl border border-amber-200/30 bg-black/40 sm:rounded-2xl">
-                  <div className={`relative h-24 bg-gradient-to-br ${court.colors}`}>
-                    <div className="absolute inset-2 rounded-md border border-white/35" />
-                    <div className="absolute left-1/2 top-2 bottom-2 w-px -translate-x-1/2 bg-white/40" />
-                    <div className="absolute left-2 right-2 top-1/2 h-px -translate-y-1/2 bg-white/35" />
-                  </div>
-                  <p className="px-3 py-2 text-xs font-medium text-amber-100/90">{court.name}</p>
-                </div>
-              ))}
-            </div>
-          ) : null}
-
-          {selectedSheet === "Tennis Grand Slams" ? (
             <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 sm:gap-4">
               {categories.map((c) => (
                 <button
