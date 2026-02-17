@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -88,13 +88,13 @@ function toNumber(value: string) {
 
 function formatCurrencyByHeader(header: string, value: string) {
   const text = (value || "").trim();
-  if (!text) return "—";
+  if (!text) return "â€”";
 
   const normalizedHeader = (header || "").toLowerCase();
 
   // Clean odd characters in Round labels (including replacement-char artifacts)
   if (normalizedHeader === "round") {
-    return text.replace(/[?�\uFFFD]/g, "").trim();
+    return text.replace(/[?ï¿½\uFFFD]/g, "").trim();
   }
 
   // Australian Open: always show A$ prefix.
@@ -117,8 +117,8 @@ function formatCurrencyByHeader(header: string, value: string) {
   const parsed = Number(numericPart.replace(/,/g, ""));
   const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
 
-  if (normalizedHeader.includes("french open")) return `€${formatted}`;
-  if (normalizedHeader.includes("wimbledon")) return `£${formatted}`;
+  if (normalizedHeader.includes("french open")) return `â‚¬${formatted}`;
+  if (normalizedHeader.includes("wimbledon")) return `Â£${formatted}`;
   return text;
 }
 
@@ -133,16 +133,16 @@ function splitHeaderTwoLines(label: string) {
 }
 
 function cleanRoundDisplay(value: string) {
-  return (value || "").replace(/[?�\uFFFD]/g, "").trim();
+  return (value || "").replace(/[?ï¿½\uFFFD]/g, "").trim();
 }
 
 function cleanTournamentName(value: string) {
   const text = cleanRoundDisplay(value);
-  return text.replace(/\s*[-–—:]?\s*total\s*prize\s*pool.*$/i, "").trim();
+  return text.replace(/\s*[-â€“â€”:]?\s*total\s*prize\s*pool.*$/i, "").trim();
 }
 
 function buildWta250FallbackSection(allRows: string[][]) {
-  const title = "2025 WTA 250 Prize Money Summary – Singles Only";
+  const title = "2025 WTA 250 Prize Money Summary â€“ Singles Only";
 
   type Entry = {
     tournament: string;
@@ -319,7 +319,7 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
         return cleanMoneyByCurrency(raw || fallback || "", entry.currency || "");
       });
 
-      const hasAnyValue = vals.some((v) => v !== "—");
+      const hasAnyValue = vals.some((v) => v !== "â€”");
       if (!hasAnyValue) return null;
       return [round.label, ...vals];
     })
@@ -357,8 +357,8 @@ function getGrandSlamRoundRank(value: string) {
 }
 
 function cleanMoneyByCurrency(value: string, currency: string) {
-  const raw = (value || "").replace(/[?�\uFFFD~]/g, "").trim();
-  if (!raw) return "—";
+  const raw = (value || "").replace(/[?ï¿½\uFFFD~]/g, "").trim();
+  if (!raw) return "â€”";
   const numPart = raw.replace(/[^0-9.,-]/g, "").trim();
   if (!numPart) return raw;
   const parsed = Number(numPart.replace(/,/g, ""));
@@ -366,13 +366,13 @@ function cleanMoneyByCurrency(value: string, currency: string) {
   const cur = (currency || "").toUpperCase();
 
   if (cur === "USD") return `$${formatted}`;
-  if (cur === "EUR") return `€${formatted}`;
-  if (cur === "GBP") return `£${formatted}`;
+  if (cur === "EUR") return `â‚¬${formatted}`;
+  if (cur === "GBP") return `Â£${formatted}`;
 
   if (raw.includes("A$")) return `A$${formatted}`;
   if (raw.includes("$")) return `$${formatted}`;
-  if (raw.includes("€")) return `€${formatted}`;
-  if (raw.includes("£")) return `£${formatted}`;
+  if (raw.includes("â‚¬")) return `â‚¬${formatted}`;
+  if (raw.includes("Â£")) return `Â£${formatted}`;
 
   return formatted;
 }
@@ -406,8 +406,8 @@ function currencySymbolFromFormatted(value: string) {
   if (!text) return "";
   if (text.startsWith("A$")) return "A$";
   if (text.startsWith("$")) return "$";
-  if (text.startsWith("€")) return "€";
-  if (text.startsWith("£")) return "£";
+  if (text.startsWith("â‚¬")) return "â‚¬";
+  if (text.startsWith("Â£")) return "Â£";
   return "";
 }
 
@@ -708,10 +708,10 @@ export default function TennisStatsPage() {
               <div className="group relative">
                 <button type="button" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Menu</button>
                 <div className="invisible absolute right-0 top-full z-20 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
-                  <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">About Us</Link>
-                  <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Cricket</Link>
-                  <Link href="/golf-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Golf</Link>
-                  <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Contact Us</Link>
+                  <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83D\uDC65"} About Us</Link>
+                  <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83C\uDFCF"} Cricket</Link>
+                  <Link href="/golf-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">? Golf</Link>
+                  <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\u2709\uFE0F"} Contact Us</Link>
                 </div>
               </div>
             </nav>
@@ -901,7 +901,7 @@ export default function TennisStatsPage() {
                               <button onClick={() => onSort(idx)} className="inline-flex flex-col items-center leading-tight hover:text-white">
                                 <span>{line1}</span>
                                 {line2 ? <span>{line2}</span> : null}
-                                <span className="mt-1 text-[10px]">▲</span>
+                                <span className="mt-1 text-[10px]">â–²</span>
                               </button>
                             ) : (
                               <span className="inline-flex flex-col items-center leading-tight">

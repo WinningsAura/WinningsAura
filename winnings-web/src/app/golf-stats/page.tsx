@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -16,8 +16,8 @@ function parseMoney(value: string) {
 
 function formatMoneyText(value: string) {
   const text = clean(value);
-  if (!text) return "—";
-  if (text === "-" || text === "–" || text === "—") return "—";
+  if (!text) return "â€”";
+  if (text === "-" || text === "â€“" || text === "â€”") return "â€”";
 
   const numeric = text.replace(/[^0-9.,-]/g, "").trim();
   if (!numeric) return text;
@@ -47,7 +47,7 @@ function buildGolfSections(rows: string[][]): GolfSection[] {
         .slice(headerRel + 1)
         .map((r) => r.slice(0, width))
         .filter((r) => clean(r[0]))
-        .filter((r) => !clean(r[0]).startsWith("…"));
+        .filter((r) => !clean(r[0]).startsWith("â€¦"));
 
       if (!header.length || !body.length) return null;
       return { title: s.title, header, body };
@@ -141,10 +141,10 @@ export default function GolfStatsPage() {
             <div className="group relative">
               <button type="button" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Menu</button>
               <div className="invisible absolute right-0 top-full z-20 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
-                <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">About Us</Link>
-                <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Tennis</Link>
-                <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Cricket</Link>
-                <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Contact Us</Link>
+                <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83D\uDC65"} About Us</Link>
+                <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83C\uDFBE"} Tennis</Link>
+                <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83C\uDFCF"} Cricket</Link>
+                <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\u2709\uFE0F"} Contact Us</Link>
               </div>
             </div>
           </nav>
@@ -188,7 +188,7 @@ export default function GolfStatsPage() {
                     <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
                       {row.map((cell, cIdx) => (
                         <td key={`${rIdx}-${cIdx}`} className={`px-2 py-2 text-center align-top ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-nowrap text-[11px] sm:text-sm"}`}>
-                          {cIdx === 0 ? (cell || "—") : formatMoneyText(cell || "")}
+                          {cIdx === 0 ? (cell || "â€”") : formatMoneyText(cell || "")}
                         </td>
                       ))}
                     </tr>

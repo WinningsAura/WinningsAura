@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -17,11 +17,11 @@ function normalizeContractCurrency(value: string, country: string) {
     .trim();
 
   const lowerCountry = country.toLowerCase();
-  const hasCurrencyPrefix = /^(₹|£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
+  const hasCurrencyPrefix = /^(â‚¹|Â£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
 
   if (!hasCurrencyPrefix) {
-    if (lowerCountry.includes("india")) text = `₹${text}`;
-    else if (lowerCountry.includes("england")) text = `£${text}`;
+    if (lowerCountry.includes("india")) text = `â‚¹${text}`;
+    else if (lowerCountry.includes("england")) text = `Â£${text}`;
   }
 
   return text;
@@ -103,10 +103,10 @@ export default function CricketStatsPage() {
             <div className="group relative">
               <button type="button" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Menu</button>
               <div className="invisible absolute right-0 top-full z-20 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
-                <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">About Us</Link>
-                <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Tennis</Link>
-                <Link href="/golf-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Golf</Link>
-                <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Contact Us</Link>
+                <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83D\uDC65"} About Us</Link>
+                <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83C\uDFBE"} Tennis</Link>
+                <Link href="/golf-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">? Golf</Link>
+                <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\u2709\uFE0F"} Contact Us</Link>
               </div>
             </div>
           </nav>
@@ -141,7 +141,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
-                        {cIdx === 0 ? (cell || "—") : (normalizeContractCurrency(cell || "", row[0] || "") || "—")}
+                        {cIdx === 0 ? (cell || "â€”") : (normalizeContractCurrency(cell || "", row[0] || "") || "â€”")}
                       </td>
                     ))}
                   </tr>
@@ -152,7 +152,7 @@ export default function CricketStatsPage() {
         </section>
 
         <section className="mt-8">
-          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men’s & Women’s)</h2>
+          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Menâ€™s & Womenâ€™s)</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-full text-left text-sm">
               {iccTable.header.length > 0 ? (
@@ -175,7 +175,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`icc-${rIdx}-${cIdx}`} className="px-4 py-3 align-top text-amber-50/95">
-                        {cell || "—"}
+                        {cell || "â€”"}
                       </td>
                     ))}
                   </tr>
@@ -186,7 +186,7 @@ export default function CricketStatsPage() {
         </section>
 
         <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
-          ← Back to Sports Home
+          â† Back to Sports Home
         </Link>
       </main>
     </div>

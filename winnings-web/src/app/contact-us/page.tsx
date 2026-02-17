@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
@@ -60,11 +60,11 @@ export default function ContactUsPage() {
             <div className="group relative">
               <button type="button" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Menu</button>
               <div className="invisible absolute right-0 top-full z-20 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
-                <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">About Us</Link>
-                <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Tennis</Link>
-                <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Cricket</Link>
-                <Link href="/golf-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Golf</Link>
-                <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">Contact Us</Link>
+                <Link href="/about-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83D\uDC65"} About Us</Link>
+                <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83C\uDFBE"} Tennis</Link>
+                <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\uD83C\uDFCF"} Cricket</Link>
+                <Link href="/golf-stats" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">? Golf</Link>
+                <Link href="/contact-us" className="block rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10">{"\u2709\uFE0F"} Contact Us</Link>
               </div>
             </div>
           </nav>
