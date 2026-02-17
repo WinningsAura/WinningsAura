@@ -754,31 +754,20 @@ export default function TennisStatsPage() {
               ))}
             </div>
           ) : (
-            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 sm:gap-4">
-              {atpWtaSections.map((sec) => {
-                const isActive = selectedAtpWtaSection?.title === sec.title;
-                return (
-                  <button
-                    key={sec.title}
-                    onClick={() => setSelectedAtpWtaEvent(sec.title)}
-                    className={`group relative overflow-hidden rounded-xl border text-left transition sm:rounded-2xl ${
-                      isActive
-                        ? "border-amber-200/90 ring-2 ring-amber-300/35"
-                        : "border-amber-200/30 hover:border-amber-200/70"
-                    }`}
-                  >
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#6b4a00,#241a00_55%,#120d00_100%)]" />
-                    <div className={`absolute inset-0 ${isActive ? "bg-amber-200/15" : "bg-black/45 group-hover:bg-black/30"}`} />
-                    <div className="relative flex min-h-[86px] items-start justify-between gap-3 p-3 sm:min-h-[94px] sm:p-4">
-                      <div>
-                        <p className="text-sm font-semibold leading-snug text-amber-100 sm:text-base">{getAtpWtaSectionDisplayTitle(sec.title)}</p>
-                        <p className="mt-1 text-[11px] text-amber-100/75">Prize Money • Singles</p>
-                      </div>
-                      <img src="/icon-tennis.svg" alt="Tennis" className="h-7 w-7 shrink-0 opacity-80 sm:h-8 sm:w-8" />
-                    </div>
-                  </button>
-                );
-              })}
+            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {atpWtaSections.map((sec) => (
+                <button
+                  key={sec.title}
+                  onClick={() => setSelectedAtpWtaEvent(sec.title)}
+                  className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
+                    selectedAtpWtaSection?.title === sec.title
+                      ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
+                      : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
+                  }`}
+                >
+                  {getAtpWtaSectionDisplayTitle(sec.title)}
+                </button>
+              ))}
             </div>
           )}
         </section>
