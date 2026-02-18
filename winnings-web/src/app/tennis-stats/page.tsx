@@ -47,10 +47,10 @@ const categoryImage: Record<Category, string> = {
 };
 
 const grandSlamCourts = [
-  { name: "Australian Open", colors: "from-red-500 to-red-800" },
-  { name: "French Open / Roland-Garros", colors: "from-blue-500 to-blue-800" },
-  { name: "Wimbledon", colors: "from-green-500 to-green-800" },
-  { name: "US Open", colors: "from-blue-800 via-blue-900 to-slate-950" },
+  { name: "Australian Open", colors: "from-sky-500 to-blue-700" },
+  { name: "French Open / Roland-Garros", colors: "from-orange-500 to-red-700" },
+  { name: "Wimbledon", colors: "from-emerald-500 to-green-800" },
+  { name: "US Open", colors: "from-blue-500 via-blue-700 to-emerald-800" },
 ] as const;
 
 function findRowIndex(rows: string[][], text: string) {
