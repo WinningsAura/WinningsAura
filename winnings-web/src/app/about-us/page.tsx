@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -55,9 +55,7 @@ export default function AboutUsPage() {
             </div>
           </nav>
         </div>
-        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">About Us</h1>
-        <p className="mt-2 text-amber-100/80">Content is loaded from the Excel sheet named &quot;About Us&quot;.</p>
-
+        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">About Us</h1>`r`n
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">{error}</p> : null}
 
@@ -76,6 +74,7 @@ export default function AboutUsPage() {
     </div>
   );
 }
+
 
 
 
