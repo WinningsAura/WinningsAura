@@ -1,4 +1,4 @@
-"use client";
+ï»¿"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -16,8 +16,8 @@ function parseMoney(value: string) {
 
 function formatMoneyText(value: string) {
   const text = clean(value);
-  if (!text) return "—";
-  if (text === "-" || text === "–" || text === "—") return "—";
+  if (!text) return "â€”";
+  if (text === "-" || text === "â€“" || text === "â€”") return "â€”";
 
   const numeric = text.replace(/[^0-9.,-]/g, "").trim();
   if (!numeric) return text;
@@ -47,7 +47,7 @@ function buildGolfSections(rows: string[][]): GolfSection[] {
         .slice(headerRel + 1)
         .map((r) => r.slice(0, width))
         .filter((r) => clean(r[0]))
-        .filter((r) => !clean(r[0]).startsWith("…"));
+        .filter((r) => !clean(r[0]).startsWith("â€¦"));
 
       if (!header.length || !body.length) return null;
       return { title: s.title, header, body };
@@ -132,7 +132,7 @@ export default function GolfStatsPage() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-      <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
+      <main className="relative z-30 mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
           <Link href="/" className="flex items-center gap-2">
             <img src="/winnings-aura-logo.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
@@ -140,7 +140,7 @@ export default function GolfStatsPage() {
           <nav className="flex items-center gap-2 text-sm sm:gap-3">
             <div className="group relative">
               <button type="button" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Menu</button>
-              <div className="invisible absolute right-0 top-full z-20 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute right-0 top-full z-50 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
                 <Link href="/about-us" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>About Us</span><span>{"\uD83D\uDC65"}</span></Link>
                 <Link href="/tennis-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Tennis</span><span>{"\uD83C\uDFBE"}</span></Link>
                 <Link href="/cricket-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Cricket</span><span>{"\uD83C\uDFCF"}</span></Link>
@@ -188,7 +188,7 @@ export default function GolfStatsPage() {
                     <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
                       {row.map((cell, cIdx) => (
                         <td key={`${rIdx}-${cIdx}`} className={`px-2 py-2 text-center align-top ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-nowrap text-[11px] sm:text-sm"}`}>
-                          {cIdx === 0 ? (cell || "—") : formatMoneyText(cell || "")}
+                          {cIdx === 0 ? (cell || "â€”") : formatMoneyText(cell || "")}
                         </td>
                       ))}
                     </tr>
@@ -234,4 +234,7 @@ export default function GolfStatsPage() {
     </div>
   );
 }
+
+
+
 
