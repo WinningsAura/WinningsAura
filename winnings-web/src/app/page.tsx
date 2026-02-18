@@ -63,7 +63,7 @@ export default function HomePage() {
             </nav>
           </div>
 
-          <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura Home</h1>
+          <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura</h1>
           <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">One Platform. Every Win.</p>
         </header>
 
