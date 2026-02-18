@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -17,11 +17,11 @@ function normalizeContractCurrency(value: string, country: string) {
     .trim();
 
   const lowerCountry = country.toLowerCase();
-  const hasCurrencyPrefix = /^(₹|£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
+  const hasCurrencyPrefix = /^(?|�|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
 
   if (!hasCurrencyPrefix) {
-    if (lowerCountry.includes("india")) text = `₹${text}`;
-    else if (lowerCountry.includes("england")) text = `£${text}`;
+    if (lowerCountry.includes("india")) text = `?${text}`;
+    else if (lowerCountry.includes("england")) text = `�${text}`;
   }
 
   return text;
@@ -96,7 +96,7 @@ export default function CricketStatsPage() {
       <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/sports-winnings-logo.svg" alt="Sports Winnings" className="h-8 w-auto sm:h-9" />
+            <img src="/winnings-aura-logo.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
           </Link>
           <nav className="flex items-center gap-2 text-sm sm:gap-3">
             
@@ -141,7 +141,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
-                        {cIdx === 0 ? (cell || "—") : (normalizeContractCurrency(cell || "", row[0] || "") || "—")}
+                        {cIdx === 0 ? (cell || "�") : (normalizeContractCurrency(cell || "", row[0] || "") || "�")}
                       </td>
                     ))}
                   </tr>
@@ -152,7 +152,7 @@ export default function CricketStatsPage() {
         </section>
 
         <section className="mt-8">
-          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men’s & Women’s)</h2>
+          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men�s & Women�s)</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-full text-left text-sm">
               {iccTable.header.length > 0 ? (
@@ -175,7 +175,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`icc-${rIdx}-${cIdx}`} className="px-4 py-3 align-top text-amber-50/95">
-                        {cell || "—"}
+                        {cell || "�"}
                       </td>
                     ))}
                   </tr>
@@ -186,11 +186,12 @@ export default function CricketStatsPage() {
         </section>
 
         <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
-          ← Back to Sports Home
+          ← Back to WinningsAura Home
         </Link>
       </main>
     </div>
   );
 }
+
 
 

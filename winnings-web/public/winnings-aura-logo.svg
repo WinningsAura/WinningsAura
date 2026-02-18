@@ -1,0 +1,31 @@
+<svg width="1200" height="320" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FDE68A"/>
+      <stop offset="0.5" stop-color="#F59E0B"/>
+      <stop offset="1" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="272" height="272" rx="60" fill="#090B14" stroke="url(#neon)" stroke-width="6"/>
+  <path d="M88 222C88 172 126 136 176 136C226 136 264 172 264 222V248H88V222Z" fill="#111827"/>
+  <circle cx="176" cy="116" r="30" fill="#1F2937"/>
+  <path d="M176 72L196 96H156L176 72Z" fill="url(#gold)"/>
+  <path d="M146 96H206V116C206 132 193 146 177 146H146V96Z" fill="url(#gold)"/>
+  <path d="M206 102H228C228 118 218 128 206 128Z" fill="url(#gold)"/>
+  <path d="M146 102H124C124 118 134 128 146 128Z" fill="url(#gold)"/>
+  <path d="M106 238H246" stroke="url(#neon)" stroke-width="6" stroke-linecap="round" filter="url(#glow)"/>
+
+  <text x="340" y="146" fill="url(#gold)" font-size="78" font-weight="800" font-family="Segoe UI, Inter, Arial, sans-serif" letter-spacing="1">WINNINGS</text>
+  <text x="340" y="228" fill="#F8FAFC" font-size="74" font-weight="700" font-family="Segoe UI, Inter, Arial, sans-serif" letter-spacing="2">AURA</text>
+  <rect x="340" y="246" width="500" height="8" rx="4" fill="url(#neon)"/>
+</svg>
+

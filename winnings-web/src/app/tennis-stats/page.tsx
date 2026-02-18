@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -95,13 +95,13 @@ function toNumber(value: string) {
 
 function formatCurrencyByHeader(header: string, value: string) {
   const text = (value || "").trim();
-  if (!text) return "â€”";
+  if (!text) return "—";
 
   const normalizedHeader = (header || "").toLowerCase();
 
   // Clean odd characters in Round labels (including replacement-char artifacts)
   if (normalizedHeader === "round") {
-    return text.replace(/[?Ã¯Â¿Â½\uFFFD]/g, "").trim();
+    return text.replace(/[?ï¿½\uFFFD]/g, "").trim();
   }
 
   // Australian Open: always show A$ prefix.
@@ -124,8 +124,8 @@ function formatCurrencyByHeader(header: string, value: string) {
   const parsed = Number(numericPart.replace(/,/g, ""));
   const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
 
-  if (normalizedHeader.includes("french open")) return `â‚¬${formatted}`;
-  if (normalizedHeader.includes("wimbledon")) return `Â£${formatted}`;
+  if (normalizedHeader.includes("french open")) return `€${formatted}`;
+  if (normalizedHeader.includes("wimbledon")) return `£${formatted}`;
   return text;
 }
 
@@ -140,16 +140,16 @@ function splitHeaderTwoLines(label: string) {
 }
 
 function cleanRoundDisplay(value: string) {
-  return (value || "").replace(/[?Ã¯Â¿Â½\uFFFD]/g, "").trim();
+  return (value || "").replace(/[?ï¿½\uFFFD]/g, "").trim();
 }
 
 function cleanTournamentName(value: string) {
   const text = cleanRoundDisplay(value);
-  return text.replace(/\s*[-â€“â€”:]?\s*total\s*prize\s*pool.*$/i, "").trim();
+  return text.replace(/\s*[-–—:]?\s*total\s*prize\s*pool.*$/i, "").trim();
 }
 
 function buildWta250FallbackSection(allRows: string[][]) {
-  const title = "2025 WTA 250 Prize Money Summary â€“ Singles Only";
+  const title = "2025 WTA 250 Prize Money Summary – Singles Only";
 
   type Entry = {
     tournament: string;
@@ -326,7 +326,7 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
         return cleanMoneyByCurrency(raw || fallback || "", entry.currency || "");
       });
 
-      const hasAnyValue = vals.some((v) => v !== "â€”");
+      const hasAnyValue = vals.some((v) => v !== "—");
       if (!hasAnyValue) return null;
       return [round.label, ...vals];
     })
@@ -364,8 +364,8 @@ function getGrandSlamRoundRank(value: string) {
 }
 
 function cleanMoneyByCurrency(value: string, currency: string) {
-  const raw = (value || "").replace(/[?Ã¯Â¿Â½\uFFFD~]/g, "").trim();
-  if (!raw) return "â€”";
+  const raw = (value || "").replace(/[?ï¿½\uFFFD~]/g, "").trim();
+  if (!raw) return "—";
   const numPart = raw.replace(/[^0-9.,-]/g, "").trim();
   if (!numPart) return raw;
   const parsed = Number(numPart.replace(/,/g, ""));
@@ -373,13 +373,13 @@ function cleanMoneyByCurrency(value: string, currency: string) {
   const cur = (currency || "").toUpperCase();
 
   if (cur === "USD") return `$${formatted}`;
-  if (cur === "EUR") return `â‚¬${formatted}`;
-  if (cur === "GBP") return `Â£${formatted}`;
+  if (cur === "EUR") return `€${formatted}`;
+  if (cur === "GBP") return `£${formatted}`;
 
   if (raw.includes("A$")) return `A$${formatted}`;
   if (raw.includes("$")) return `$${formatted}`;
-  if (raw.includes("â‚¬")) return `â‚¬${formatted}`;
-  if (raw.includes("Â£")) return `Â£${formatted}`;
+  if (raw.includes("€")) return `€${formatted}`;
+  if (raw.includes("£")) return `£${formatted}`;
 
   return formatted;
 }
@@ -413,8 +413,8 @@ function currencySymbolFromFormatted(value: string) {
   if (!text) return "";
   if (text.startsWith("A$")) return "A$";
   if (text.startsWith("$")) return "$";
-  if (text.startsWith("â‚¬")) return "â‚¬";
-  if (text.startsWith("Â£")) return "Â£";
+  if (text.startsWith("€")) return "€";
+  if (text.startsWith("£")) return "£";
   return "";
 }
 
@@ -724,7 +724,7 @@ export default function TennisStatsPage() {
           <div className="relative z-10">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
             <Link href="/" className="flex items-center gap-2">
-              <img src="/sports-winnings-logo.svg" alt="Sports Winnings" className="h-8 w-auto sm:h-9" />
+              <img src="/winnings-aura-logo.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
             </Link>
             <nav className="flex items-center gap-2 text-sm sm:gap-3">
               
@@ -925,7 +925,7 @@ export default function TennisStatsPage() {
                               <button onClick={() => onSort(idx)} className="inline-flex flex-col items-center leading-tight hover:text-white">
                                 <span>{line1}</span>
                                 {line2 ? <span>{line2}</span> : null}
-                                <span className="mt-1 text-[10px]">â–²</span>
+                                <span className="mt-1 text-[10px]">?</span>
                               </button>
                             ) : (
                               <span className="inline-flex flex-col items-center leading-tight">
@@ -1025,5 +1025,6 @@ export default function TennisStatsPage() {
     </div>
   );
 }
+
 
 

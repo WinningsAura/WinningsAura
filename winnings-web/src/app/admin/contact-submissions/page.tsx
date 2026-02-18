@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -41,7 +41,7 @@ export default function ContactSubmissionsAdminPage() {
       <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/sports-winnings-logo.svg" alt="Sports Winnings" className="h-8 w-auto sm:h-9" />
+            <img src="/winnings-aura-logo.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
           </Link>
           <nav className="flex items-center gap-2 text-sm sm:gap-3">
             
@@ -83,11 +83,11 @@ export default function ContactSubmissionsAdminPage() {
             <tbody>
               {submissions.map((s, idx) => (
                 <tr key={idx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
-                  <td className="px-4 py-3 whitespace-nowrap">{s.submittedAt || "—"}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">{s.name || "—"}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">{s.email || "—"}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">{s.phone || "—"}</td>
-                  <td className="px-4 py-3">{s.message || "—"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.submittedAt || "�"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.name || "�"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.email || "�"}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{s.phone || "�"}</td>
+                  <td className="px-4 py-3">{s.message || "�"}</td>
                 </tr>
               ))}
             </tbody>
@@ -95,11 +95,12 @@ export default function ContactSubmissionsAdminPage() {
         </div>
 
         <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
-          ← Back to Sports Home
+          ← Back to WinningsAura Home
         </Link>
       </main>
     </div>
   );
 }
+
 
 
