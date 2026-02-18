@@ -94,13 +94,12 @@ export default function ContactSubmissionsAdminPage() {
           </table>
         </div>
 
-        <Link href="/" className="mt-6 inline-block rounded-xl border border-amber-200/40 px-4 py-2 text-sm text-amber-100 hover:border-amber-200">
-          ← Back to WinningsAura Home
-        </Link>
       </main>
     </div>
   );
 }
+
+
 
 
 
