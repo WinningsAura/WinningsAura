@@ -64,7 +64,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura Home</h1>
-          <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">A classy black-gold experience for sports prize money analytics.</p>
+          <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">One Platform. Every Win.</p>
         </header>
 
         <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
