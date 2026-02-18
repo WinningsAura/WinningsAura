@@ -6,9 +6,14 @@
     <stop offset="0.7" stop-color="#34115e"/>
     <stop offset="1" stop-color="#5c003e"/>
   </linearGradient>
-  <radialGradient id="field" cx="0.5" cy="0.5" r="0.6">
-    <stop offset="0" stop-color="#5dff6b"/>
-    <stop offset="1" stop-color="#0d7d2f"/>
+  <radialGradient id="field" cx="0.5" cy="0.5" r="0.68">
+    <stop offset="0" stop-color="#2FA24A"/>
+    <stop offset="0.6" stop-color="#166534"/>
+    <stop offset="1" stop-color="#0B5F2A"/>
+  </radialGradient>
+  <radialGradient id="fieldShade" cx="0.45" cy="0.55" r="0.7">
+    <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000000" stop-opacity="0.38"/>
   </radialGradient>
 </defs>
 <rect width="1400" height="840" fill="url(#bg)"/>
@@ -18,8 +23,10 @@
 <path d="M0 190L1400 45" stroke="#ffb703" stroke-opacity="0.35" stroke-width="14"/>
 <path d="M0 270L1400 125" stroke="#00e5ff" stroke-opacity="0.35" stroke-width="14"/>
 <path d="M0 350L1400 205" stroke="#ff4fd8" stroke-opacity="0.35" stroke-width="14"/>
+<ellipse cx="620" cy="520" rx="560" ry="250" fill="#06371a" opacity="0.55"/>
 <ellipse cx="620" cy="500" rx="560" ry="250" fill="url(#field)"/>
-<ellipse cx="620" cy="500" rx="230" ry="100" fill="#ddb879"/>
+<ellipse cx="620" cy="500" rx="560" ry="250" fill="url(#fieldShade)"/>
+<ellipse cx="620" cy="500" rx="230" ry="100" fill="#c69557"/>
 <rect x="575" y="410" width="90" height="178" rx="24" fill="#c88e50"/>
 <g transform="translate(250 210)">
   <path d="M0 120C0 50 58 0 128 0H184C254 0 312 50 312 120V202H0V120Z" fill="#55657a"/>
