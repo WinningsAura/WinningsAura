@@ -17,11 +17,11 @@ function normalizeContractCurrency(value: string, country: string) {
     .trim();
 
   const lowerCountry = country.toLowerCase();
-  const hasCurrencyPrefix = /^(?|�|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
+  const hasCurrencyPrefix = /^(₹|£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
 
   if (!hasCurrencyPrefix) {
-    if (lowerCountry.includes("india")) text = `?${text}`;
-    else if (lowerCountry.includes("england")) text = `�${text}`;
+    if (lowerCountry.includes("india")) text = `₹${text}`;
+    else if (lowerCountry.includes("england")) text = `£${text}`;
   }
 
   return text;

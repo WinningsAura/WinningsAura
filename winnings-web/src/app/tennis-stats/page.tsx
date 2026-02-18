@@ -1,4 +1,4 @@
-"use client";
+ï»¿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -95,13 +95,13 @@ function toNumber(value: string) {
 
 function formatCurrencyByHeader(header: string, value: string) {
   const text = (value || "").trim();
-  if (!text) return "—";
+  if (!text) return "â€”";
 
   const normalizedHeader = (header || "").toLowerCase();
 
   // Clean odd characters in Round labels (including replacement-char artifacts)
   if (normalizedHeader === "round") {
-    return text.replace(/[?ï¿½\uFFFD]/g, "").trim();
+    return text.replace(/[?Ã¯Â¿Â½\uFFFD]/g, "").trim();
   }
 
   // Australian Open: always show A$ prefix.
@@ -124,8 +124,8 @@ function formatCurrencyByHeader(header: string, value: string) {
   const parsed = Number(numericPart.replace(/,/g, ""));
   const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
 
-  if (normalizedHeader.includes("french open")) return `€${formatted}`;
-  if (normalizedHeader.includes("wimbledon")) return `£${formatted}`;
+  if (normalizedHeader.includes("french open")) return `â‚¬${formatted}`;
+  if (normalizedHeader.includes("wimbledon")) return `Â£${formatted}`;
   return text;
 }
 
@@ -140,16 +140,16 @@ function splitHeaderTwoLines(label: string) {
 }
 
 function cleanRoundDisplay(value: string) {
-  return (value || "").replace(/[?ï¿½\uFFFD]/g, "").trim();
+  return (value || "").replace(/[?Ã¯Â¿Â½\uFFFD]/g, "").trim();
 }
 
 function cleanTournamentName(value: string) {
   const text = cleanRoundDisplay(value);
-  return text.replace(/\s*[-–—:]?\s*total\s*prize\s*pool.*$/i, "").trim();
+  return text.replace(/\s*[-â€“â€”:]?\s*total\s*prize\s*pool.*$/i, "").trim();
 }
 
 function buildWta250FallbackSection(allRows: string[][]) {
-  const title = "2025 WTA 250 Prize Money Summary – Singles Only";
+  const title = "2025 WTA 250 Prize Money Summary â€“ Singles Only";
 
   type Entry = {
     tournament: string;
@@ -326,7 +326,7 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
         return cleanMoneyByCurrency(raw || fallback || "", entry.currency || "");
       });
 
-      const hasAnyValue = vals.some((v) => v !== "—");
+      const hasAnyValue = vals.some((v) => v !== "â€”");
       if (!hasAnyValue) return null;
       return [round.label, ...vals];
     })
@@ -364,8 +364,8 @@ function getGrandSlamRoundRank(value: string) {
 }
 
 function cleanMoneyByCurrency(value: string, currency: string) {
-  const raw = (value || "").replace(/[?ï¿½\uFFFD~]/g, "").trim();
-  if (!raw) return "—";
+  const raw = (value || "").replace(/[?Ã¯Â¿Â½\uFFFD~]/g, "").trim();
+  if (!raw) return "â€”";
   const numPart = raw.replace(/[^0-9.,-]/g, "").trim();
   if (!numPart) return raw;
   const parsed = Number(numPart.replace(/,/g, ""));
@@ -373,18 +373,18 @@ function cleanMoneyByCurrency(value: string, currency: string) {
   const cur = (currency || "").toUpperCase();
 
   if (cur === "USD") return `$${formatted}`;
-  if (cur === "EUR") return `€${formatted}`;
-  if (cur === "GBP") return `£${formatted}`;
+  if (cur === "EUR") return `â‚¬${formatted}`;
+  if (cur === "GBP") return `Â£${formatted}`;
 
   if (raw.includes("A$")) return `A$${formatted}`;
   if (raw.includes("$")) return `$${formatted}`;
-  if (raw.includes("€")) return `€${formatted}`;
-  if (raw.includes("£")) return `£${formatted}`;
+  if (raw.includes("â‚¬")) return `â‚¬${formatted}`;
+  if (raw.includes("Â£")) return `Â£${formatted}`;
 
   return formatted;
 }
 
-function parseOtherRoundsText(value: string) {
+function parseOtherRoundsText(value: string): { key: "r16" | "r32" | "r64" | "q2" | "q1"; raw: string } | null {
   const text = cleanRoundDisplay(value);
   const extractAmount = () => {
     const m = text.match(/(?:r16|r32|r64|q2|q1|3rd\s*r|2nd\s*r|1st\s*r)\s*[:\-]?\s*(.+)$/i);
@@ -413,8 +413,8 @@ function currencySymbolFromFormatted(value: string) {
   if (!text) return "";
   if (text.startsWith("A$")) return "A$";
   if (text.startsWith("$")) return "$";
-  if (text.startsWith("€")) return "€";
-  if (text.startsWith("£")) return "£";
+  if (text.startsWith("â‚¬")) return "â‚¬";
+  if (text.startsWith("Â£")) return "Â£";
   return "";
 }
 
@@ -1025,6 +1025,7 @@ export default function TennisStatsPage() {
     </div>
   );
 }
+
 
 
 
