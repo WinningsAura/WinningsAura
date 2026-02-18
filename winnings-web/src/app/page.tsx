@@ -40,7 +40,7 @@ export default function HomePage() {
   }, [startIndex]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="relative min-h-screen overflow-hidden bg-cyan-500 px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <Image src="/sports-legends-bg.svg" alt="Sports legends background" fill priority className="object-cover opacity-55" />
       <div className="absolute inset-0 bg-white/0" />
       <main className="relative z-10 mx-auto w-full max-w-6xl">
