@@ -81,6 +81,24 @@ export default function HomePage() {
                   fill
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
+                {sport.name === "Tennis" ? (
+                  <div className="pointer-events-none absolute inset-0 opacity-35">
+                    <div className="grid h-full grid-cols-4 grid-rows-2">
+                      {[
+                        "from-orange-400 to-orange-700",
+                        "from-blue-400 to-blue-700",
+                        "from-green-400 to-green-700",
+                        "from-blue-700 to-slate-950",
+                        "from-orange-400 to-orange-700",
+                        "from-blue-400 to-blue-700",
+                        "from-green-400 to-green-700",
+                        "from-blue-700 to-slate-950",
+                      ].map((colors, idx) => (
+                        <div key={idx} className={`border border-white/10 bg-gradient-to-br ${colors}`} />
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
                 <p className="absolute bottom-3 left-3 text-xl font-bold text-amber-100 sm:bottom-4 sm:left-4 sm:text-2xl">{sport.name}</p>
               </div>
