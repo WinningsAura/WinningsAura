@@ -40,9 +40,7 @@ export default function HomePage() {
   }, [startIndex]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,#22d3ee_0%,#06b6d4_55%,#0891b2_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-      <Image src="/sports-legends-bg.svg" alt="Sports legends background" fill priority className="object-cover opacity-55" />
-      <div className="absolute inset-0 bg-white/0" />
+    <div className="relative min-h-screen overflow-hidden bg-white px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <main className="relative z-10 mx-auto w-full max-w-6xl">
         <header className="relative z-30 mb-6 rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:mb-8 sm:rounded-3xl sm:p-8">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
