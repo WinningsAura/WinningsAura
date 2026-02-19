@@ -42,12 +42,14 @@
 <g transform="translate(250 210)">
   <path d="M0 120C0 50 58 0 128 0H184C254 0 312 50 312 120V202H0V120Z" fill="#55657a"/>
   <rect x="38" y="108" width="236" height="116" rx="56" fill="#7a8ba1"/>
-  <rect x="90" y="132" width="132" height="60" rx="26" fill="#0f172a"/>
-  <g transform="translate(88 138)">
-    <rect x="0" y="0" width="136" height="56" rx="24" fill="none" stroke="#e2e8f0" stroke-width="3"/>
-    <path d="M18 7V49M36 6V50M54 5V51M72 5V51M90 6V50M108 7V49" stroke="#f1f5f9" stroke-width="2.8" stroke-linecap="round"/>
-    <path d="M6 16H130M6 28H130M6 40H130" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M14 52H122" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+  <path d="M88 126C98 106 124 96 156 96C188 96 214 106 224 126V146H88V126Z" fill="#4b5563"/>
+  <rect x="90" y="132" width="132" height="48" rx="22" fill="#0f172a"/>
+  <g transform="translate(74 144)">
+    <path d="M16 4H136C148 4 158 14 158 26V74C158 90 146 102 130 102H22C10 102 0 92 0 80V20C0 11 7 4 16 4Z" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+    <path d="M20 22H138" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+    <path d="M18 34V92M38 30V96M58 28V98M78 28V98M98 28V98M118 30V96M138 34V92" stroke="#f8fafc" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M8 48H150M8 64H150M10 80H148" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M24 102H126" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
   </g>
 </g>
 <g transform="translate(900 180) rotate(14)">
