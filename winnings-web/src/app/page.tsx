@@ -9,7 +9,7 @@ const sports = [
     name: "Tennis",
     image: "/tennis-aura-max-2026.svg",
     href: "/tennis-stats",
-    description: "Explore premium tennis prize money insights and category-level views.",
+    description: "Explore premium tennis prize money insights.",
   },
   {
     name: "Cricket",

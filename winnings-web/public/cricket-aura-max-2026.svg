@@ -27,15 +27,27 @@
 <ellipse cx="620" cy="500" rx="560" ry="250" fill="url(#field)"/>
 <ellipse cx="620" cy="500" rx="560" ry="250" fill="url(#fieldShade)"/>
 <ellipse cx="620" cy="500" rx="230" ry="100" fill="#c69557"/>
-<rect x="575" y="410" width="90" height="178" rx="24" fill="#c88e50"/>
+<rect x="430" y="468" width="380" height="64" rx="28" fill="#c88e50"/>
+<rect x="448" y="482" width="344" height="36" rx="16" fill="#d8a467" opacity="0.75"/>
+<g fill="#f5e6c8">
+  <rect x="448" y="448" width="8" height="46" rx="2"/>
+  <rect x="462" y="448" width="8" height="46" rx="2"/>
+  <rect x="476" y="448" width="8" height="46" rx="2"/>
+  <rect x="446" y="444" width="40" height="6" rx="3"/>
+  <rect x="754" y="506" width="8" height="46" rx="2"/>
+  <rect x="768" y="506" width="8" height="46" rx="2"/>
+  <rect x="782" y="506" width="8" height="46" rx="2"/>
+  <rect x="752" y="552" width="40" height="6" rx="3"/>
+</g>
 <g transform="translate(250 210)">
   <path d="M0 120C0 50 58 0 128 0H184C254 0 312 50 312 120V202H0V120Z" fill="#55657a"/>
   <rect x="38" y="108" width="236" height="116" rx="56" fill="#7a8ba1"/>
   <rect x="90" y="132" width="132" height="60" rx="26" fill="#0f172a"/>
   <g transform="translate(88 138)">
-    <rect x="0" y="0" width="136" height="56" rx="24" fill="none" stroke="#cbd5e1" stroke-width="3"/>
-    <path d="M22 8V48M46 6V50M68 5V51M90 6V50M114 8V48" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
-    <path d="M6 18H130M6 30H130M6 42H130" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+    <rect x="0" y="0" width="136" height="56" rx="24" fill="none" stroke="#e2e8f0" stroke-width="3"/>
+    <path d="M18 7V49M36 6V50M54 5V51M72 5V51M90 6V50M108 7V49" stroke="#f1f5f9" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M6 16H130M6 28H130M6 40H130" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M14 52H122" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
   </g>
 </g>
 <g transform="translate(900 180) rotate(14)">
@@ -43,8 +55,17 @@
   <rect x="95" y="306" width="32" height="124" rx="14" fill="#ce8749"/>
 </g>
 <g transform="translate(1035 560)">
-  <circle cx="0" cy="0" r="34" fill="#ff3b3b"/>
-  <path d="M-20 -8C-8 -2 8 2 20 8" stroke="#fff" stroke-width="3" fill="none"/>
-  <path d="M-20 8C-8 2 8 -2 20 -8" stroke="#fff" stroke-width="3" fill="none"/>
+  <defs>
+    <radialGradient id="cricketBall" cx="0.35" cy="0.3" r="0.75">
+      <stop offset="0" stop-color="#ff8a80"/>
+      <stop offset="0.45" stop-color="#d62626"/>
+      <stop offset="1" stop-color="#7f1111"/>
+    </radialGradient>
+  </defs>
+  <circle cx="0" cy="0" r="35" fill="url(#cricketBall)"/>
+  <ellipse cx="-10" cy="-12" rx="8" ry="5" fill="#ffd1d1" opacity="0.45"/>
+  <path d="M-3 -30C8 -14 8 14 -3 30" stroke="#fff5f5" stroke-width="3" fill="none"/>
+  <path d="M1 -27L5 -23M2 -20L8 -14M3 -13L9 -7M4 -6L10 0M4 1L10 7M3 8L9 14M2 15L8 21M1 22L5 26" stroke="#fff5f5" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M-7 -27L-11 -23M-8 -20L-14 -14M-9 -13L-15 -7M-10 -6L-16 0M-10 1L-16 7M-9 8L-15 14M-8 15L-14 21M-7 22L-11 26" stroke="#fff5f5" stroke-width="1.8" stroke-linecap="round"/>
 </g>
 </svg>

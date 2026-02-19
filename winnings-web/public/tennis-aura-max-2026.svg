@@ -6,6 +6,9 @@
     <stop offset="0.7" stop-color="#2A005A"/>
     <stop offset="1" stop-color="#5E003A"/>
   </linearGradient>
+  <clipPath id="racketHead">
+    <ellipse cx="120" cy="175" rx="84" ry="110"/>
+  </clipPath>
 </defs>
 <rect width="1400" height="840" fill="url(#bg)"/>
 <circle cx="1180" cy="120" r="260" fill="#ff2ea6" opacity="0.55"/>
@@ -24,6 +27,10 @@
 <rect x="145" y="383" width="760" height="14" fill="#fff"/>
 <g transform="translate(965 160) rotate(18)">
   <ellipse cx="120" cy="175" rx="94" ry="120" fill="none" stroke="#fff" stroke-width="14"/>
+  <g clip-path="url(#racketHead)">
+    <path d="M48 68V282M72 62V288M96 58V292M120 56V294M144 58V292M168 62V288M192 68V282" stroke="#cbd5e1" stroke-width="2" opacity="0.9"/>
+    <path d="M34 106H206M30 136H210M28 166H212M30 196H210M34 226H206" stroke="#cbd5e1" stroke-width="2" opacity="0.9"/>
+  </g>
   <rect x="106" y="286" width="28" height="182" rx="14" fill="#ff9f1a"/>
 </g>
 <g transform="translate(1160 620)">
