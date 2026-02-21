@@ -95,16 +95,14 @@ function toNumber(value: string) {
 
 function formatCurrencyByHeader(header: string, value: string) {
   const text = (value || "").trim();
-  if (!text) return "�";
+  if (!text) return "-";
 
   const normalizedHeader = (header || "").toLowerCase();
 
-  // Clean odd characters in Round labels (including replacement-char artifacts)
   if (normalizedHeader === "round") {
-    return text.replace(/[?�\uFFFD]/g, "").trim();
+    return text.replace(/[?\uFFFD]/g, "").trim();
   }
 
-  // Australian Open: always show A$ prefix.
   if (normalizedHeader.includes("australian open")) {
     const numericPart = text.replace(/[^0-9.,-]/g, "").trim();
     if (!numericPart) return text;
@@ -120,12 +118,11 @@ function formatCurrencyByHeader(header: string, value: string) {
   const numericPart = text.replace(/[^0-9.,-]/g, "").trim();
   if (!numericPart) return text;
 
-  // Keep consistent number grouping (commas) across all currency columns.
   const parsed = Number(numericPart.replace(/,/g, ""));
   const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
 
-  if (normalizedHeader.includes("french open")) return `�${formatted}`;
-  if (normalizedHeader.includes("wimbledon")) return `�${formatted}`;
+  if (normalizedHeader.includes("french open")) return `\u20AC${formatted}`;
+  if (normalizedHeader.includes("wimbledon")) return `\u00A3${formatted}`;
   return text;
 }
 
@@ -140,20 +137,20 @@ function splitHeaderTwoLines(label: string) {
 }
 
 function cleanRoundDisplay(value: string) {
-  return (value || "").replace(/[?�\uFFFD]/g, "").trim();
+  return (value || "").replace(/[?\uFFFD]/g, "").trim();
 }
 
 function cleanTournamentName(value: string) {
   const text = cleanRoundDisplay(value);
-  return text.replace(/\s*[-��:]?\s*total\s*prize\s*pool.*$/i, "").trim();
+  return text.replace(/\s*[-:]?\s*total\s*prize\s*pool.*$/i, "").trim();
 }
 
 function cleanHeadingText(value: string) {
-  return (value || "").replace(/[?�\uFFFD]/g, "").trim();
+  return (value || "").replace(/[?\uFFFD]/g, "").trim();
 }
 
 function buildWta250FallbackSection(allRows: string[][]) {
-  const title = "2025 WTA 250 Prize Money Summary � Singles Only";
+  const title = "2025 WTA 250 Prize Money Summary - Singles Only";
 
   type Entry = {
     tournament: string;
@@ -330,7 +327,7 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
         return cleanMoneyByCurrency(raw || fallback || "", entry.currency || "");
       });
 
-      const hasAnyValue = vals.some((v) => v !== "�");
+      const hasAnyValue = vals.some((v) => v !== "-");
       if (!hasAnyValue) return null;
       return [round.label, ...vals];
     })
@@ -368,8 +365,8 @@ function getGrandSlamRoundRank(value: string) {
 }
 
 function cleanMoneyByCurrency(value: string, currency: string) {
-  const raw = (value || "").replace(/[?�\uFFFD~]/g, "").trim();
-  if (!raw) return "�";
+  const raw = (value || "").replace(/[?\uFFFD~]/g, "").trim();
+  if (!raw) return "-";
   const numPart = raw.replace(/[^0-9.,-]/g, "").trim();
   if (!numPart) return raw;
   const parsed = Number(numPart.replace(/,/g, ""));
@@ -377,13 +374,13 @@ function cleanMoneyByCurrency(value: string, currency: string) {
   const cur = (currency || "").toUpperCase();
 
   if (cur === "USD") return `$${formatted}`;
-  if (cur === "EUR") return `�${formatted}`;
-  if (cur === "GBP") return `�${formatted}`;
+  if (cur === "EUR") return `\u20AC${formatted}`;
+  if (cur === "GBP") return `\u00A3${formatted}`;
 
   if (raw.includes("A$")) return `A$${formatted}`;
   if (raw.includes("$")) return `$${formatted}`;
-  if (raw.includes("�")) return `�${formatted}`;
-  if (raw.includes("�")) return `�${formatted}`;
+  if (raw.includes("\u20AC")) return `\u20AC${formatted}`;
+  if (raw.includes("\u00A3")) return `\u00A3${formatted}`;
 
   return formatted;
 }
@@ -417,8 +414,8 @@ function currencySymbolFromFormatted(value: string) {
   if (!text) return "";
   if (text.startsWith("A$")) return "A$";
   if (text.startsWith("$")) return "$";
-  if (text.startsWith("�")) return "�";
-  if (text.startsWith("�")) return "�";
+  if (text.startsWith("\u20AC")) return "\u20AC";
+  if (text.startsWith("\u00A3")) return "\u00A3";
   return "";
 }
 
@@ -1030,6 +1027,10 @@ export default function TennisStatsPage() {
     </div>
   );
 }
+
+
+
+
 
 
 
