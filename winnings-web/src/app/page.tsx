@@ -21,7 +21,7 @@ const sports = [
     name: "Golf",
     image: "/golf-aura-max-2026.svg",
     href: "/golf-stats",
-    description: "View golf winnings, sand pit, and water log insights.",
+    description: "View golf winnings and event prize insights.",
   },
 ] as const;
 
