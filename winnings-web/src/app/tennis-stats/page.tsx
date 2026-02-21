@@ -148,6 +148,10 @@ function cleanTournamentName(value: string) {
   return text.replace(/\s*[-–—:]?\s*total\s*prize\s*pool.*$/i, "").trim();
 }
 
+function cleanHeadingText(value: string) {
+  return (value || "").replace(/[?ï¿½\uFFFD]/g, "").trim();
+}
+
 function buildWta250FallbackSection(allRows: string[][]) {
   const title = "2025 WTA 250 Prize Money Summary – Singles Only";
 
@@ -809,7 +813,7 @@ export default function TennisStatsPage() {
                     <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                       <tr>
                         {selectedAtpWtaSection.header.map((cell, idx) => {
-                          const [line1, line2] = splitHeaderTwoLines(cell || `Column ${idx + 1}`);
+                          const [line1, line2] = splitHeaderTwoLines(cleanHeadingText(cell || `Column ${idx + 1}`));
                           return (
                             <th
                               key={`${selectedAtpWtaSection.title}-${idx}`}
@@ -874,8 +878,9 @@ export default function TennisStatsPage() {
                     {chartData.map((d, i) => {
                       const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
                       const y = 20 + (1 - d.value / maxChart) * (220 - 40);
-                      const symbol = currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || ""));
-                      const labelText = `${d.label}${symbol ? ` (${symbol})` : ""}`;
+                      const cleanLabel = cleanHeadingText(d.label);
+                      const symbol = currencySymbolFromFormatted(formatCurrencyByHeader(cleanLabel, d.raw || ""));
+                      const labelText = `${cleanLabel}${symbol ? ` (${symbol})` : ""}`;
                       const [line1, line2] = splitHeaderTwoLines(labelText);
                       const placeBelow = i % 2 === 1;
                       const baseY = placeBelow ? Math.min(210, y + 14) : Math.max(14, y - 14);
@@ -893,8 +898,8 @@ export default function TennisStatsPage() {
                   <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                     {chartData.map((d, i) => (
                       <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
-                        <div className="font-semibold whitespace-nowrap">{d.label}</div>
-                        <div>{formatCurrencyByHeader(d.label, d.raw || "")}</div>
+                        <div className="font-semibold whitespace-nowrap">{cleanHeadingText(d.label)}</div>
+                        <div>{formatCurrencyByHeader(cleanHeadingText(d.label), d.raw || "")}</div>
                       </div>
                     ))}
                   </div>
@@ -917,7 +922,7 @@ export default function TennisStatsPage() {
                   <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                     <tr>
                       {processed.header.map((cell, idx) => {
-                        const [line1, line2] = splitHeaderTwoLines(cell || `Column ${idx + 1}`);
+                        const [line1, line2] = splitHeaderTwoLines(cleanHeadingText(cell || `Column ${idx + 1}`));
                         const isRoundCol = idx === 0;
                         return (
                           <th key={`${idx}-${cell}`} className="px-2 py-2 text-center font-semibold tracking-wide align-middle">
@@ -925,7 +930,7 @@ export default function TennisStatsPage() {
                               <button onClick={() => onSort(idx)} className="inline-flex flex-col items-center leading-tight hover:text-white">
                                 <span>{line1}</span>
                                 {line2 ? <span>{line2}</span> : null}
-                                <span className="mt-1 text-[10px]">?</span>
+                                <span className="mt-1 text-[10px]">↕</span>
                               </button>
                             ) : (
                               <span className="inline-flex flex-col items-center leading-tight">
@@ -958,7 +963,7 @@ export default function TennisStatsPage() {
                 <div key={rIdx} className="rounded-xl border border-amber-200/30 bg-black/55 p-3">
                   {processed.header.map((h, cIdx) => (
                     <div key={`${rIdx}-${cIdx}`} className="flex items-start justify-between gap-3 border-b border-amber-200/10 py-1.5 last:border-b-0">
-                      <p className="text-xs text-amber-200/85">{h || `Column ${cIdx + 1}`}</p>
+                      <p className="text-xs text-amber-200/85">{cleanHeadingText(h || `Column ${cIdx + 1}`)}</p>
                       <p className="text-right text-sm text-amber-50/95">{formatCurrencyByHeader(h || "", row[cIdx] || "")}</p>
                     </div>
                   ))}
@@ -1003,7 +1008,7 @@ export default function TennisStatsPage() {
                       <g key={`${d.label}-${i}`}>
                         <circle cx={x} cy={y} r="4" fill="#FDE68A" />
                         <text x={x} y={labelY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
-                          {`${d.label}${currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || "")) ? ` (${currencySymbolFromFormatted(formatCurrencyByHeader(d.label, d.raw || ""))})` : ""}`}
+                          {`${cleanHeadingText(d.label)}${currencySymbolFromFormatted(formatCurrencyByHeader(cleanHeadingText(d.label), d.raw || "")) ? ` (${currencySymbolFromFormatted(formatCurrencyByHeader(cleanHeadingText(d.label), d.raw || ""))})` : ""}`}
                         </text>
                       </g>
                     );
@@ -1012,8 +1017,8 @@ export default function TennisStatsPage() {
                 <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {chartData.map((d, i) => (
                     <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
-                      <div className="font-semibold whitespace-nowrap">{d.label}</div>
-                      <div>{formatCurrencyByHeader(d.label, d.raw || "")}</div>
+                      <div className="font-semibold whitespace-nowrap">{cleanHeadingText(d.label)}</div>
+                      <div>{formatCurrencyByHeader(cleanHeadingText(d.label), d.raw || "")}</div>
                     </div>
                   ))}
                 </div>
