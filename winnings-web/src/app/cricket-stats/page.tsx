@@ -87,8 +87,9 @@ export default function CricketStatsPage() {
     const headerIdx = rows.findIndex((r) => r.some((c) => (c || "").trim().toLowerCase() === "option") && r.some((c) => (c || "").toLowerCase().includes("tournament")));
     if (headerIdx === -1) return { header: [] as string[], body: [] as string[][] };
 
-    const headerRow = rows[headerIdx].filter((c) => (c || "").trim());
     const firstColIdx = rows[headerIdx].findIndex((c) => (c || "").trim().toLowerCase() === "option");
+    const startIdx = firstColIdx + 1; // drop Option column
+    const headerRow = rows[headerIdx].slice(startIdx, startIdx + 4);
     const body: string[][] = [];
 
     for (let i = headerIdx + 1; i < rows.length; i++) {
@@ -99,7 +100,7 @@ export default function CricketStatsPage() {
         continue;
       }
       if (!/^\d+$/.test(option)) continue;
-      body.push(row.slice(firstColIdx, firstColIdx + 5));
+      body.push(row.slice(startIdx, startIdx + 4));
     }
 
     return { header: headerRow, body };
@@ -179,9 +180,9 @@ export default function CricketStatsPage() {
         <section className="mt-8">
           <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men's & Women's)</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
-            <table className="min-w-full text-left text-sm">
+            <table className="min-w-full border-separate border-spacing-0 text-left text-sm">
               {iccTable.header.length > 0 ? (
-                <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+                <thead className="border-b border-amber-200/35 bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                   <tr>
                     {iccTable.header.map((cell, idx) => (
                       <th key={`icc-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
@@ -199,7 +200,10 @@ export default function CricketStatsPage() {
                     style={{ animation: "fly-in-row 520ms ease-out both", animationDelay: `${Math.min(rIdx * 45, 900)}ms` }}
                   >
                     {row.map((cell, cIdx) => (
-                      <td key={`icc-${rIdx}-${cIdx}`} className="px-4 py-3 align-top text-amber-50/95">
+                      <td
+                        key={`icc-${rIdx}-${cIdx}`}
+                        className={`px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 1 ? "whitespace-nowrap" : ""}`}
+                      >
                         {cleanMojibake(cell || "") || "—"}
                       </td>
                     ))}
