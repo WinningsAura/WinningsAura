@@ -5,17 +5,17 @@ import { useEffect, useMemo, useState } from "react";
 
 function cleanMojibake(value: string) {
   return (value || "")
-    .replace(/â‚¹/g, "?")
-    .replace(/Â£/g, "£")
-    .replace(/â€™/g, "'")
-    .replace(/â€“|–|—|?/g, "-")
+    .replace(/Ã¢â€šÂ¹/g, "\u20B9")
+    .replace(/Ã‚Â£/g, "\u00A3")
+    .replace(/Ã¢â‚¬â„¢/g, "'")
+    .replace(/Ã¢â‚¬â€œ|â€“|â€”|ï¿½/g, "-")
     .replace(/\uFFFD/g, "")
     .replace(/\?/g, "")
     .replace(/\b(Men|Women)-s\b/gi, "$1's")
-    .replace(/Men['’]?s/gi, "Men's")
-    .replace(/Women['’]?s/gi, "Women's")
-    .replace(/([?£$])-\s*/g, "$1")
-    .replace(/([?£$])\s*-\s*(?=\d)/g, "$1")
+    .replace(/Men['â€™]?s/gi, "Men's")
+    .replace(/Women['â€™]?s/gi, "Women's")
+    .replace(/([\u20B9\u00A3$])-\s*/g, "$1")
+    .replace(/([\u20B9\u00A3$])\s*-\s*(?=\d)/g, "$1")
     .replace(/~-/g, "~")
     .replace(/\s*-\s*-/g, "-")
     .replace(/-{2,}/g, "-")
@@ -27,15 +27,15 @@ function normalizeContractCurrency(value: string, country: string) {
   if (!text) return "";
 
   const lowerCountry = country.toLowerCase();
-  const hasCurrencyPrefix = /^(?|£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
+  const hasCurrencyPrefix = /^(\u20B9|\u00A3|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
 
   if (!hasCurrencyPrefix) {
-    if (lowerCountry.includes("india")) text = `?${text}`;
-    else if (lowerCountry.includes("england")) text = `£${text}`;
+    if (lowerCountry.includes("india")) text = `\u20B9${text}`;
+    else if (lowerCountry.includes("england")) text = `\u00A3${text}`;
   }
 
   if (lowerCountry.includes("england")) {
-    text = text.replace(/^£-/, "£");
+    text = text.replace(/^\u00A3-/, "\u00A3");
   }
 
   return text;
@@ -167,7 +167,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
-                        {cIdx === 0 ? (cleanMojibake(cell || "") || "—") : (normalizeContractCurrency(cell || "", row[0] || "") || "—")}
+                        {cIdx === 0 ? (cleanMojibake(cell || "") || "ï¿½") : (normalizeContractCurrency(cell || "", row[0] || "") || "ï¿½")}
                       </td>
                     ))}
                   </tr>
@@ -204,7 +204,7 @@ export default function CricketStatsPage() {
                         key={`icc-${rIdx}-${cIdx}`}
                         className={`px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 1 ? "whitespace-nowrap" : ""}`}
                       >
-                        {cleanMojibake(cell || "") || "—"}
+                        {cleanMojibake(cell || "") || "ï¿½"}
                       </td>
                     ))}
                   </tr>

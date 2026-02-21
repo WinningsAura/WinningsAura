@@ -95,7 +95,7 @@ function toNumber(value: string) {
 
 function formatCurrencyByHeader(header: string, value: string) {
   const text = (value || "").trim();
-  if (!text) return "—";
+  if (!text) return "ï¿½";
 
   const normalizedHeader = (header || "").toLowerCase();
 
@@ -124,8 +124,8 @@ function formatCurrencyByHeader(header: string, value: string) {
   const parsed = Number(numericPart.replace(/,/g, ""));
   const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
 
-  if (normalizedHeader.includes("french open")) return `€${formatted}`;
-  if (normalizedHeader.includes("wimbledon")) return `£${formatted}`;
+  if (normalizedHeader.includes("french open")) return `ï¿½${formatted}`;
+  if (normalizedHeader.includes("wimbledon")) return `ï¿½${formatted}`;
   return text;
 }
 
@@ -145,7 +145,7 @@ function cleanRoundDisplay(value: string) {
 
 function cleanTournamentName(value: string) {
   const text = cleanRoundDisplay(value);
-  return text.replace(/\s*[-–—:]?\s*total\s*prize\s*pool.*$/i, "").trim();
+  return text.replace(/\s*[-ï¿½ï¿½:]?\s*total\s*prize\s*pool.*$/i, "").trim();
 }
 
 function cleanHeadingText(value: string) {
@@ -153,7 +153,7 @@ function cleanHeadingText(value: string) {
 }
 
 function buildWta250FallbackSection(allRows: string[][]) {
-  const title = "2025 WTA 250 Prize Money Summary – Singles Only";
+  const title = "2025 WTA 250 Prize Money Summary ï¿½ Singles Only";
 
   type Entry = {
     tournament: string;
@@ -330,7 +330,7 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
         return cleanMoneyByCurrency(raw || fallback || "", entry.currency || "");
       });
 
-      const hasAnyValue = vals.some((v) => v !== "—");
+      const hasAnyValue = vals.some((v) => v !== "ï¿½");
       if (!hasAnyValue) return null;
       return [round.label, ...vals];
     })
@@ -369,7 +369,7 @@ function getGrandSlamRoundRank(value: string) {
 
 function cleanMoneyByCurrency(value: string, currency: string) {
   const raw = (value || "").replace(/[?ï¿½\uFFFD~]/g, "").trim();
-  if (!raw) return "—";
+  if (!raw) return "ï¿½";
   const numPart = raw.replace(/[^0-9.,-]/g, "").trim();
   if (!numPart) return raw;
   const parsed = Number(numPart.replace(/,/g, ""));
@@ -377,13 +377,13 @@ function cleanMoneyByCurrency(value: string, currency: string) {
   const cur = (currency || "").toUpperCase();
 
   if (cur === "USD") return `$${formatted}`;
-  if (cur === "EUR") return `€${formatted}`;
-  if (cur === "GBP") return `£${formatted}`;
+  if (cur === "EUR") return `ï¿½${formatted}`;
+  if (cur === "GBP") return `ï¿½${formatted}`;
 
   if (raw.includes("A$")) return `A$${formatted}`;
   if (raw.includes("$")) return `$${formatted}`;
-  if (raw.includes("€")) return `€${formatted}`;
-  if (raw.includes("£")) return `£${formatted}`;
+  if (raw.includes("ï¿½")) return `ï¿½${formatted}`;
+  if (raw.includes("ï¿½")) return `ï¿½${formatted}`;
 
   return formatted;
 }
@@ -417,8 +417,8 @@ function currencySymbolFromFormatted(value: string) {
   if (!text) return "";
   if (text.startsWith("A$")) return "A$";
   if (text.startsWith("$")) return "$";
-  if (text.startsWith("€")) return "€";
-  if (text.startsWith("£")) return "£";
+  if (text.startsWith("ï¿½")) return "ï¿½";
+  if (text.startsWith("ï¿½")) return "ï¿½";
   return "";
 }
 

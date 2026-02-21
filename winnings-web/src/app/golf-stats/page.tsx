@@ -22,8 +22,8 @@ function normalizeFinishLabel(value: string) {
 
 function formatMoneyText(value: string) {
   const text = clean(value);
-  if (!text) return "—";
-  if (text === "-" || text === "–" || text === "—") return "—";
+  if (!text) return "ï¿½";
+  if (text === "-" || text === "ï¿½" || text === "ï¿½") return "ï¿½";
 
   const numeric = text.replace(/[^0-9.,-]/g, "").trim();
   if (!numeric) return text;
@@ -69,7 +69,7 @@ function buildGolfSections(rows: string[][]): GolfSection[] {
         .slice(headerRel + 1)
         .map((r) => r.slice(0, width))
         .filter((r) => clean(r[0]))
-        .filter((r) => !clean(r[0]).startsWith("…"));
+        .filter((r) => !clean(r[0]).startsWith("ï¿½"));
 
       if (!header.length || !body.length) return null;
       return { title: s.title, header, body };
@@ -217,7 +217,7 @@ export default function GolfStatsPage() {
                     <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
                       {row.map((cell, cIdx) => (
                         <td key={`${rIdx}-${cIdx}`} className={`px-1 py-2 text-center align-top sm:px-2 ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-normal break-words text-[10px] sm:text-xs"}`}>
-                          {cIdx === 0 ? (normalizeFinishLabel(cell) || "—") : formatMoneyText(cell || "")}
+                          {cIdx === 0 ? (normalizeFinishLabel(cell) || "ï¿½") : formatMoneyText(cell || "")}
                         </td>
                       ))}
                     </tr>
