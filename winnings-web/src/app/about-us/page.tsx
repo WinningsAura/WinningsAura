@@ -76,7 +76,7 @@ export default function AboutUsPage() {
               const isSectionHeading = /^(Our Mission|Our Vision)$/i.test(normalizedLine);
 
               return (
-                <p key={idx} className={isSectionHeading ? "mt-6 font-semibold text-amber-100" : ""}>
+                <p key={idx} className={isSectionHeading ? "mt-6 font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-cyan-200 to-fuchsia-200 drop-shadow-[0_0_10px_rgba(34,211,238,0.28)]" : ""}>
                   {normalizedLine}
                 </p>
               );
