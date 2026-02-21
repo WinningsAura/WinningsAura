@@ -68,7 +68,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura</h1>
-          <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">One Platform. Every Win.</p>
+          <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">Every Win. One Platform.</p>
         </header>
 
         <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
