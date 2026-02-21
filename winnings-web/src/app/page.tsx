@@ -40,7 +40,13 @@ export default function HomePage() {
   }, [startIndex]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_#1f2937_0%,_#0b1020_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-24 left-[-8%] h-72 w-72 rounded-full bg-amber-400/20 blur-3xl" />
+        <div className="absolute top-1/3 right-[-10%] h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl" />
+        <div className="absolute bottom-[-16%] left-1/3 h-96 w-96 rounded-full bg-fuchsia-500/15 blur-3xl" />
+      </div>
+
       <main className="relative z-10 mx-auto w-full max-w-6xl">
         <header className="relative z-30 mb-6 rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:mb-8 sm:rounded-3xl sm:p-8">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
