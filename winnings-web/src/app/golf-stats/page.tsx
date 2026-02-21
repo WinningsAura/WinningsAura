@@ -173,7 +173,6 @@ export default function GolfStatsPage() {
         </div>
 
         <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Golf Stats</h1>
-        <p className="mt-2 text-amber-100/80">Golf prize money dashboard in the same table + chart flow as Tennis.</p>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
