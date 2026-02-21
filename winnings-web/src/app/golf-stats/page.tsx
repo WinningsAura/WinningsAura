@@ -28,6 +28,21 @@ function formatMoneyText(value: string) {
   return formatted;
 }
 
+function splitGolfHeader(label: string) {
+  const text = clean(label);
+  if (!text) return ["", ""] as const;
+
+  const parenIdx = text.indexOf("(");
+  if (parenIdx > 0) {
+    return [text.slice(0, parenIdx).trim(), text.slice(parenIdx).trim()] as const;
+  }
+
+  const words = text.split(/\s+/);
+  if (words.length < 3) return [text, ""] as const;
+  const mid = Math.ceil(words.length / 2);
+  return [words.slice(0, mid).join(" "), words.slice(mid).join(" ")] as const;
+}
+
 function buildGolfSections(rows: string[][]): GolfSection[] {
   const starts: Array<{ idx: number; title: string }> = [];
   rows.forEach((r, idx) => {
@@ -175,12 +190,20 @@ export default function GolfStatsPage() {
         {activeSection ? (
           <>
             <div className="mt-6 overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
-              <table className="w-full table-fixed text-left text-xs sm:text-sm">
+              <table className="min-w-max w-full text-left text-xs sm:text-sm">
                 <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                   <tr>
-                    {activeSection.header.map((cell, idx) => (
-                      <th key={`${idx}-${cell}`} className="px-2 py-2 text-center font-semibold align-middle">{cell || `Column ${idx + 1}`}</th>
-                    ))}
+                    {activeSection.header.map((cell, idx) => {
+                      const [line1, line2] = splitGolfHeader(cell || `Column ${idx + 1}`);
+                      return (
+                        <th key={`${idx}-${cell}`} className="px-2 py-2 text-center font-semibold align-middle leading-tight">
+                          <span className="inline-flex min-w-[110px] flex-col items-center whitespace-normal break-words">
+                            <span>{line1}</span>
+                            {line2 ? <span>{line2}</span> : null}
+                          </span>
+                        </th>
+                      );
+                    })}
                   </tr>
                 </thead>
                 <tbody>
