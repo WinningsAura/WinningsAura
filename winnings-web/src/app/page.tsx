@@ -76,7 +76,11 @@ export default function HomePage() {
             <Link
               key={sport.name}
               href={sport.href}
-              className="group overflow-hidden rounded-2xl border border-amber-300/30 bg-black/50 shadow-2xl backdrop-blur-sm transition hover:border-amber-200/80 hover:shadow-[0_0_50px_rgba(245,185,59,0.2)] sm:rounded-3xl"
+              className={`group overflow-hidden rounded-2xl border border-amber-300/30 bg-black/50 shadow-2xl backdrop-blur-sm transition hover:border-amber-200/80 hover:shadow-[0_0_50px_rgba(245,185,59,0.2)] sm:rounded-3xl ${
+                sport.name === "Golf"
+                  ? "shadow-[0_24px_60px_rgba(16,185,129,0.22),0_0_35px_rgba(34,211,238,0.16)]"
+                  : ""
+              }`}
             >
               <div className="relative h-44 w-full sm:h-52 lg:h-56">
                 <Image
