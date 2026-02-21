@@ -184,8 +184,8 @@ export default function GolfStatsPage() {
               onClick={() => setSelectedSection(sec.title)}
               className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
                 activeSection?.title === sec.title
-                  ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
-                  : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
+                  ? "border-slate-300/50 bg-slate-800/40 ring-2 ring-slate-300/25"
+                  : "border-slate-400/30 bg-slate-900/35 hover:border-slate-300/55"
               }`}
             >
               {sec.title}
@@ -195,9 +195,9 @@ export default function GolfStatsPage() {
 
         {activeSection ? (
           <>
-            <div className="mt-6 overflow-hidden rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
+            <div className="mt-6 overflow-hidden rounded-2xl border border-slate-300/30 bg-slate-900/40 backdrop-blur-sm">
               <table className="w-full table-fixed text-left text-xs sm:text-sm">
-                <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+                <thead className="bg-gradient-to-r from-slate-700/35 to-slate-900/25 text-amber-100">
                   <tr>
                     {activeSection.header.map((cell, idx) => {
                       const [line1, line2] = splitGolfHeader(cell || `Column ${idx + 1}`);
@@ -214,7 +214,7 @@ export default function GolfStatsPage() {
                 </thead>
                 <tbody>
                   {activeSection.body.map((row, rIdx) => (
-                    <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
+                    <tr key={rIdx} className="border-t border-slate-300/20 odd:bg-slate-900/25 even:bg-slate-800/30">
                       {row.map((cell, cIdx) => (
                         <td key={`${rIdx}-${cIdx}`} className={`px-1 py-2 text-center align-top sm:px-2 ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-normal break-words text-[10px] sm:text-xs"}`}>
                           {cIdx === 0 ? (normalizeFinishLabel(cell) || "�") : formatMoneyText(cell || "")}
@@ -226,7 +226,7 @@ export default function GolfStatsPage() {
               </table>
             </div>
 
-            <section className="mt-8 rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
+            <section className="mt-8 rounded-2xl border border-slate-300/30 bg-slate-900/40 p-4 sm:p-6">
               <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <h3 className="text-lg font-semibold text-amber-100">Prize Money Chart</h3>
                 <select className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm" value={selectedFinish} onChange={(e) => setSelectedFinish(e.target.value)}>
@@ -236,7 +236,7 @@ export default function GolfStatsPage() {
                 </select>
               </div>
 
-              <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-3">
+              <div className="overflow-x-auto rounded-xl border border-slate-300/20 bg-slate-900/35 p-3">
                 <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
                   <line x1="24" y1="200" x2="656" y2="200" stroke="rgba(253,230,138,0.35)" />
                   <line x1="24" y1="20" x2="24" y2="200" stroke="rgba(253,230,138,0.35)" />
