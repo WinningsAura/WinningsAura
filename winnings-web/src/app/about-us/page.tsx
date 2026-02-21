@@ -55,25 +55,23 @@ export default function AboutUsPage() {
             </div>
           </nav>
         </div>
-        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">About Us</h1>
+        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">About Winnings</h1>
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">{error}</p> : null}
 
-        <div className="mt-5 space-y-3">
-          {rows.map((row, idx) => {
-            const line = row
-              .filter(Boolean)
-              .join(" ")
-              .replace(/[\uFFFD�]+/g, "")
-              .replace(/\?/g, "")
-              .trim();
-            if (!line) return null;
-            return (
-              <p key={idx} className="rounded-lg border border-amber-200/20 bg-black/40 px-4 py-3 text-amber-50/95">
-                {line}
-              </p>
-            );
-          })}
+        <div className="mt-5 rounded-xl border border-amber-200/20 bg-black/40 px-4 py-4 sm:px-5 sm:py-5">
+          <div className="space-y-3 text-amber-50/95">
+            {rows.map((row, idx) => {
+              const line = row
+                .filter(Boolean)
+                .join(" ")
+                .replace(/[\uFFFD�]+/g, "")
+                .replace(/\?/g, "")
+                .trim();
+              if (!line) return null;
+              return <p key={idx}>{line}</p>;
+            })}
+          </div>
         </div>
       </main>
     </div>
