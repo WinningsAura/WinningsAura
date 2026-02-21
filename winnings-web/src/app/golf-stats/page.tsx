@@ -14,6 +14,12 @@ function parseMoney(value: string) {
   return Number.isFinite(n) ? n : NaN;
 }
 
+function normalizeFinishLabel(value: string) {
+  const text = clean(value);
+  if (!text) return "";
+  return text.replace(/\b(\d+)(st|nd|rd|th)\b/gi, "$1");
+}
+
 function formatMoneyText(value: string) {
   const text = clean(value);
   if (!text) return "—";
@@ -212,7 +218,7 @@ export default function GolfStatsPage() {
                     <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
                       {row.map((cell, cIdx) => (
                         <td key={`${rIdx}-${cIdx}`} className={`px-1 py-2 text-center align-top sm:px-2 ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-normal break-words text-[10px] sm:text-xs"}`}>
-                          {cIdx === 0 ? (cell || "—") : formatMoneyText(cell || "")}
+                          {cIdx === 0 ? (normalizeFinishLabel(cell) || "—") : formatMoneyText(cell || "")}
                         </td>
                       ))}
                     </tr>
@@ -226,7 +232,7 @@ export default function GolfStatsPage() {
                 <h3 className="text-lg font-semibold text-amber-100">Prize Money Chart</h3>
                 <select className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm" value={selectedFinish} onChange={(e) => setSelectedFinish(e.target.value)}>
                   {finishes.map((f, i) => (
-                    <option key={`${f}-${i}`} value={f}>{f}</option>
+                    <option key={`${f}-${i}`} value={f}>{normalizeFinishLabel(f)}</option>
                   ))}
                 </select>
               </div>
