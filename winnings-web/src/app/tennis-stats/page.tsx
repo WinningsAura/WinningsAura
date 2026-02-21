@@ -117,7 +117,7 @@ function formatCurrencyByHeader(header: string, value: string) {
     if (!numericPart) return text;
     const parsed = Number(numericPart.replace(/,/g, ""));
     const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
-    return `\u00A3${formatted}`;
+    return `$${formatted}`;
   }
 
   if (!normalizedHeader.includes("french open") && !normalizedHeader.includes("wimbledon")) {
