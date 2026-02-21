@@ -111,6 +111,15 @@ function formatCurrencyByHeader(header: string, value: string) {
     return `A$${formatted}`;
   }
 
+  if (normalizedHeader.includes("nottingham open")) {
+    if (/^(A\$|\$|€|£)/.test(text)) return text;
+    const numericPart = text.replace(/[^0-9.,-]/g, "").trim();
+    if (!numericPart) return text;
+    const parsed = Number(numericPart.replace(/,/g, ""));
+    const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
+    return `\u00A3${formatted}`;
+  }
+
   if (!normalizedHeader.includes("french open") && !normalizedHeader.includes("wimbledon")) {
     return text;
   }
