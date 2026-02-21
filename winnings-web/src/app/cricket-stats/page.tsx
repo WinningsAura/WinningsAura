@@ -3,25 +3,39 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-function normalizeContractCurrency(value: string, country: string) {
-  let text = (value || "").trim();
-  if (!text) return "";
-
-  // Fix garbled characters from spreadsheet encoding while preserving numeric ranges.
-  text = text
-    .replace(/[\uFFFD\u001a\u007f\u0000-\u001f]+/g, "-")
-    .replace(/\?+/g, "")
+function cleanMojibake(value: string) {
+  return (value || "")
+    .replace(/â‚¹/g, "₹")
+    .replace(/Â£/g, "£")
+    .replace(/â€™/g, "'")
+    .replace(/â€“|–|—|�/g, "-")
+    .replace(/\uFFFD/g, "")
+    .replace(/\?/g, "")
+    .replace(/\b(Men|Women)-s\b/gi, "$1's")
+    .replace(/Men['’]?s/gi, "Men's")
+    .replace(/Women['’]?s/gi, "Women's")
+    .replace(/([₹£$])-\s*/g, "$1")
+    .replace(/([₹£$])\s*-\s*(?=\d)/g, "$1")
+    .replace(/~-/g, "~")
     .replace(/\s*-\s*-/g, "-")
     .replace(/-{2,}/g, "-")
-    .replace(/(^-|-$)/g, "")
     .trim();
+}
+
+function normalizeContractCurrency(value: string, country: string) {
+  let text = cleanMojibake(value);
+  if (!text) return "";
 
   const lowerCountry = country.toLowerCase();
-  const hasCurrencyPrefix = /^(â‚¹|Â£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
+  const hasCurrencyPrefix = /^(₹|£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
 
   if (!hasCurrencyPrefix) {
-    if (lowerCountry.includes("india")) text = `â‚¹${text}`;
-    else if (lowerCountry.includes("england")) text = `Â£${text}`;
+    if (lowerCountry.includes("india")) text = `₹${text}`;
+    else if (lowerCountry.includes("england")) text = `£${text}`;
+  }
+
+  if (lowerCountry.includes("england")) {
+    text = text.replace(/^£-/, "£");
   }
 
   return text;
@@ -126,7 +140,7 @@ export default function CricketStatsPage() {
                   <tr>
                     {contractsTable.header.map((cell, idx) => (
                       <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
-                        {cell || `Column ${idx + 1}`}
+                        {cleanMojibake(cell || "") || `Column ${idx + 1}`}
                       </th>
                     ))}
                   </tr>
@@ -141,7 +155,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
-                        {cIdx === 0 ? (cell || "ï¿½") : (normalizeContractCurrency(cell || "", row[0] || "") || "ï¿½")}
+                        {cIdx === 0 ? (cleanMojibake(cell || "") || "—") : (normalizeContractCurrency(cell || "", row[0] || "") || "—")}
                       </td>
                     ))}
                   </tr>
@@ -152,7 +166,7 @@ export default function CricketStatsPage() {
         </section>
 
         <section className="mt-8">
-          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Menï¿½s & Womenï¿½s)</h2>
+          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men's & Women's)</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-full text-left text-sm">
               {iccTable.header.length > 0 ? (
@@ -160,7 +174,7 @@ export default function CricketStatsPage() {
                   <tr>
                     {iccTable.header.map((cell, idx) => (
                       <th key={`icc-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
-                        {cell || `Column ${idx + 1}`}
+                        {cleanMojibake(cell || "") || `Column ${idx + 1}`}
                       </th>
                     ))}
                   </tr>
@@ -175,7 +189,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`icc-${rIdx}-${cIdx}`} className="px-4 py-3 align-top text-amber-50/95">
-                        {cell || "ï¿½"}
+                        {cleanMojibake(cell || "") || "—"}
                       </td>
                     ))}
                   </tr>
