@@ -28,14 +28,15 @@ function formatMoneyText(value: string) {
   return formatted;
 }
 
-function splitGolfHeader(label: string) {
+function stripAmountFromGolfLabel(label: string) {
   const text = clean(label);
-  if (!text) return ["", ""] as const;
+  if (!text) return "";
+  return text.replace(/\s*\([^)]*(\$|USD|M|million|purse)[^)]*\)\s*$/i, "").trim();
+}
 
-  const parenIdx = text.indexOf("(");
-  if (parenIdx > 0) {
-    return [text.slice(0, parenIdx).trim(), text.slice(parenIdx).trim()] as const;
-  }
+function splitGolfHeader(label: string) {
+  const text = stripAmountFromGolfLabel(label);
+  if (!text) return ["", ""] as const;
 
   const words = text.split(/\s+/);
   if (words.length < 3) return [text, ""] as const;
@@ -56,7 +57,7 @@ function buildGolfSections(rows: string[][]): GolfSection[] {
       const headerRel = sectionRows.findIndex((r) => clean(r[0]).toLowerCase() === "finish");
       if (headerRel === -1) return null;
 
-      const header = sectionRows[headerRel].filter((c) => clean(c));
+      const header = sectionRows[headerRel].filter((c) => clean(c)).map((c) => stripAmountFromGolfLabel(c));
       const width = header.length;
       const body = sectionRows
         .slice(headerRel + 1)
@@ -189,15 +190,15 @@ export default function GolfStatsPage() {
 
         {activeSection ? (
           <>
-            <div className="mt-6 overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
-              <table className="min-w-max w-full text-left text-xs sm:text-sm">
+            <div className="mt-6 overflow-hidden rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
+              <table className="w-full table-fixed text-left text-xs sm:text-sm">
                 <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                   <tr>
                     {activeSection.header.map((cell, idx) => {
                       const [line1, line2] = splitGolfHeader(cell || `Column ${idx + 1}`);
                       return (
-                        <th key={`${idx}-${cell}`} className="px-2 py-2 text-center font-semibold align-middle leading-tight">
-                          <span className="inline-flex min-w-[110px] flex-col items-center whitespace-normal break-words">
+                        <th key={`${idx}-${cell}`} className="px-1 py-2 text-center font-semibold align-middle leading-tight sm:px-2">
+                          <span className="inline-flex w-full flex-col items-center whitespace-normal break-words text-[11px] sm:text-xs">
                             <span>{line1}</span>
                             {line2 ? <span>{line2}</span> : null}
                           </span>
@@ -210,7 +211,7 @@ export default function GolfStatsPage() {
                   {activeSection.body.map((row, rIdx) => (
                     <tr key={rIdx} className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45">
                       {row.map((cell, cIdx) => (
-                        <td key={`${rIdx}-${cIdx}`} className={`px-2 py-2 text-center align-top ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-nowrap text-[11px] sm:text-sm"}`}>
+                        <td key={`${rIdx}-${cIdx}`} className={`px-1 py-2 text-center align-top sm:px-2 ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-normal break-words text-[10px] sm:text-xs"}`}>
                           {cIdx === 0 ? (cell || "—") : formatMoneyText(cell || "")}
                         </td>
                       ))}
