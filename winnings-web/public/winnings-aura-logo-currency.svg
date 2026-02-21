@@ -1,0 +1,38 @@
+<svg width="1400" height="360" viewBox="0 0 1400 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="WinningsAura logo with currency symbols">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FDE68A"/>
+      <stop offset="0.52" stop-color="#F59E0B"/>
+      <stop offset="1" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="300" height="300" rx="64" fill="#090B14" stroke="url(#neon)" stroke-width="6"/>
+
+  <g transform="translate(174 174)">
+    <circle cx="0" cy="0" r="100" fill="#0f172a"/>
+    <circle cx="0" cy="0" r="84" fill="none" stroke="url(#gold)" stroke-width="8"/>
+
+    <text x="0" y="-26" text-anchor="middle" fill="url(#gold)" font-size="44" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="800">₹</text>
+    <text x="-38" y="16" text-anchor="middle" fill="#F8FAFC" font-size="34" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700">$</text>
+    <text x="38" y="16" text-anchor="middle" fill="#F8FAFC" font-size="34" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700">€</text>
+    <text x="0" y="56" text-anchor="middle" fill="#A5F3FC" font-size="30" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700">£</text>
+
+    <path d="M-70 74 H70" stroke="url(#neon)" stroke-width="6" stroke-linecap="round" filter="url(#softGlow)"/>
+  </g>
+
+  <text x="370" y="152" fill="url(#gold)" font-size="84" font-weight="800" font-family="Segoe UI, Inter, Arial, sans-serif" letter-spacing="1.5">WINNINGSAURA</text>
+  <text x="372" y="214" fill="#E2E8F0" font-size="30" font-weight="600" font-family="Segoe UI, Inter, Arial, sans-serif" letter-spacing="2">SPORTS PRIZE MONEY INTELLIGENCE</text>
+  <rect x="370" y="242" width="760" height="8" rx="4" fill="url(#neon)"/>
+</svg>
