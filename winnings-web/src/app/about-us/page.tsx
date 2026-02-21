@@ -55,7 +55,7 @@ export default function AboutUsPage() {
             </div>
           </nav>
         </div>
-        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">About Winnings</h1>
+        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">About WinningsAura</h1>
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">{error}</p> : null}
 
@@ -70,7 +70,7 @@ export default function AboutUsPage() {
                 .trim();
 
               if (!line) return null;
-              if (line.toLowerCase() === "about winnings") return null;
+              if (["about winnings", "about winningsaura"].includes(line.toLowerCase())) return null;
 
               const isSectionHeading = /^(Our Mission|Our Vision)$/i.test(line);
 
