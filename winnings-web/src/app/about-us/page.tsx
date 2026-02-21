@@ -68,8 +68,17 @@ export default function AboutUsPage() {
                 .replace(/[\uFFFD�]+/g, "")
                 .replace(/\?/g, "")
                 .trim();
+
               if (!line) return null;
-              return <p key={idx}>{line}</p>;
+              if (line.toLowerCase() === "about winnings") return null;
+
+              const isSectionHeading = /^(Our Mission|Our Vision)$/i.test(line);
+
+              return (
+                <p key={idx} className={isSectionHeading ? "mt-6 font-semibold text-amber-100" : ""}>
+                  {line}
+                </p>
+              );
             })}
           </div>
         </div>
