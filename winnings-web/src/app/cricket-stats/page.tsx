@@ -1,21 +1,21 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 function cleanMojibake(value: string) {
   return (value || "")
-    .replace(/â‚¹/g, "₹")
-    .replace(/Â£/g, "£")
-    .replace(/â€™/g, "'")
-    .replace(/â€“|–|—|�/g, "-")
+    .replace(/₹/g, "?")
+    .replace(/£/g, "�")
+    .replace(/’/g, "'")
+    .replace(/–|�|�|?/g, "-")
     .replace(/\uFFFD/g, "")
     .replace(/\?/g, "")
     .replace(/\b(Men|Women)-s\b/gi, "$1's")
-    .replace(/Men['’]?s/gi, "Men's")
-    .replace(/Women['’]?s/gi, "Women's")
-    .replace(/([₹£$])-\s*/g, "$1")
-    .replace(/([₹£$])\s*-\s*(?=\d)/g, "$1")
+    .replace(/Men['�]?s/gi, "Men's")
+    .replace(/Women['�]?s/gi, "Women's")
+    .replace(/([?�$])-\s*/g, "$1")
+    .replace(/([?�$])\s*-\s*(?=\d)/g, "$1")
     .replace(/~-/g, "~")
     .replace(/\s*-\s*-/g, "-")
     .replace(/-{2,}/g, "-")
@@ -27,15 +27,15 @@ function normalizeContractCurrency(value: string, country: string) {
   if (!text) return "";
 
   const lowerCountry = country.toLowerCase();
-  const hasCurrencyPrefix = /^(₹|£|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
+  const hasCurrencyPrefix = /^(?|�|\$|PKR|AUD|Tk|EUR)/i.test(text) || text.includes("$");
 
   if (!hasCurrencyPrefix) {
-    if (lowerCountry.includes("india")) text = `₹${text}`;
-    else if (lowerCountry.includes("england")) text = `£${text}`;
+    if (lowerCountry.includes("india")) text = `?${text}`;
+    else if (lowerCountry.includes("england")) text = `�${text}`;
   }
 
   if (lowerCountry.includes("england")) {
-    text = text.replace(/^£-/, "£");
+    text = text.replace(/^�-/, "�");
   }
 
   return text;
@@ -111,7 +111,7 @@ export default function CricketStatsPage() {
       <main className="relative z-30 mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/winnings-aura-logo.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
+            <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
           </Link>
           <nav className="flex items-center gap-2 text-sm sm:gap-3">
             
@@ -167,7 +167,7 @@ export default function CricketStatsPage() {
                   >
                     {row.map((cell, cIdx) => (
                       <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
-                        {cIdx === 0 ? (cleanMojibake(cell || "") || "—") : (normalizeContractCurrency(cell || "", row[0] || "") || "—")}
+                        {cIdx === 0 ? (cleanMojibake(cell || "") || "�") : (normalizeContractCurrency(cell || "", row[0] || "") || "�")}
                       </td>
                     ))}
                   </tr>
@@ -204,7 +204,7 @@ export default function CricketStatsPage() {
                         key={`icc-${rIdx}-${cIdx}`}
                         className={`px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 1 ? "whitespace-nowrap" : ""}`}
                       >
-                        {cleanMojibake(cell || "") || "—"}
+                        {cleanMojibake(cell || "") || "�"}
                       </td>
                     ))}
                   </tr>
