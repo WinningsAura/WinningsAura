@@ -72,11 +72,12 @@ export default function AboutUsPage() {
               if (!line) return null;
               if (["about winnings", "about winningsaura"].includes(line.toLowerCase())) return null;
 
-              const isSectionHeading = /^(Our Mission|Our Vision)$/i.test(line);
+              const normalizedLine = line.replace(/\bWinnings\b/g, "WinningsAura");
+              const isSectionHeading = /^(Our Mission|Our Vision)$/i.test(normalizedLine);
 
               return (
                 <p key={idx} className={isSectionHeading ? "mt-6 font-semibold text-amber-100" : ""}>
-                  {line}
+                  {normalizedLine}
                 </p>
               );
             })}
