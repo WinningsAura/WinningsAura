@@ -126,7 +126,6 @@ export default function CricketStatsPage() {
           </nav>
         </div>
         <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Cricket Stats</h1>
-        <p className="mt-2 text-amber-100/80">Live data from the Cricket sheet.</p>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
@@ -138,11 +137,23 @@ export default function CricketStatsPage() {
               {contractsTable.header.length > 0 ? (
                 <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                   <tr>
-                    {contractsTable.header.map((cell, idx) => (
-                      <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
-                        {cleanMojibake(cell || "") || `Column ${idx + 1}`}
-                      </th>
-                    ))}
+                    {contractsTable.header.map((cell, idx) => {
+                      const label = cleanMojibake(cell || "") || `Column ${idx + 1}`;
+                      const displayLabel =
+                        label === "Test Fee"
+                          ? "Test Match Fee"
+                          : label === "ODI Fee"
+                            ? "ODI Match Fee"
+                            : label === "T20I Fee"
+                              ? "T20I Match Fee"
+                              : label;
+
+                      return (
+                        <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
+                          {displayLabel}
+                        </th>
+                      );
+                    })}
                   </tr>
                 </thead>
               ) : null}
