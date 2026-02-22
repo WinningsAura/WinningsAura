@@ -27,13 +27,17 @@ const sports = [
 
 export default function HomePage() {
   const [startIndex, setStartIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
+
     const id = window.setInterval(() => {
       setStartIndex((i) => (i + 1) % sports.length);
     }, 4000);
+
     return () => window.clearInterval(id);
-  }, []);
+  }, [isPaused]);
 
   const rotatingSports = useMemo(() => {
     return sports.map((_, i) => sports[(startIndex + i) % sports.length]);
@@ -76,6 +80,8 @@ export default function HomePage() {
             <Link
               key={sport.name}
               href={sport.href}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
               className={`group overflow-hidden rounded-2xl border border-amber-300/30 bg-black/50 shadow-2xl backdrop-blur-sm transition hover:border-amber-200/80 hover:shadow-[0_0_50px_rgba(245,185,59,0.2)] sm:rounded-3xl ${
                 sport.name === "Golf"
                   ? "shadow-[0_24px_60px_rgba(16,185,129,0.22),0_0_35px_rgba(34,211,238,0.16)]"
