@@ -126,7 +126,7 @@ export default function CricketStatsPage() {
             </div>
           </nav>
         </div>
-        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Cricket Stats</h1>
+        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Cricket Winnings</h1>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}

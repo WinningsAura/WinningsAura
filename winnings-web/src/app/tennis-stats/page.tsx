@@ -749,7 +749,7 @@ export default function TennisStatsPage() {
               </div>
             </nav>
           </div>
-          <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">Tennis Stats</h1>
+          <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">Tennis Winnings</h1>
 
           <div className="mt-5 max-w-md">
             <label className="mb-2 block text-sm font-semibold text-amber-100/90">Tennis Events</label>
