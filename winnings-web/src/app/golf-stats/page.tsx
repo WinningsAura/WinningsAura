@@ -172,29 +172,31 @@ export default function GolfStatsPage() {
           </nav>
         </div>
 
-        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Golf Winnings</h1>
+        <section className="mt-2 rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
+          <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Golf Winnings</h1>
+
+          <div className="mt-5">
+            <h2 className="mb-3 text-sm font-semibold text-amber-100/90 sm:text-base">Golf Categories</h2>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {sections.map((sec) => (
+                <button
+                  key={sec.title}
+                  onClick={() => setSelectedSection(sec.title)}
+                  className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
+                    activeSection?.title === sec.title
+                      ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
+                      : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
+                  }`}
+                >
+                  {sec.title}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
-
-        <section className="mt-5 rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-5">
-          <h2 className="mb-3 text-sm font-semibold text-amber-100/90 sm:text-base">Golf Categories</h2>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {sections.map((sec) => (
-              <button
-                key={sec.title}
-                onClick={() => setSelectedSection(sec.title)}
-                className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
-                  activeSection?.title === sec.title
-                    ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
-                    : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
-                }`}
-              >
-                {sec.title}
-              </button>
-            ))}
-          </div>
-        </section>
 
         {activeSection ? (
           <>
