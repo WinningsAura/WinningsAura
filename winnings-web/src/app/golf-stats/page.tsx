@@ -77,10 +77,24 @@ function buildGolfSections(rows: string[][]): GolfSection[] {
     .filter(Boolean) as GolfSection[];
 }
 
+type GolfEvent = "Golf Majors" | "Golf Non Majors";
+
+function getGolfEventFromTitle(title: string): GolfEvent {
+  const t = clean(title).toLowerCase();
+  return t.includes("non majors") ? "Golf Non Majors" : "Golf Majors";
+}
+
+function getGolfCategoryDisplayTitle(title: string) {
+  const text = clean(title);
+  if (!text) return "";
+  return text.replace(/^golf\s*-\s*/i, "Golf ");
+}
+
 export default function GolfStatsPage() {
   const [rows, setRows] = useState<string[][]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<GolfEvent>("Golf Majors");
   const [selectedSection, setSelectedSection] = useState<string>("");
   const [selectedFinish, setSelectedFinish] = useState<string>("");
 
@@ -113,12 +127,20 @@ export default function GolfStatsPage() {
 
   const sections = useMemo(() => buildGolfSections(rows), [rows]);
 
-  const activeSection = useMemo(() => sections.find((s) => s.title === selectedSection) || sections[0] || null, [sections, selectedSection]);
+  const filteredSections = useMemo(
+    () => sections.filter((s) => getGolfEventFromTitle(s.title) === selectedEvent),
+    [sections, selectedEvent],
+  );
+
+  const activeSection = useMemo(
+    () => filteredSections.find((s) => s.title === selectedSection) || filteredSections[0] || null,
+    [filteredSections, selectedSection],
+  );
 
   useEffect(() => {
-    if (!sections.length) return;
-    if (!sections.some((s) => s.title === selectedSection)) setSelectedSection(sections[0].title);
-  }, [sections, selectedSection]);
+    if (!filteredSections.length) return;
+    if (!filteredSections.some((s) => s.title === selectedSection)) setSelectedSection(filteredSections[0].title);
+  }, [filteredSections, selectedSection]);
 
   const finishes = useMemo(() => (activeSection ? activeSection.body.map((r) => r[0]).filter(Boolean) : []), [activeSection]);
 
@@ -175,10 +197,22 @@ export default function GolfStatsPage() {
 
           <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Golf Winnings</h1>
 
+          <div className="mt-5 max-w-md">
+            <label className="mb-2 block text-sm font-semibold text-amber-100/90">Golf Events</label>
+            <select
+              className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-sm text-amber-100 outline-none transition focus:border-amber-200 sm:text-base"
+              value={selectedEvent}
+              onChange={(e) => setSelectedEvent(e.target.value as GolfEvent)}
+            >
+              <option className="bg-black" value="Golf Majors">Golf Majors</option>
+              <option className="bg-black" value="Golf Non Majors">Golf Non Majors</option>
+            </select>
+          </div>
+
           <div className="mt-5">
             <h2 className="mb-3 text-sm font-semibold text-amber-100/90 sm:text-base">Golf Categories</h2>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {sections.map((sec) => (
+              {filteredSections.map((sec) => (
                 <button
                   key={sec.title}
                   onClick={() => setSelectedSection(sec.title)}
@@ -188,7 +222,7 @@ export default function GolfStatsPage() {
                       : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
                   }`}
                 >
-                  {sec.title}
+                  {getGolfCategoryDisplayTitle(sec.title)}
                 </button>
               ))}
             </div>
