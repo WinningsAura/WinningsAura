@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 type GolfSection = { title: string; header: string[]; body: string[][] };
 
 function clean(v: string) {
-  return (v || "").trim();
+  return (v || "").replace(/[?\uFFFD]/g, "").trim()
 }
 
 function parseMoney(value: string) {
@@ -22,8 +22,8 @@ function normalizeFinishLabel(value: string) {
 
 function formatMoneyText(value: string) {
   const text = clean(value);
-  if (!text) return "�";
-  if (text === "-" || text === "�" || text === "�") return "�";
+  if (!text) return "-";
+  if (text === "-") return "-";
 
   const numeric = text.replace(/[^0-9.,-]/g, "").trim();
   if (!numeric) return text;
@@ -256,7 +256,7 @@ export default function GolfStatsPage() {
                     <tr key={rIdx} className="border-t border-slate-300/20 odd:bg-slate-900/25 even:bg-slate-800/30">
                       {row.map((cell, cIdx) => (
                         <td key={`${rIdx}-${cIdx}`} className={`px-1 py-2 text-center align-top sm:px-2 ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-normal break-words text-[10px] sm:text-xs"}`}>
-                          {cIdx === 0 ? (normalizeFinishLabel(cell) || "�") : formatMoneyText(cell || "")}
+                          {cIdx === 0 ? (normalizeFinishLabel(cell) || "-") : formatMoneyText(cell || "")}
                         </td>
                       ))}
                     </tr>
