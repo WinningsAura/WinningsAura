@@ -936,7 +936,6 @@ export default function TennisStatsPage() {
                               <button onClick={() => onSort(idx)} className="inline-flex flex-col items-center leading-tight hover:text-white">
                                 <span>{line1}</span>
                                 {line2 ? <span>{line2}</span> : null}
-                                <span className="mt-1 text-[10px]">?</span>
                               </button>
                             ) : (
                               <span className="inline-flex flex-col items-center leading-tight">
