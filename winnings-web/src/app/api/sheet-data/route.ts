@@ -16,6 +16,13 @@ const sheetToCsv: Record<string, string> = {
   "About Us": "About Us.csv",
 };
 
+function findExistingPath(candidates: string[]) {
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
 function parseCsv(text: string): string[][] {
   const rows: string[][] = [];
   let row: string[] = [];
@@ -94,8 +101,14 @@ export async function GET(req: NextRequest) {
     const csvFile = sheetToCsv[sheet];
     if (!csvFile) return NextResponse.json({ error: `Sheet not found: ${sheet}` }, { status: 404 });
 
-    const xlsxPath = path.resolve(process.cwd(), "..", "Winnings.xlsx");
-    if (fs.existsSync(xlsxPath)) {
+    const cwd = process.cwd();
+    const xlsxPath = findExistingPath([
+      path.resolve(cwd, "Winnings.xlsx"),
+      path.resolve(cwd, "data", "Winnings.xlsx"),
+      path.resolve(cwd, "..", "Winnings.xlsx"), // backward-compatible local layout
+    ]);
+
+    if (xlsxPath) {
       const xlsxRows = loadRowsFromXlsx(xlsxPath, sheet);
       if (xlsxRows && xlsxRows.length) {
         return NextResponse.json(
@@ -107,12 +120,30 @@ export async function GET(req: NextRequest) {
           }
         );
       }
-      // If the workbook is temporarily locked/unreadable, fall back to CSV snapshot below.
+      // If workbook is unreadable, fall back to CSV snapshot below.
     }
 
-    const csvPath = path.resolve(process.cwd(), "..", "winnings-sheets", csvFile);
-    if (!fs.existsSync(csvPath)) {
-      return NextResponse.json({ error: `Data file missing for sheet: ${sheet}`, csvPath, xlsxPath }, { status: 404 });
+    const csvPath = findExistingPath([
+      path.resolve(cwd, "winnings-sheets", csvFile),
+      path.resolve(cwd, "data", "winnings-sheets", csvFile),
+      path.resolve(cwd, "..", "winnings-sheets", csvFile), // backward-compatible local layout
+    ]);
+
+    if (!csvPath) {
+      return NextResponse.json(
+        {
+          error: `Data file missing for sheet: ${sheet}`,
+          checked: [
+            path.resolve(cwd, "Winnings.xlsx"),
+            path.resolve(cwd, "data", "Winnings.xlsx"),
+            path.resolve(cwd, "..", "Winnings.xlsx"),
+            path.resolve(cwd, "winnings-sheets", csvFile),
+            path.resolve(cwd, "data", "winnings-sheets", csvFile),
+            path.resolve(cwd, "..", "winnings-sheets", csvFile),
+          ],
+        },
+        { status: 404 }
+      );
     }
 
     const csvText = fs.readFileSync(csvPath, "utf8");
