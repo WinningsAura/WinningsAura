@@ -33,7 +33,7 @@ export default function HomePage() {
     if (isPaused) return;
 
     const id = window.setInterval(() => {
-      setStartIndex((i) => (i + 1) % sports.length);
+      setStartIndex((i) => (i - 1 + sports.length) % sports.length);
     }, 4000);
 
     return () => window.clearInterval(id);
