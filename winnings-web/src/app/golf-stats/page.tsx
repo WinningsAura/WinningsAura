@@ -85,9 +85,9 @@ function getGolfEventFromTitle(title: string): GolfEvent {
 }
 
 function getGolfCategoryDisplayTitle(title: string) {
-  const text = clean(title);
+  const text = clean(title).replace(/[?\uFFFD]/g, "");
   if (!text) return "";
-  return text.replace(/^golf\s*-\s*/i, "Golf ");
+  return text.replace(/^golf\s*-\s*/i, "Golf ").trim();
 }
 
 export default function GolfStatsPage() {
