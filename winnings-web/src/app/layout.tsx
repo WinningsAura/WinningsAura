@@ -17,6 +17,8 @@ const siteName = "WinningsAura";
 const description =
   "WinningsAura tracks tennis, cricket, and golf prize money insights with clean dashboards, historical context, and fast stats navigation.";
 
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -68,19 +70,32 @@ export const metadata: Metadata = {
     description,
     images: ["/winnings-aura-logo-currency.svg"],
   },
+  verification: {
+    google: googleSiteVerification,
+  },
 };
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: siteName,
-  url: siteUrl,
-  description,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/tennis-stats`,
-    "query-input": "required name=search_term_string",
-  },
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: siteName,
+      url: siteUrl,
+      description,
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${siteUrl}/tennis-stats`,
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "Organization",
+      name: siteName,
+      url: siteUrl,
+      logo: `${siteUrl}/winnings-aura-logo-currency.svg`,
+    },
+  ],
 };
 
 export default function RootLayout({
