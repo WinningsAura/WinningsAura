@@ -335,12 +335,16 @@ export default function GolfStatsPage() {
                   {chartData.map((d, i) => {
                     const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
                     const y = 20 + (1 - d.value / maxY) * 180;
-                    const labelY = Math.max(14, y - 10);
+                    const [line1, line2] = splitGolfHeader(d.label);
+                    const placeBelow = i % 2 === 1;
+                    const baseY = placeBelow ? Math.min(210, y + 14) : Math.max(14, y - 14);
+
                     return (
                       <g key={`${d.label}-${i}`}>
                         <circle cx={x} cy={y} r="4" fill="#FDE68A" />
-                        <text x={x} y={labelY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
-                          {d.label}
+                        <text x={x} y={baseY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
+                          <tspan x={x} dy="0">{line1 || d.label}</tspan>
+                          {line2 ? <tspan x={x} dy="10">{line2}</tspan> : null}
                         </text>
                       </g>
                     );
