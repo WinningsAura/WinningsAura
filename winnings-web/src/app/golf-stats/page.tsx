@@ -94,7 +94,27 @@ function getGolfEventFromTitle(title: string): GolfEvent {
 function getGolfCategoryDisplayTitle(title: string) {
   const text = clean(title).replace(/[?\uFFFD]/g, "");
   if (!text) return "";
-  return text.replace(/^golf\s*-\s*/i, "Golf ").trim();
+
+  const t = text.toLowerCase();
+  if (t.includes("men")) return "Mens";
+  if (t.includes("women")) return "Women";
+  if (t.includes("non majors")) return "Non - Majors";
+  if (t.includes("majors")) return "Majors";
+
+  return text.replace(/^golf\s*-\s*/i, "").trim();
+}
+
+function orderGolfSectionsForDisplay(sections: GolfSection[]) {
+  return [...sections].sort((a, b) => {
+    const rank = (title: string) => {
+      const label = getGolfCategoryDisplayTitle(title);
+      if (label === "Mens") return 0;
+      if (label === "Women") return 1;
+      return 2;
+    };
+
+    return rank(a.title) - rank(b.title);
+  });
 }
 
 export default function GolfStatsPage() {
@@ -135,7 +155,7 @@ export default function GolfStatsPage() {
   const sections = useMemo(() => buildGolfSections(rows), [rows]);
 
   const filteredSections = useMemo(
-    () => sections.filter((s) => getGolfEventFromTitle(s.title) === selectedEvent),
+    () => orderGolfSectionsForDisplay(sections.filter((s) => getGolfEventFromTitle(s.title) === selectedEvent)),
     [sections, selectedEvent],
   );
 
@@ -225,8 +245,8 @@ export default function GolfStatsPage() {
               value={selectedEvent}
               onChange={(e) => setSelectedEvent(e.target.value as GolfEvent)}
             >
-              <option className="bg-black" value="Golf Majors">Golf Majors</option>
-              <option className="bg-black" value="Golf Non Majors">Golf Non Majors</option>
+              <option className="bg-black" value="Golf Majors">Majors</option>
+              <option className="bg-black" value="Golf Non Majors">Non - Majors</option>
             </select>
           </div>
 
@@ -255,7 +275,7 @@ export default function GolfStatsPage() {
 
         {activeSection ? (
           <>
-            <div className="mt-6 overflow-hidden rounded-2xl border border-slate-300/30 bg-slate-900/40 backdrop-blur-sm">
+            <div className="mt-6 overflow-hidden rounded-2xl border border-amber-200/35 bg-slate-900/40 backdrop-blur-sm">
               <table className="w-full table-fixed text-left text-xs sm:text-sm">
                 <thead className="bg-gradient-to-r from-slate-700/35 to-slate-900/25 text-amber-100">
                   <tr>
@@ -286,7 +306,7 @@ export default function GolfStatsPage() {
               </table>
             </div>
 
-            <section className="mt-8 rounded-2xl border border-slate-300/30 bg-slate-900/40 p-4 sm:p-6">
+            <section className="mt-8 rounded-2xl border border-amber-200/35 bg-slate-900/40 p-4 sm:p-6">
               <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <h3 className="text-lg font-semibold text-amber-100">Prize Money Chart</h3>
                 <select className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm" value={selectedFinish} onChange={(e) => setSelectedFinish(e.target.value)}>
@@ -296,7 +316,7 @@ export default function GolfStatsPage() {
                 </select>
               </div>
 
-              <div className="overflow-x-auto rounded-xl border border-slate-300/20 bg-slate-900/35 p-3">
+              <div className="overflow-x-auto rounded-xl border border-amber-200/35 bg-slate-900/35 p-3">
                 <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
                   {yTicks.map((t, i) => (
                     <g key={`tick-${i}`}>
@@ -309,12 +329,7 @@ export default function GolfStatsPage() {
                   <line x1="24" y1="200" x2="656" y2="200" stroke="rgba(253,230,138,0.35)" />
                   <line x1="24" y1="20" x2="24" y2="200" stroke="rgba(253,230,138,0.35)" />
 
-                  <text x="340" y="216" textAnchor="middle" fontSize="11" fill="rgba(253,230,138,0.92)">
-                    Tournaments / Prize Columns
-                  </text>
-                  <text x="10" y="110" textAnchor="middle" fontSize="11" fill="rgba(253,230,138,0.92)" transform="rotate(-90 10 110)">
-                    Prize Money (USD)
-                  </text>
+                  {/* Axis titles intentionally hidden per UI request */}
 
                   <polyline fill="none" stroke="#FBBF24" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" points={linePoints} />
                   {chartData.map((d, i) => {
