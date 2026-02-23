@@ -34,6 +34,13 @@ function formatMoneyText(value: string) {
   return formatted;
 }
 
+function formatAxisMoney(value: number) {
+  if (!Number.isFinite(value)) return "$0";
+  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(value % 1_000_000 === 0 ? 0 : 1)}M`;
+  if (value >= 1_000) return `$${Math.round(value / 1_000)}K`;
+  return `$${Math.round(value)}`;
+}
+
 function stripAmountFromGolfLabel(label: string) {
   const text = clean(label);
   if (!text) return "";
@@ -163,6 +170,15 @@ export default function GolfStatsPage() {
 
   const maxY = useMemo(() => Math.max(1, ...chartData.map((d) => d.value)), [chartData]);
 
+  const yTicks = useMemo(() => {
+    const safeMax = Math.max(1, maxY);
+    return Array.from({ length: 5 }, (_, i) => {
+      const value = (safeMax * (4 - i)) / 4;
+      const y = 20 + (i * 180) / 4;
+      return { value, y };
+    });
+  }, [maxY]);
+
   const linePoints = useMemo(() => {
     if (!chartData.length) return "";
     return chartData
@@ -282,13 +298,37 @@ export default function GolfStatsPage() {
 
               <div className="overflow-x-auto rounded-xl border border-slate-300/20 bg-slate-900/35 p-3">
                 <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
+                  {yTicks.map((t, i) => (
+                    <g key={`tick-${i}`}>
+                      <line x1="24" y1={t.y} x2="656" y2={t.y} stroke="rgba(253,230,138,0.18)" />
+                      <text x="20" y={t.y + 4} textAnchor="end" fontSize="10" fill="rgba(253,230,138,0.8)">
+                        {formatAxisMoney(t.value)}
+                      </text>
+                    </g>
+                  ))}
                   <line x1="24" y1="200" x2="656" y2="200" stroke="rgba(253,230,138,0.35)" />
                   <line x1="24" y1="20" x2="24" y2="200" stroke="rgba(253,230,138,0.35)" />
+
+                  <text x="340" y="216" textAnchor="middle" fontSize="11" fill="rgba(253,230,138,0.92)">
+                    Tournaments / Prize Columns
+                  </text>
+                  <text x="10" y="110" textAnchor="middle" fontSize="11" fill="rgba(253,230,138,0.92)" transform="rotate(-90 10 110)">
+                    Prize Money (USD)
+                  </text>
+
                   <polyline fill="none" stroke="#FBBF24" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" points={linePoints} />
                   {chartData.map((d, i) => {
                     const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
                     const y = 20 + (1 - d.value / maxY) * 180;
-                    return <circle key={`${d.label}-${i}`} cx={x} cy={y} r="4" fill="#FDE68A" />;
+                    const labelY = Math.max(14, y - 10);
+                    return (
+                      <g key={`${d.label}-${i}`}>
+                        <circle cx={x} cy={y} r="4" fill="#FDE68A" />
+                        <text x={x} y={labelY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
+                          {d.label}
+                        </text>
+                      </g>
+                    );
                   })}
                 </svg>
                 <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
