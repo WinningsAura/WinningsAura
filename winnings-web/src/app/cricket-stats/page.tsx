@@ -84,17 +84,27 @@ export default function CricketStatsPage() {
   }, [rows]);
 
   const iccTable = useMemo(() => {
-    const headerIdx = rows.findIndex((r) => r.some((c) => (c || "").trim().toLowerCase() === "option") && r.some((c) => (c || "").toLowerCase().includes("tournament")));
-    if (headerIdx === -1) return { header: [] as string[], body: [] as string[][] };
+    const fallbackHeader = ["Tournament", "Winner", "Runner Up", "Semi-finalists"];
 
-    const firstColIdx = rows[headerIdx].findIndex((c) => (c || "").trim().toLowerCase() === "option");
+    const headerIdx = rows.findIndex((r) => {
+      const normalized = r.map((c) => cleanMojibake(c || "").toLowerCase());
+      return normalized.some((c) => c === "option") && normalized.some((c) => c.includes("tournament"));
+    });
+
+    if (headerIdx === -1) return { header: fallbackHeader, body: [] as string[][] };
+
+    const normalizedHeaderRow = rows[headerIdx].map((c) => cleanMojibake(c || "").toLowerCase());
+    const firstColIdx = normalizedHeaderRow.findIndex((c) => c === "option");
+    if (firstColIdx === -1) return { header: fallbackHeader, body: [] as string[][] };
+
     const startIdx = firstColIdx + 1; // drop Option column
-    const headerRow = rows[headerIdx].slice(startIdx, startIdx + 4);
+    const headerRowRaw = rows[headerIdx].slice(startIdx, startIdx + 4).map((c) => cleanMojibake(c || ""));
+    const headerRow = headerRowRaw.map((h, i) => h || fallbackHeader[i]);
     const body: string[][] = [];
 
     for (let i = headerIdx + 1; i < rows.length; i++) {
       const row = rows[i];
-      const option = (row[firstColIdx] || "").trim();
+      const option = cleanMojibake(row[firstColIdx] || "");
       if (!option) {
         if (body.length) break;
         continue;
@@ -185,29 +195,27 @@ export default function CricketStatsPage() {
         <section className="mt-8">
           <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men's & Women's)</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
-            <table className="min-w-full border-separate border-spacing-0 text-left text-sm">
-              {iccTable.header.length > 0 ? (
-                <thead className="border-b border-amber-200/35 bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
-                  <tr>
-                    {iccTable.header.map((cell, idx) => (
-                      <th key={`icc-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
-                        {cleanMojibake(cell || "") || `Column ${idx + 1}`}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-              ) : null}
+            <table className="min-w-full border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
+              <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+                <tr>
+                  {iccTable.header.map((cell, idx) => (
+                    <th key={`icc-${idx}-${cell}`} className="border-b border-amber-200/35 px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
+                      {cleanMojibake(cell || "") || `Column ${idx + 1}`}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
               <tbody>
                 {iccTable.body.map((row, rIdx) => (
                   <tr
                     key={`icc-${rIdx}`}
-                    className="border-t border-amber-200/20 odd:bg-black/25 even:bg-black/45"
+                    className="odd:bg-black/25 even:bg-black/45"
                     style={{ animation: "fly-in-row 520ms ease-out both", animationDelay: `${Math.min(rIdx * 45, 900)}ms` }}
                   >
                     {row.map((cell, cIdx) => (
                       <td
                         key={`icc-${rIdx}-${cIdx}`}
-                        className={`px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 1 ? "whitespace-nowrap" : ""}`}
+                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 1 ? "whitespace-nowrap" : ""}`}
                       >
                         {cleanMojibake(cell || "") || "�"}
                       </td>
