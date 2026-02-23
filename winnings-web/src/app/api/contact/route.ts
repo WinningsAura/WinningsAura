@@ -21,7 +21,19 @@ type Submission = {
 };
 
 const headers = ["Name", "Email", "Phone", "Message", "Submitted At"];
-const csvPath = path.resolve(process.cwd(), "..", "contact-submissions.csv");
+
+function getCsvPath() {
+  // On Vercel serverless, the deployment filesystem is read-only.
+  // /tmp is writable during the function's lifetime.
+  if (process.env.VERCEL) {
+    return path.join("/tmp", "contact-submissions.csv");
+  }
+
+  // Local/dev fallback.
+  return path.resolve(process.cwd(), "..", "contact-submissions.csv");
+}
+
+const csvPath = getCsvPath();
 const rateLimitWindowMs = 60_000;
 const maxRequestsPerWindow = 5;
 const ipWindow = new Map<string, number[]>();
