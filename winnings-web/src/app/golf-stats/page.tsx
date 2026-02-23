@@ -97,7 +97,7 @@ function getGolfCategoryDisplayTitle(title: string) {
 
   const t = text.toLowerCase();
   if (/\bwomen\b/.test(t)) return "Women";
-  if (/\bmen\b/.test(t)) return "Mens";
+  if (/\bmen\b/.test(t)) return "Men";
   if (t.includes("non majors")) return "Non - Majors";
   if (t.includes("majors")) return "Majors";
 
@@ -108,7 +108,7 @@ function orderGolfSectionsForDisplay(sections: GolfSection[]) {
   return [...sections].sort((a, b) => {
     const rank = (title: string) => {
       const label = getGolfCategoryDisplayTitle(title);
-      if (label === "Mens") return 0;
+      if (label === "Men") return 0;
       if (label === "Women") return 1;
       return 2;
     };

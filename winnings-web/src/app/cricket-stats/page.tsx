@@ -83,8 +83,10 @@ export default function CricketStatsPage() {
     return { header, body };
   }, [rows]);
 
+  const iccDefaultHeader = ["Tournament", "Winner", "Runner Up", "Semi-finalists"];
+
   const iccTable = useMemo(() => {
-    const fallbackHeader = ["Tournament", "Winner", "Runner Up", "Semi-finalists"];
+    const fallbackHeader = iccDefaultHeader;
 
     const headerIdx = rows.findIndex((r) => {
       const normalized = r.map((c) => cleanMojibake(c || "").toLowerCase());
@@ -115,6 +117,8 @@ export default function CricketStatsPage() {
 
     return { header: headerRow, body };
   }, [rows]);
+
+  const iccHeader = iccTable.header.length ? iccTable.header : iccDefaultHeader;
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#0f2a3a_0%,_#0a1626_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
@@ -198,8 +202,8 @@ export default function CricketStatsPage() {
             <table className="min-w-full border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
               <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                 <tr>
-                  {iccTable.header.map((cell, idx) => (
-                    <th key={`icc-${idx}-${cell}`} className="border-b border-amber-200/35 px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
+                  {iccHeader.map((cell, idx) => (
+                    <th key={`icc-${idx}-${cell}`} className="border-y border-amber-200/35 px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
                       {cleanMojibake(cell || "") || `Column ${idx + 1}`}
                     </th>
                   ))}
