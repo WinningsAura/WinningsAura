@@ -96,8 +96,8 @@ function getGolfCategoryDisplayTitle(title: string) {
   if (!text) return "";
 
   const t = text.toLowerCase();
-  if (t.includes("men")) return "Mens";
-  if (t.includes("women")) return "Women";
+  if (/\bwomen\b/.test(t)) return "Women";
+  if (/\bmen\b/.test(t)) return "Mens";
   if (t.includes("non majors")) return "Non - Majors";
   if (t.includes("majors")) return "Majors";
 
