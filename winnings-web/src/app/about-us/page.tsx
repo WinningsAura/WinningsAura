@@ -60,7 +60,7 @@ export default function AboutUsPage() {
               </div>
           </nav>
         </div>
-        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">About WinningsAura</h1>
+        <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">About WinningsAura</h1>
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">{error}</p> : null}
 

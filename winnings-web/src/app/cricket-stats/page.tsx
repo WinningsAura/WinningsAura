@@ -145,13 +145,13 @@ export default function CricketStatsPage() {
               </div>
           </nav>
         </div>
-        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Cricket Winnings</h1>
+        <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Cricket Winnings</h1>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
 
         <section className="mt-5">
-          <h2 className="mb-3 text-lg font-semibold text-amber-100">Central Contracts and Match Fees</h2>
+          <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Central Contracts and Match Fees</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-full text-left text-sm">
               {contractsTable.header.length > 0 ? (
@@ -169,7 +169,7 @@ export default function CricketStatsPage() {
                               : label;
 
                       return (
-                        <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
+                        <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 text-xs font-semibold tracking-wide whitespace-normal break-words sm:text-sm sm:whitespace-nowrap">
                           {displayLabel}
                         </th>
                       );
@@ -197,13 +197,13 @@ export default function CricketStatsPage() {
         </section>
 
         <section className="mt-8">
-          <h2 className="mb-3 text-lg font-semibold text-amber-100">ICC Event Prize Money Structures (Men's & Women's)</h2>
+          <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">ICC Event Prize Money Structures (Men&apos;s &amp; Women&apos;s)</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-full border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
               <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                 <tr>
                   {iccHeader.map((cell, idx) => (
-                    <th key={`icc-${idx}-${cell}`} className="border-y border-amber-200/35 px-4 py-3 whitespace-nowrap font-semibold tracking-wide">
+                    <th key={`icc-${idx}-${cell}`} className="border-y border-amber-200/35 px-4 py-3 text-xs font-semibold tracking-wide whitespace-normal break-words sm:text-sm sm:whitespace-nowrap">
                       {cleanMojibake(cell || "") || `Column ${idx + 1}`}
                     </th>
                   ))}

@@ -73,7 +73,7 @@ export default function ContactUsPage() {
               </div>
           </nav>
         </div>
-        <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Contact Us</h1>
+        <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Contact Us</h1>
         <p className="mt-2 text-amber-100/80">Share your details and message. We will get back to you soon.</p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">

@@ -75,7 +75,7 @@ export default function HomePage() {
             </nav>
           </div>
 
-          <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura</h1>
+          <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura</h1>
           <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">Every Win. One Platform.</p>
         </header>
 
@@ -118,7 +118,7 @@ export default function HomePage() {
                   </div>
                 ) : null}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
-                <p className="absolute bottom-3 left-3 text-xl font-bold text-amber-100 sm:bottom-4 sm:left-4 sm:text-2xl">{sport.name}</p>
+                <p className="absolute bottom-3 left-3 max-w-[85%] break-words text-lg font-bold leading-tight text-amber-100 sm:bottom-4 sm:left-4 sm:max-w-none sm:text-2xl">{sport.name}</p>
               </div>
               <div className="p-4 text-sm text-amber-100/85 sm:p-5">{sport.description}</div>
             </Link>

@@ -754,7 +754,7 @@ export default function TennisStatsPage() {
               </div>
             </nav>
           </div>
-          <h1 className="mt-2 text-2xl font-bold text-amber-100 sm:text-4xl lg:text-5xl">Tennis Winnings</h1>
+          <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl lg:text-5xl">Tennis Winnings</h1>
 
           <div className="mt-5 max-w-md">
             <label className="mb-2 block text-sm font-semibold text-amber-100/90">Tennis Events</label>
@@ -818,7 +818,7 @@ export default function TennisStatsPage() {
           selectedAtpWtaSection ? (
             <div className="space-y-6">
               <section key={selectedAtpWtaSection.title} className="rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
-                <h2 className="mb-3 text-lg font-semibold text-amber-100 sm:text-xl">{getAtpWtaSectionDisplayTitle(selectedAtpWtaSection.title)}</h2>
+                <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-xl">{getAtpWtaSectionDisplayTitle(selectedAtpWtaSection.title)}</h2>
                 <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-2">
                   <table className="w-full table-fixed text-left text-xs sm:text-sm">
                     <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
@@ -859,7 +859,7 @@ export default function TennisStatsPage() {
 
               <section id="prize-chart" className="rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
                 <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <h3 className="text-lg font-semibold text-amber-100">Prize Money Chart</h3>
+                  <h3 className="break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Prize Money Chart</h3>
                   <select
                     className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm"
                     value={selectedRound}
@@ -921,7 +921,7 @@ export default function TennisStatsPage() {
         ) : (
           <>
             <div className="mb-3 flex items-center gap-2">
-              <h2 className="text-lg font-semibold text-amber-100 sm:text-xl">{processed.sectionHeader}</h2>
+              <h2 className="break-words text-base font-semibold leading-tight text-amber-100 sm:text-xl">{processed.sectionHeader}</h2>
               <a href="#prize-chart" className="inline-flex rounded-md border border-amber-200/40 p-1 hover:border-amber-200/80" aria-label="Open prize chart">
                 <Image src="/graph-line-icon.svg" alt="Open line graph" width={18} height={18} />
               </a>
@@ -983,7 +983,7 @@ export default function TennisStatsPage() {
 
             <section id="prize-chart" className="mt-8 rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
               <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h3 className="text-lg font-semibold text-amber-100">Prize Money Chart</h3>
+                <h3 className="break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Prize Money Chart</h3>
                 <select
                   className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm"
                   value={selectedRound}

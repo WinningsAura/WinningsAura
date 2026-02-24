@@ -236,7 +236,7 @@ export default function GolfStatsPage() {
             </nav>
           </div>
 
-          <h1 className="text-2xl font-bold text-amber-100 sm:text-4xl">Golf Winnings</h1>
+          <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Golf Winnings</h1>
 
           <div className="mt-5 max-w-md">
             <label className="mb-2 block text-sm font-semibold text-amber-100/90">Golf Events</label>
@@ -251,7 +251,7 @@ export default function GolfStatsPage() {
           </div>
 
           <div className="mt-5">
-            <h2 className="mb-3 text-sm font-semibold text-amber-100/90 sm:text-base">Golf Categories</h2>
+            <h2 className="mb-3 break-words text-sm font-semibold leading-tight text-amber-100/90 sm:text-base">Golf Categories</h2>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {filteredSections.map((sec) => (
                 <button
@@ -308,7 +308,7 @@ export default function GolfStatsPage() {
 
             <section className="mt-8 rounded-2xl border border-amber-200/35 bg-slate-900/40 p-4 sm:p-6">
               <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h3 className="text-lg font-semibold text-amber-100">Prize Money Chart</h3>
+                <h3 className="break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Prize Money Chart</h3>
                 <select className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm" value={selectedFinish} onChange={(e) => setSelectedFinish(e.target.value)}>
                   {finishes.map((f, i) => (
                     <option key={`${f}-${i}`} value={f}>{normalizeFinishLabel(f)}</option>
@@ -353,7 +353,7 @@ export default function GolfStatsPage() {
                 <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
                   {chartData.map((d, i) => (
                     <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
-                      <div className="font-semibold whitespace-nowrap">{d.label}</div>
+                      <div className="font-semibold whitespace-normal break-words">{d.label}</div>
                       <div>{formatMoneyText(d.raw || "")}</div>
                     </div>
                   ))}
