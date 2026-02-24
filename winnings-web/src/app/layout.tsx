@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -111,6 +112,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         {children}
+        <footer className="border-t border-amber-200/20 bg-[#05070f] px-4 py-4 text-center text-sm text-amber-100/80">
+          <div className="mx-auto flex max-w-6xl items-center justify-center gap-3">
+            <span>© {new Date().getFullYear()} WinningsAura</span>
+            <span aria-hidden="true">•</span>
+            <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-amber-100">
+              Privacy Policy
+            </Link>
+          </div>
+        </footer>
       </body>
     </html>
   );
