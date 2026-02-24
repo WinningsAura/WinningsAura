@@ -4,6 +4,13 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#1f2937_0%,_#0b1020_45%,_#05070f_100%)] px-4 py-8 text-[#F5E6B3] sm:px-6 lg:px-8">
       <main className="mx-auto w-full max-w-4xl rounded-2xl border border-amber-300/30 bg-black/50 p-6 shadow-2xl backdrop-blur-sm sm:p-8">
+        <div className="mb-5">
+          <Link href="/" className="inline-flex items-center gap-1 text-sm text-amber-100/85 underline underline-offset-4 hover:text-amber-100">
+            <span aria-hidden="true">←</span>
+            <span>Back to Home</span>
+          </Link>
+        </div>
+
         <h1 className="text-3xl font-bold text-amber-100">Privacy Policy</h1>
         <p className="mt-2 text-sm text-amber-100/70">Last updated: February 24, 2026</p>
 
