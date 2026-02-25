@@ -798,22 +798,18 @@ export default function TennisStatsPage() {
           </div>
 
           {selectedSheet === "Tennis Grand Slams" ? (
-            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 sm:gap-4">
+            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {categories.map((c) => (
                 <button
                   key={c}
                   onClick={() => setSelectedCategory(c)}
-                  className={`group overflow-hidden rounded-xl border text-left transition sm:rounded-2xl ${
+                  className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
                     selectedCategory === c
-                      ? "border-amber-200/90 ring-2 ring-amber-300/35"
-                      : "border-amber-200/30 hover:border-amber-200/70"
+                      ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
+                      : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
                   }`}
                 >
-                  <div className="relative h-24 w-full sm:h-28">
-                    <Image src={categoryImage[c]} alt={`${c} category`} fill className="object-cover" />
-                    <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30" />
-                    <p className="absolute bottom-2 left-3 text-sm font-semibold text-amber-100 sm:text-base">{c}</p>
-                  </div>
+                  {c}
                 </button>
               ))}
             </div>
