@@ -267,7 +267,7 @@ export default function GolfStatsPage() {
           </div>
 
             <div className="mt-5">
-              <h2 className="mb-3 break-words text-sm font-semibold leading-tight text-amber-100/90 sm:text-base">Golf Categories</h2>
+              <h2 className="mb-3 break-words text-sm font-semibold leading-tight text-amber-100/90">Golf Categories</h2>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredSections.map((sec) => (
                   <button
