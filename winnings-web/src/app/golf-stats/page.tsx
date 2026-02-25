@@ -7,7 +7,9 @@ type GolfSection = { title: string; header: string[]; body: string[][] };
 
 function clean(v: string) {
   return (v || "")
-    .replace(/â€™/g, "’")
+    .replace(/\u00e2\u0080\u0099/g, "’")
+    .replace(/â€™|â/g, "’")
+    .replace(/\u00e2\u0080\u009c|\u00e2\u0080\u009d/g, '"')
     .replace(/â€œ|â€/g, '"')
     .replace(/â€“|â€”/g, "-")
     .replace(/Â/g, "")
