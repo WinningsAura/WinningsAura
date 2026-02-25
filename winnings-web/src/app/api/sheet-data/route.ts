@@ -102,6 +102,26 @@ export async function GET(req: NextRequest) {
     if (!csvFile) return NextResponse.json({ error: `Sheet not found: ${sheet}` }, { status: 404 });
 
     const cwd = process.cwd();
+    const csvPath = findExistingPath([
+      path.resolve(cwd, "winnings-sheets", csvFile),
+      path.resolve(cwd, "data", "winnings-sheets", csvFile),
+      path.resolve(cwd, "..", "winnings-sheets", csvFile), // backward-compatible local layout
+    ]);
+
+    if (csvPath) {
+      const csvText = fs.readFileSync(csvPath, "utf8");
+      const rows = normalizeRows(parseCsv(csvText));
+
+      return NextResponse.json(
+        { sheet, rows },
+        {
+          headers: {
+            "Cache-Control": "no-store, max-age=0",
+          },
+        }
+      );
+    }
+
     const xlsxPath = findExistingPath([
       path.resolve(cwd, "Winnings.xlsx"),
       path.resolve(cwd, "data", "Winnings.xlsx"),
@@ -120,42 +140,21 @@ export async function GET(req: NextRequest) {
           }
         );
       }
-      // If workbook is unreadable, fall back to CSV snapshot below.
     }
-
-    const csvPath = findExistingPath([
-      path.resolve(cwd, "winnings-sheets", csvFile),
-      path.resolve(cwd, "data", "winnings-sheets", csvFile),
-      path.resolve(cwd, "..", "winnings-sheets", csvFile), // backward-compatible local layout
-    ]);
-
-    if (!csvPath) {
-      return NextResponse.json(
-        {
-          error: `Data file missing for sheet: ${sheet}`,
-          checked: [
-            path.resolve(cwd, "Winnings.xlsx"),
-            path.resolve(cwd, "data", "Winnings.xlsx"),
-            path.resolve(cwd, "..", "Winnings.xlsx"),
-            path.resolve(cwd, "winnings-sheets", csvFile),
-            path.resolve(cwd, "data", "winnings-sheets", csvFile),
-            path.resolve(cwd, "..", "winnings-sheets", csvFile),
-          ],
-        },
-        { status: 404 }
-      );
-    }
-
-    const csvText = fs.readFileSync(csvPath, "utf8");
-    const rows = normalizeRows(parseCsv(csvText));
 
     return NextResponse.json(
-      { sheet, rows },
       {
-        headers: {
-          "Cache-Control": "no-store, max-age=0",
-        },
-      }
+        error: `Data file missing for sheet: ${sheet}`,
+        checked: [
+          path.resolve(cwd, "winnings-sheets", csvFile),
+          path.resolve(cwd, "data", "winnings-sheets", csvFile),
+          path.resolve(cwd, "..", "winnings-sheets", csvFile),
+          path.resolve(cwd, "Winnings.xlsx"),
+          path.resolve(cwd, "data", "Winnings.xlsx"),
+          path.resolve(cwd, "..", "Winnings.xlsx"),
+        ],
+      },
+      { status: 404 }
     );
   } catch (e) {
     return NextResponse.json(
