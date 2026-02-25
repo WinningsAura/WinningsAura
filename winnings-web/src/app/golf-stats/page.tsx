@@ -31,15 +31,15 @@ function normalizeFinishLabel(value: string) {
 function formatMoneyText(value: string) {
   const text = clean(value);
   if (!text) return "-";
-  if (text === "-") return "-";
+  if (text === "-" || text === "—" || text === "–") return "-";
 
   const numeric = text.replace(/[^0-9.,-]/g, "").trim();
   if (!numeric) return text;
   const parsed = Number(numeric.replace(/,/g, ""));
   const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numeric;
 
-  if (text.includes("$")) return `$${formatted}`;
-  return formatted;
+  const hasCurrency = /[$€£¥]|\b(USD|AUD|EUR|GBP|CAD)\b/i.test(text);
+  return hasCurrency ? text.replace(numeric, formatted) : `$${formatted}`;
 }
 
 function formatAxisMoney(value: number) {
