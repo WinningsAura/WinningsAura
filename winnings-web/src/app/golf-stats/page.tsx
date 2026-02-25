@@ -213,8 +213,15 @@ export default function GolfStatsPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#1f2937_0%,_#0b1020_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <main className="relative z-30 mx-auto w-full max-w-6xl rounded-2xl bg-[radial-gradient(circle_at_top,_#1f2937_0%,_#0b1020_45%,_#05070f_100%)] p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
-        <section className="mt-2 rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
+        <section className="relative mt-2 overflow-hidden rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-35"
+            style={{ backgroundImage: "url('/golf-aura-max-2026.svg')" }}
+          />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-emerald-900/45 via-black/45 to-black/70" />
+
+          <div className="relative z-10 mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
             <Link href="/" className="flex items-center gap-2">
               <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
             </Link>
@@ -236,9 +243,10 @@ export default function GolfStatsPage() {
             </nav>
           </div>
 
-          <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Golf Winnings</h1>
+          <div className="relative z-10">
+            <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Golf Winnings</h1>
 
-          <div className="mt-5 max-w-md">
+            <div className="mt-5 max-w-md">
             <label className="mb-2 block text-sm font-semibold text-amber-100/90">Golf Events</label>
             <select
               className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-sm text-amber-100 outline-none transition focus:border-amber-200 sm:text-base"
@@ -250,22 +258,23 @@ export default function GolfStatsPage() {
             </select>
           </div>
 
-          <div className="mt-5">
-            <h2 className="mb-3 break-words text-sm font-semibold leading-tight text-amber-100/90 sm:text-base">Golf Categories</h2>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredSections.map((sec) => (
-                <button
-                  key={sec.title}
-                  onClick={() => setSelectedSection(sec.title)}
-                  className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
-                    activeSection?.title === sec.title
-                      ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
-                      : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
-                  }`}
-                >
-                  {getGolfCategoryDisplayTitle(sec.title)}
-                </button>
-              ))}
+            <div className="mt-5">
+              <h2 className="mb-3 break-words text-sm font-semibold leading-tight text-amber-100/90 sm:text-base">Golf Categories</h2>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredSections.map((sec) => (
+                  <button
+                    key={sec.title}
+                    onClick={() => setSelectedSection(sec.title)}
+                    className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
+                      activeSection?.title === sec.title
+                        ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
+                        : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
+                    }`}
+                  >
+                    {getGolfCategoryDisplayTitle(sec.title)}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </section>
