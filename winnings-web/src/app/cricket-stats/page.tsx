@@ -75,11 +75,18 @@ export default function CricketStatsPage() {
 
   const contractsTable = useMemo(() => {
     const iccHeadingIdx = rows.findIndex((r) => r.some((c) => (c || "").toLowerCase().includes("icc event prize money structures")));
-    const sectionRows = (iccHeadingIdx === -1 ? rows : rows.slice(0, iccHeadingIdx)).filter((r) => (r[0] || "").trim());
-    if (!sectionRows.length) return { header: [] as string[], body: [] as string[][] };
+    const sectionRows = iccHeadingIdx === -1 ? rows : rows.slice(0, iccHeadingIdx);
 
-    const header = sectionRows[0].slice(0, 5);
-    const body = sectionRows.slice(1).map((r) => r.slice(0, 5));
+    const headerIdx = sectionRows.findIndex((r) => cleanMojibake(r[0] || "").toLowerCase() === "country");
+    if (headerIdx === -1) return { header: [] as string[], body: [] as string[][] };
+
+    const header = ["Country", "Central Retainer", "Test Fee", "ODI Fee", "T20 Fee"];
+
+    const body = sectionRows
+      .slice(headerIdx + 1)
+      .map((r) => r.slice(0, 5))
+      .filter((r) => cleanMojibake(r[0] || "").trim().length > 0);
+
     return { header, body };
   }, [rows]);
 
@@ -165,23 +172,11 @@ export default function CricketStatsPage() {
               {contractsTable.header.length > 0 ? (
                 <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                   <tr>
-                    {contractsTable.header.map((cell, idx) => {
-                      const label = cleanMojibake(cell || "") || `Column ${idx + 1}`;
-                      const displayLabel =
-                        label === "Test Fee"
-                          ? "Test Match Fee"
-                          : label === "ODI Fee"
-                            ? "ODI Match Fee"
-                            : label === "T20I Fee"
-                              ? "T20I Match Fee"
-                              : label;
-
-                      return (
-                        <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 text-xs font-semibold tracking-wide whitespace-normal break-words sm:text-sm sm:whitespace-nowrap">
-                          {displayLabel}
-                        </th>
-                      );
-                    })}
+                    {contractsTable.header.map((cell, idx) => (
+                      <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 text-xs font-semibold tracking-wide whitespace-normal break-words sm:text-sm sm:whitespace-nowrap">
+                        {cleanMojibake(cell || "") || `Column ${idx + 1}`}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
               ) : null}
