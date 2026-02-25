@@ -745,21 +745,18 @@ export default function TennisStatsPage() {
     <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,#4a3900,#0b0b0b_45%,#000000_70%)] text-[#F5E6B3]">
       <main className="relative z-30 mx-auto w-full max-w-6xl px-3 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <section className="relative mb-6 overflow-hidden rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
-          {selectedSheet === "Tennis Grand Slams" ? (
-            <div className="pointer-events-none absolute inset-0 opacity-30">
-              <div className="grid h-full grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1">
-                {grandSlamCourts.map((court) => (
-                  <div key={court.name} className={`relative border border-white/10 bg-gradient-to-br ${court.colors}`}>
-                    <div className="absolute inset-3 rounded-md border border-white/25" />
-                    <div className="absolute left-1/2 top-3 bottom-3 w-px -translate-x-1/2 bg-white/25" />
-                    <div className="absolute left-3 right-3 top-1/2 h-px -translate-y-1/2 bg-white/20" />
-                  </div>
-                ))}
-              </div>
-              <div className="absolute inset-0 bg-black/45" />
+          <div className="pointer-events-none absolute inset-0 opacity-30">
+            <div className="grid h-full grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1">
+              {grandSlamCourts.map((court) => (
+                <div key={court.name} className={`relative border border-white/10 bg-gradient-to-br ${court.colors}`}>
+                  <div className="absolute inset-3 rounded-md border border-white/25" />
+                  <div className="absolute left-1/2 top-3 bottom-3 w-px -translate-x-1/2 bg-white/25" />
+                  <div className="absolute left-3 right-3 top-1/2 h-px -translate-y-1/2 bg-white/20" />
+                </div>
+              ))}
             </div>
-          ) : null
-          }
+            <div className="absolute inset-0 bg-black/45" />
+          </div>
           <div className="relative z-10">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
             <Link href="/" className="flex items-center gap-2">

@@ -123,13 +123,20 @@ export default function CricketStatsPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#0f2a3a_0%,_#0a1626_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <main className="relative z-30 mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
-          <Link href="/" className="flex items-center gap-2">
-            <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
-          </Link>
-          <nav className="flex items-center gap-2 text-sm sm:gap-3">
-            
-            <div className="relative">
+        <section className="relative mb-4 overflow-hidden rounded-2xl border border-amber-200/25 bg-black/45 p-4 sm:p-5">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-35"
+            style={{ backgroundImage: "url('/cricket-aura-max-2026.svg')" }}
+          />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-sky-900/45 via-black/40 to-black/70" />
+
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
+            <Link href="/" className="flex items-center gap-2">
+              <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
+            </Link>
+            <nav className="flex items-center gap-2 text-sm sm:gap-3">
+              <div className="relative">
                 <details className="group">
                   <summary className="list-none cursor-pointer rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">
                     Menu
@@ -143,9 +150,10 @@ export default function CricketStatsPage() {
                   </div>
                 </details>
               </div>
-          </nav>
-        </div>
-        <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Cricket Winnings</h1>
+            </nav>
+          </div>
+          <h1 className="relative z-10 mt-3 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Cricket Winnings</h1>
+        </section>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
