@@ -103,6 +103,15 @@ function formatCurrencyByHeader(header: string, value: string) {
     return text.replace(/[?\uFFFD]/g, "").trim();
   }
 
+  if (normalizedHeader.includes("us open")) {
+    if (/^(A\$|\$|€|£)/.test(text)) return text;
+    const numericPart = text.replace(/[^0-9.,-]/g, "").trim();
+    if (!numericPart) return text;
+    const parsed = Number(numericPart.replace(/,/g, ""));
+    const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
+    return `$${formatted}`;
+  }
+
   if (normalizedHeader.includes("australian open")) {
     const numericPart = text.replace(/[^0-9.,-]/g, "").trim();
     if (!numericPart) return text;
@@ -208,18 +217,26 @@ function buildWta250FallbackSection(allRows: string[][]) {
 
   if (!entries.length) return null;
 
-  const tournaments = entries.map((e) => e.tournament);
+  const validEntries = entries.filter((e) => {
+    const n = normalizeRoundLabel(e.tournament);
+    return Boolean(e.tournament) && !n.includes("prizemoneysummary");
+  });
+  if (!validEntries.length) return null;
+
+  const sectionFallbackCurrency = validEntries.map((e) => (e.currency || "").trim()).find(Boolean) || "";
+
+  const tournaments = validEntries.map((e) => e.tournament);
   const body: string[][] = [
-    ["Winner", ...entries.map((e) => cleanMoneyByCurrency(e.winner, e.currency))],
-    ["Runner up", ...entries.map((e) => cleanMoneyByCurrency(e.finalist, e.currency))],
-    ["Semi Finalists", ...entries.map((e) => cleanMoneyByCurrency(e.semi, e.currency))],
-    ["Quarter Finalists", ...entries.map((e) => cleanMoneyByCurrency(e.quarter, e.currency))],
-    ["Round of 16", ...entries.map((e) => cleanMoneyByCurrency(e.r16, e.currency))],
-    ["Round of 32", ...entries.map((e) => cleanMoneyByCurrency(e.r32, e.currency))],
+    ["Winner", ...validEntries.map((e) => cleanMoneyByCurrency(e.winner, e.currency, sectionFallbackCurrency))],
+    ["Runner up", ...validEntries.map((e) => cleanMoneyByCurrency(e.finalist, e.currency, sectionFallbackCurrency))],
+    ["Semi Finalists", ...validEntries.map((e) => cleanMoneyByCurrency(e.semi, e.currency, sectionFallbackCurrency))],
+    ["Quarter Finalists", ...validEntries.map((e) => cleanMoneyByCurrency(e.quarter, e.currency, sectionFallbackCurrency))],
+    ["Round of 16", ...validEntries.map((e) => cleanMoneyByCurrency(e.r16, e.currency, sectionFallbackCurrency))],
+    ["Round of 32", ...validEntries.map((e) => cleanMoneyByCurrency(e.r32, e.currency, sectionFallbackCurrency))],
   ];
 
-  if (entries.some((e) => e.q2)) body.push(["Q2", ...entries.map((e) => cleanMoneyByCurrency(e.q2 || "", e.currency))]);
-  if (entries.some((e) => e.q1)) body.push(["Q1", ...entries.map((e) => cleanMoneyByCurrency(e.q1 || "", e.currency))]);
+  if (validEntries.some((e) => e.q2)) body.push(["Q2", ...validEntries.map((e) => cleanMoneyByCurrency(e.q2 || "", e.currency, sectionFallbackCurrency))]);
+  if (validEntries.some((e) => e.q1)) body.push(["Q1", ...validEntries.map((e) => cleanMoneyByCurrency(e.q1 || "", e.currency, sectionFallbackCurrency))]);
 
   return { title, header: ["Round", ...tournaments], body };
 }
@@ -304,7 +321,18 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
 
   if (!filteredEntries.length) return null;
 
-  const tournaments = filteredEntries.map((e) => cleanTournamentName(e.row[colTournament] || ""));
+  const sanitizedEntries = filteredEntries.filter((e) => {
+    const tournament = cleanTournamentName(e.row[colTournament] || "");
+    const n = normalizeRoundLabel(tournament);
+    return Boolean(tournament) && n !== "tournament" && !n.includes("prizemoneysummary");
+  });
+
+  if (!sanitizedEntries.length) return null;
+
+  const sectionFallbackCurrency =
+    sanitizedEntries.map((e) => (e.currency || "").trim()).find(Boolean) || "";
+
+  const tournaments = sanitizedEntries.map((e) => cleanTournamentName(e.row[colTournament] || ""));
 
   const roundDefs: Array<{ label: string; key: "winner" | "runnerup" | "semi" | "quarter" | "r16" | "r32" | "r64" | "q2" | "q1"; col: number }> = [
     { label: "Winner", key: "winner", col: colWinner },
@@ -320,20 +348,20 @@ function buildAtpWtaSection(allRows: string[][], start: number, end: number, tit
 
   const body = roundDefs
     .map((round) => {
-      const vals = filteredEntries.map((entry) => {
+      const vals = sanitizedEntries.map((entry) => {
         const raw = round.col !== -1 ? entry.row[round.col] || "" : "";
 
         if ((round.key === "r32" || round.key === "r64") && colR32 !== -1 && colR32 === colR64) {
           const parts = raw.split("/").map((p) => p.trim());
-          if (round.key === "r32") return cleanMoneyByCurrency(parts[0] || raw, entry.currency || "");
-          if (round.key === "r64") return cleanMoneyByCurrency(parts[1] || "", entry.currency || "");
+          if (round.key === "r32") return cleanMoneyByCurrency(parts[0] || raw, entry.currency || "", sectionFallbackCurrency);
+          if (round.key === "r64") return cleanMoneyByCurrency(parts[1] || "", entry.currency || "", sectionFallbackCurrency);
         }
 
         const fallback = round.key === "r16" || round.key === "r32" || round.key === "r64" || round.key === "q2" || round.key === "q1"
           ? entry.extras[round.key]
           : "";
 
-        return cleanMoneyByCurrency(raw || fallback || "", entry.currency || "");
+        return cleanMoneyByCurrency(raw || fallback || "", entry.currency || "", sectionFallbackCurrency);
       });
 
       const hasAnyValue = vals.some((v) => v !== "-");
@@ -373,18 +401,19 @@ function getGrandSlamRoundRank(value: string) {
   return Number.MAX_SAFE_INTEGER;
 }
 
-function cleanMoneyByCurrency(value: string, currency: string) {
+function cleanMoneyByCurrency(value: string, currency: string, fallbackCurrency = "") {
   const raw = (value || "").replace(/[?\uFFFD~]/g, "").trim();
   if (!raw) return "-";
   const numPart = raw.replace(/[^0-9.,-]/g, "").trim();
   if (!numPart) return raw;
   const parsed = Number(numPart.replace(/,/g, ""));
   const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numPart;
-  const cur = (currency || "").toUpperCase();
+  const curRaw = (currency || fallbackCurrency || "").toUpperCase();
 
-  if (cur === "USD") return `$${formatted}`;
-  if (cur === "EUR") return `\u20AC${formatted}`;
-  if (cur === "GBP") return `\u00A3${formatted}`;
+  if (curRaw === "USD" || curRaw.includes("USD")) return `$${formatted}`;
+  if (curRaw === "EUR" || curRaw.includes("EUR")) return `\u20AC${formatted}`;
+  if (curRaw === "GBP" || curRaw.includes("GBP")) return `\u00A3${formatted}`;
+  if (curRaw.includes("AUD")) return `A$${formatted}`;
 
   if (raw.includes("A$")) return `A$${formatted}`;
   if (raw.includes("$")) return `$${formatted}`;
