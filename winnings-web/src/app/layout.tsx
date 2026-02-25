@@ -113,8 +113,16 @@ export default function RootLayout({
         />
         {children}
         <footer className="border-t border-amber-200/20 bg-[#05070f] px-4 py-4 text-center text-sm text-amber-100/80">
-          <div className="mx-auto flex max-w-6xl items-center justify-center gap-3">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3">
             <span>© {new Date().getFullYear()} WinningsAura</span>
+            <span aria-hidden="true">•</span>
+            <Link href="/about-us" className="underline underline-offset-4 hover:text-amber-100">
+              About Us
+            </Link>
+            <span aria-hidden="true">•</span>
+            <Link href="/contact-us" className="underline underline-offset-4 hover:text-amber-100">
+              Contact Us
+            </Link>
             <span aria-hidden="true">•</span>
             <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-amber-100">
               Privacy Policy
