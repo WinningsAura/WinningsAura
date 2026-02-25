@@ -38,26 +38,6 @@ const rateLimitWindowMs = 60_000;
 const maxRequestsPerWindow = 5;
 const ipWindow = new Map<string, number[]>();
 
-function isAuthorizedAdmin(req: NextRequest) {
-  const adminUser = process.env.ADMIN_USER;
-  const adminPass = process.env.ADMIN_PASS;
-
-  if (!adminUser || !adminPass) return false;
-
-  const authHeader = req.headers.get("authorization") || "";
-  if (!authHeader.startsWith("Basic ")) return false;
-
-  try {
-    const base64 = authHeader.slice(6).trim();
-    const decoded = Buffer.from(base64, "base64").toString("utf8");
-    const [user, ...rest] = decoded.split(":");
-    const pass = rest.join(":");
-    return user === adminUser && pass === adminPass;
-  } catch {
-    return false;
-  }
-}
-
 function toCsvCell(value: string) {
   const escaped = value.replace(/"/g, '""');
   return `"${escaped}"`;
@@ -175,14 +155,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
-  if (!isAuthorizedAdmin(req)) {
-    return new NextResponse("Authentication required", {
-      status: 401,
-      headers: { "WWW-Authenticate": 'Basic realm="WinningsAura Admin"' },
-    });
-  }
-
+export async function GET() {
   try {
     if (!fs.existsSync(csvPath)) {
       return NextResponse.json({ submissions: [] });
