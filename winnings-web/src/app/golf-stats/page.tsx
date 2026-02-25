@@ -6,7 +6,13 @@ import { useEffect, useMemo, useState } from "react";
 type GolfSection = { title: string; header: string[]; body: string[][] };
 
 function clean(v: string) {
-  return (v || "").replace(/[?\uFFFD]/g, "").trim()
+  return (v || "")
+    .replace(/â€™/g, "’")
+    .replace(/â€œ|â€/g, '"')
+    .replace(/â€“|â€”/g, "-")
+    .replace(/Â/g, "")
+    .replace(/[?\uFFFD]/g, "")
+    .trim();
 }
 
 function parseMoney(value: string) {
