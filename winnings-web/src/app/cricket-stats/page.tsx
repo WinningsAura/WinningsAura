@@ -169,7 +169,7 @@ export default function CricketStatsPage() {
               </div>
             </nav>
           </div>
-          <h1 className="relative z-10 mt-3 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Cricket Winnings</h1>
+          <h1 className="relative z-0 mt-3 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Cricket Winnings</h1>
         </section>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
