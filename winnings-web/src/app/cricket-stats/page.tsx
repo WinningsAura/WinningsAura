@@ -169,7 +169,7 @@ export default function CricketStatsPage() {
               </div>
             </nav>
           </div>
-          <h1 className="relative z-0 mt-3 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Cricket Winnings</h1>
+          <h1 className="relative z-0 mt-3 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:z-10 sm:text-4xl">Cricket Winnings</h1>
         </section>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
@@ -198,7 +198,7 @@ export default function CricketStatsPage() {
                     style={{ animation: "fly-in-row 520ms ease-out both", animationDelay: `${Math.min(rIdx * 45, 900)}ms` }}
                   >
                     {row.map((cell, cIdx) => (
-                      <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-nowrap align-top text-amber-50/95">
+                      <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-normal break-words align-top text-amber-50/95 sm:whitespace-nowrap">
                         {cIdx === 0 ? (cleanMojibake(cell || "") || "�") : (normalizeContractCurrency(cell || "", row[0] || "") || "�")}
                       </td>
                     ))}
@@ -232,7 +232,7 @@ export default function CricketStatsPage() {
                     {row.map((cell, cIdx) => (
                       <td
                         key={`icc-${rIdx}-${cIdx}`}
-                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 1 ? "whitespace-nowrap" : ""}`}
+                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 1 ? "whitespace-normal break-words sm:whitespace-nowrap" : ""}`}
                       >
                         {cleanMojibake(cell || "") || "�"}
                       </td>

@@ -313,7 +313,7 @@ export default function GolfStatsPage() {
                   {activeSection.body.map((row, rIdx) => (
                     <tr key={rIdx} className="border-t border-slate-300/20 odd:bg-slate-900/25 even:bg-slate-800/30">
                       {row.map((cell, cIdx) => (
-                        <td key={`${rIdx}-${cIdx}`} className={`px-1 py-2 text-center align-top sm:px-2 ${cIdx === 0 ? "whitespace-nowrap" : "whitespace-normal break-words text-[10px] sm:text-xs"}`}>
+                        <td key={`${rIdx}-${cIdx}`} className={`px-1 py-2 text-center align-top sm:px-2 ${cIdx === 0 ? "whitespace-normal break-words sm:whitespace-nowrap" : "whitespace-normal break-words text-[10px] sm:text-xs"}`}>
                           {cIdx === 0 ? (normalizeFinishLabel(cell) || "-") : formatMoneyText(cell || "")}
                         </td>
                       ))}

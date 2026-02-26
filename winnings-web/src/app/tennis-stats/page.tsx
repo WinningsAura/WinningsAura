@@ -867,7 +867,7 @@ export default function TennisStatsPage() {
                           {row.map((cell, cIdx) => (
                             <td
                               key={`${selectedAtpWtaSection.title}-${rIdx}-${cIdx}`}
-                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-nowrap text-[11px] sm:text-sm"}`}
+                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-normal break-words text-[11px] sm:whitespace-nowrap sm:text-sm"}`}
                             >
                               {formatCurrencyByHeader(selectedAtpWtaSection.header[cIdx] || "", cell || "")}
                             </td>
@@ -931,7 +931,7 @@ export default function TennisStatsPage() {
                   <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                     {chartData.map((d, i) => (
                       <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
-                        <div className="font-semibold whitespace-nowrap">{cleanHeadingText(d.label)}</div>
+                        <div className="max-w-[9rem] font-semibold whitespace-normal break-words sm:whitespace-nowrap">{cleanHeadingText(d.label)}</div>
                         <div>{formatCurrencyByHeader(cleanHeadingText(d.label), d.raw || "")}</div>
                       </div>
                     ))}
@@ -1049,7 +1049,7 @@ export default function TennisStatsPage() {
                 <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {chartData.map((d, i) => (
                     <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
-                      <div className="font-semibold whitespace-nowrap">{cleanHeadingText(d.label)}</div>
+                      <div className="max-w-[9rem] font-semibold whitespace-normal break-words sm:whitespace-nowrap">{cleanHeadingText(d.label)}</div>
                       <div>{formatCurrencyByHeader(cleanHeadingText(d.label), d.raw || "")}</div>
                     </div>
                   ))}
