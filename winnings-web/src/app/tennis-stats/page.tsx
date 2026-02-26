@@ -842,7 +842,7 @@ export default function TennisStatsPage() {
               <section key={selectedAtpWtaSection.title} className="rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
                 <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-xl">{getAtpWtaSectionDisplayTitle(selectedAtpWtaSection.title)}</h2>
                 <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-2">
-                  <table className="w-full table-fixed text-left text-xs sm:text-sm">
+                  <table className="min-w-[640px] w-full table-fixed text-left text-xs sm:min-w-full sm:text-sm">
                     <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                       <tr>
                         {selectedAtpWtaSection.header.map((cell, idx) => {

@@ -292,8 +292,8 @@ export default function GolfStatsPage() {
 
         {activeSection ? (
           <>
-            <div className="mt-6 overflow-hidden rounded-2xl border border-amber-200/35 bg-slate-900/40 backdrop-blur-sm">
-              <table className="w-full table-fixed text-left text-xs sm:text-sm">
+            <div className="mt-6 overflow-x-auto rounded-2xl border border-amber-200/35 bg-slate-900/40 backdrop-blur-sm">
+              <table className="min-w-[640px] w-full table-fixed text-left text-xs sm:min-w-full sm:text-sm">
                 <thead className="bg-gradient-to-r from-slate-700/35 to-slate-900/25 text-amber-100">
                   <tr>
                     {activeSection.header.map((cell, idx) => {
