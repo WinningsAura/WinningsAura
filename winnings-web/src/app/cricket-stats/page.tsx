@@ -148,12 +148,22 @@ export default function CricketStatsPage() {
                   <summary className="list-none cursor-pointer rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">
                     Menu
                   </summary>
-                  <div className="absolute right-0 top-full z-50 mt-1 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-open:opacity-100">
-                    <Link href="/about-us" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>About Us</span><span>{"\uD83D\uDC65"}</span></Link>
-                    <Link href="/tennis-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Tennis</span><span>{"\uD83C\uDFBE"}</span></Link>
-                    <Link href="/cricket-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Cricket</span><span>{"\uD83C\uDFCF"}</span></Link>
-                    <Link href="/golf-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Golf</span><span>{"\u26F3"}</span></Link>
-                    <Link href="/contact-us" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Contact Us</span><span>{"\u2709\uFE0F"}</span></Link>
+                  <div className="pointer-events-none absolute right-0 top-full z-[60] mt-1 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-open:pointer-events-auto group-open:opacity-100">
+                    <Link href="/about-us" className="block w-full rounded-md px-3 py-2 text-amber-100 leading-5 hover:bg-amber-200/10">
+                      <span className="flex items-center justify-between"><span>About Us</span><span>{"\uD83D\uDC65"}</span></span>
+                    </Link>
+                    <Link href="/tennis-stats" className="block w-full rounded-md px-3 py-2 text-amber-100 leading-5 hover:bg-amber-200/10">
+                      <span className="flex items-center justify-between"><span>Tennis</span><span>{"\uD83C\uDFBE"}</span></span>
+                    </Link>
+                    <Link href="/cricket-stats" className="block w-full rounded-md px-3 py-2 text-amber-100 leading-5 hover:bg-amber-200/10">
+                      <span className="flex items-center justify-between"><span>Cricket</span><span>{"\uD83C\uDFCF"}</span></span>
+                    </Link>
+                    <Link href="/golf-stats" className="block w-full rounded-md px-3 py-2 text-amber-100 leading-5 hover:bg-amber-200/10">
+                      <span className="flex items-center justify-between"><span>Golf</span><span>{"\u26F3"}</span></span>
+                    </Link>
+                    <Link href="/contact-us" className="block w-full rounded-md px-3 py-2 text-amber-100 leading-5 hover:bg-amber-200/10">
+                      <span className="flex items-center justify-between"><span>Contact Us</span><span>{"\u2709\uFE0F"}</span></span>
+                    </Link>
                   </div>
                 </details>
               </div>
