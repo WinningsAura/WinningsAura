@@ -31,16 +31,16 @@
 <rect x="448" y="482" width="344" height="36" rx="16" fill="#d8a467" opacity="0.75"/>
 <g fill="#f5e6c8">
   <g transform="rotate(25 462 497)">
-    <rect x="444" y="474" width="8" height="46" rx="2"/>
-    <rect x="458" y="474" width="8" height="46" rx="2"/>
-    <rect x="472" y="474" width="8" height="46" rx="2"/>
-    <rect x="442" y="470" width="40" height="6" rx="3"/>
+    <rect x="444" y="460" width="8" height="46" rx="2"/>
+    <rect x="458" y="460" width="8" height="46" rx="2"/>
+    <rect x="472" y="460" width="8" height="46" rx="2"/>
+    <rect x="442" y="456" width="40" height="6" rx="3"/>
   </g>
   <g transform="rotate(25 776 497)">
-    <rect x="758" y="474" width="8" height="46" rx="2"/>
-    <rect x="772" y="474" width="8" height="46" rx="2"/>
-    <rect x="786" y="474" width="8" height="46" rx="2"/>
-    <rect x="756" y="470" width="40" height="6" rx="3"/>
+    <rect x="758" y="460" width="8" height="46" rx="2"/>
+    <rect x="772" y="460" width="8" height="46" rx="2"/>
+    <rect x="786" y="460" width="8" height="46" rx="2"/>
+    <rect x="756" y="456" width="40" height="6" rx="3"/>
   </g>
 </g>
 <g transform="translate(900 180) rotate(14)">
