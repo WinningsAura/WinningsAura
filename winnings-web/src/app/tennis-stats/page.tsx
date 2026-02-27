@@ -29,6 +29,7 @@ function getAtpWtaSectionDisplayTitle(title: string) {
   if (n.includes("2025wta500")) return "WTA 500 Events (Singles - Women)";
   if (n.includes("2025atp250")) return "ATP 250 Events (Singles - Men)";
   if (n.includes("2025wta250")) return "WTA 250 Events (Singles - Women)";
+  if (n.includes("atp250inbucharestromania")) return "Bucharest, Romania";
   return title;
 }
 const STORAGE_SHEET_KEY = "tennisStats.selectedSheet";
