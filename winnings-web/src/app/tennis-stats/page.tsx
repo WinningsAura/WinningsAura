@@ -165,7 +165,16 @@ function cleanTournamentName(value: string) {
 }
 
 function cleanHeadingText(value: string) {
-  return (value || "").replace(/[?\uFFFD]/g, "").trim();
+  const cleaned = (value || "").replace(/[?\uFFFD]/g, "").trim();
+  const normalized = normalizeRoundLabel(cleaned);
+
+  if (normalized.includes("atp250inbucharestromaniaprizemoneyreportedinusd")) return "Bucharest, Romania";
+  if (normalized.includes("asbclassicwta250auckland")) return "ASB Classic";
+  if (normalized.includes("qatardoha500wta")) return "Qatar / Doha";
+  if (normalized.includes("qatardoha500")) return "Qatar / Doha";
+  if (normalized.includes("canadianopennationalbankopen")) return "Canadian Open";
+
+  return cleaned;
 }
 
 function buildWta250FallbackSection(allRows: string[][]) {
