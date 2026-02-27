@@ -852,7 +852,7 @@ export default function TennisStatsPage() {
               <section key={selectedAtpWtaSection.title} className="rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
                 <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-xl">{getAtpWtaSectionDisplayTitle(selectedAtpWtaSection.title)}</h2>
                 <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-2">
-                  <table className="min-w-[640px] w-full table-fixed text-left text-xs sm:min-w-full sm:text-sm">
+                  <table className="min-w-[760px] w-full table-fixed text-left text-xs sm:min-w-full sm:text-sm">
                     <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                       <tr>
                         {selectedAtpWtaSection.header.map((cell, idx) => {
@@ -877,7 +877,7 @@ export default function TennisStatsPage() {
                           {row.map((cell, cIdx) => (
                             <td
                               key={`${selectedAtpWtaSection.title}-${rIdx}-${cIdx}`}
-                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-normal break-words text-[11px] sm:whitespace-nowrap sm:text-sm"}`}
+                              className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-nowrap text-[11px] sm:text-sm"}`}
                             >
                               {formatCurrencyByHeader(selectedAtpWtaSection.header[cIdx] || "", cell || "")}
                             </td>
@@ -906,11 +906,11 @@ export default function TennisStatsPage() {
                 </div>
 
                 <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-3">
-                  <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
+                  <svg viewBox="0 0 760 240" className="h-[240px] min-w-[760px] w-full overflow-visible">
                     {yTicks.map((t, i) => (
                       <g key={`tick-${i}`}>
                         <line x1="24" y1={t.y} x2="656" y2={t.y} stroke="rgba(253,230,138,0.18)" />
-                        <text x="20" y={t.y + 4} textAnchor="end" fontSize="10" fill="rgba(253,230,138,0.8)">
+                        <text x="6" y={t.y + 4} textAnchor="start" fontSize="10" fill="rgba(253,230,138,0.8)">
                           {formatAxisMoney(t.value)}
                         </text>
                       </g>
@@ -926,7 +926,7 @@ export default function TennisStatsPage() {
                       const labelText = `${cleanLabel}${symbol ? ` (${symbol})` : ""}`;
                       const [line1, line2] = splitHeaderTwoLines(labelText);
                       const placeBelow = i % 2 === 1;
-                      const baseY = placeBelow ? Math.min(210, y + 14) : Math.max(14, y - 14);
+                      const baseY = placeBelow ? Math.min(198, y + 14) : Math.max(24, y - 14);
                       return (
                         <g key={`${d.label}-${i}`}>
                           <circle cx={x} cy={y} r="4" fill="#FDE68A" />
@@ -1030,7 +1030,7 @@ export default function TennisStatsPage() {
               </div>
 
               <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-3">
-                <svg viewBox="0 0 680 220" className="h-[220px] min-w-[680px] w-full">
+                <svg viewBox="0 0 760 240" className="h-[240px] min-w-[760px] w-full overflow-visible">
                   {yTicks.map((t, i) => (
                     <g key={`tick-${i}`}>
                       <line x1="24" y1={t.y} x2="656" y2={t.y} stroke="rgba(253,230,138,0.18)" />
@@ -1045,7 +1045,7 @@ export default function TennisStatsPage() {
                   {chartData.map((d, i) => {
                     const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
                     const y = 20 + (1 - d.value / maxChart) * (220 - 40);
-                    const labelY = Math.max(12, y - 8);
+                    const labelY = Math.max(20, y - 10);
                     return (
                       <g key={`${d.label}-${i}`}>
                         <circle cx={x} cy={y} r="4" fill="#FDE68A" />
