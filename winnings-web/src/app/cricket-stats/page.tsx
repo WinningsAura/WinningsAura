@@ -46,7 +46,8 @@ function formatContractCell(value: string, country: string, colIdx: number) {
   if (!text) return "-";
 
   if (country.toLowerCase().includes("england") && colIdx >= 2) {
-    text = text.replace(/^~\u00A3\s*/i, "~");
+    // Keep leading ~, remove any currency/sign noise immediately after it for fee columns.
+    text = text.replace(/^~\s*[^\d]*/i, "~");
   }
 
   return text;
