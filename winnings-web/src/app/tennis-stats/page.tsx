@@ -97,6 +97,7 @@ function toNumber(value: string) {
 function formatCurrencyByHeader(header: string, value: string, sectionTitle = "") {
   const text = (value || "").trim();
   if (!text) return "-";
+  if (/^((A\$)|[$€£])?\s*-\s*$/i.test(text)) return "-";
 
   const normalizedHeader = (header || "").toLowerCase();
 
@@ -184,6 +185,7 @@ function cleanHeadingText(value: string) {
   if (normalized.includes("qatardoha500wta")) return "Qatar / Doha";
   if (normalized.includes("qatardoha500")) return "Qatar / Doha";
   if (normalized.includes("canadianopennationalbankopen")) return "Canadian Open";
+  if (normalized.includes("dubaidutyfreetennischampionshipsoftenwta1000")) return "Dubai Duty Free Tennis Championships";
 
   return cleaned;
 }
