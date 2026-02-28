@@ -76,7 +76,9 @@ export default function HomePage() {
           </div>
 
           <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura</h1>
-          <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">Every Win $. One Platform.</p>
+          <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">
+            Every Win <span className="inline-block animate-dollar-spin">$</span>. One Platform.
+          </p>
         </header>
 
         <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
@@ -125,6 +127,25 @@ export default function HomePage() {
           ))}
         </section>
       </main>
+
+      <style jsx>{`
+        .animate-dollar-spin {
+          transform-origin: 50% 55%;
+          animation: dollarSpin 5s ease-in-out infinite;
+        }
+
+        @keyframes dollarSpin {
+          0% {
+            transform: rotate(0deg);
+          }
+          60% {
+            transform: rotate(1080deg);
+          }
+          100% {
+            transform: rotate(1080deg);
+          }
+        }
+      `}</style>
     </div>
   );
 }
