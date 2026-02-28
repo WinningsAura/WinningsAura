@@ -24,8 +24,8 @@
   <rect x="180" y="230" width="690" height="320" fill="none" stroke="#9ff" stroke-width="4"/>
   <line x1="266" y1="230" x2="266" y2="550" stroke="#9ff" stroke-width="4"/>
   <line x1="784" y1="230" x2="784" y2="550" stroke="#9ff" stroke-width="4"/>
-  <line x1="180" y1="304" x2="870" y2="304" stroke="#9ff" stroke-width="4"/>
-  <line x1="180" y1="476" x2="870" y2="476" stroke="#9ff" stroke-width="4"/>
+  <line x1="266" y1="304" x2="784" y2="304" stroke="#9ff" stroke-width="4"/>
+  <line x1="266" y1="476" x2="784" y2="476" stroke="#9ff" stroke-width="4"/>
   <line x1="525" y1="304" x2="525" y2="476" stroke="#9ff" stroke-width="4"/>
   <line x1="525" y1="230" x2="525" y2="242" stroke="#9ff" stroke-width="4"/>
   <line x1="525" y1="550" x2="525" y2="538" stroke="#9ff" stroke-width="4"/>
