@@ -91,6 +91,32 @@ function extractIccTable(rows: string[][], gender: "men" | "women", fallbackHead
   return { header, body };
 }
 
+function extractMensIccRows14To34(rows: string[][], fallbackHeader: string[]): IccTable {
+  const segment = rows.slice(13, 34); // 1-based rows 14..34
+  if (!segment.length) return { header: fallbackHeader, body: [] };
+
+  const headerIdx = segment.findIndex((r) => {
+    const normalized = r.map((c) => cleanMojibake(c || "").toLowerCase());
+    return normalized.some((c) => c.includes("tournament")) && normalized.some((c) => c.includes("winner"));
+  });
+
+  if (headerIdx === -1) return { header: fallbackHeader, body: [] };
+
+  const headerRow = segment[headerIdx].map((c) => cleanMojibake(c || ""));
+  const normalizedHeader = headerRow.map((c) => c.toLowerCase());
+  const optionIdx = normalizedHeader.findIndex((c) => c === "option");
+  const startIdx = optionIdx === -1 ? 0 : optionIdx + 1;
+
+  const header = headerRow.slice(startIdx, startIdx + 4).map((h, i) => h || fallbackHeader[i]);
+
+  const body = segment
+    .slice(headerIdx + 1)
+    .map((r) => r.slice(startIdx, startIdx + 4).map((c) => cleanMojibake(c || "") || "-"))
+    .filter((r) => r.some((c) => c && c !== "-"));
+
+  return { header: header.length ? header : fallbackHeader, body };
+}
+
 export default function CricketStatsPage() {
   const [rows, setRows] = useState<string[][]>([]);
   const [loading, setLoading] = useState(false);
@@ -141,7 +167,7 @@ export default function CricketStatsPage() {
     return { header, body };
   }, [rows]);
 
-  const iccMensTable = useMemo(() => extractIccTable(rows, "men", ICC_DEFAULT_HEADER), [rows]);
+  const iccMensTable = useMemo(() => extractMensIccRows14To34(rows, ICC_DEFAULT_HEADER), [rows]);
   const iccWomensTable = useMemo(() => extractIccTable(rows, "women", ICC_DEFAULT_HEADER), [rows]);
   const activeIccTable = selectedCategory === "Men's" ? iccMensTable : iccWomensTable;
   const iccHeader = activeIccTable.header.length ? activeIccTable.header : ICC_DEFAULT_HEADER;
@@ -254,11 +280,14 @@ export default function CricketStatsPage() {
             {selectedCategory === "Men's" ? "ICC Event Prize Money Structures - Men's" : "ICC Event Prize Money Structures - Women's"}
           </h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
-            <table className="min-w-full border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
+            <table className="min-w-full table-fixed border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
               <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                 <tr>
                   {iccHeader.map((cell, idx) => (
-                    <th key={`icc-${idx}-${cell}`} className="border-y border-amber-200/35 px-4 py-3 text-xs font-semibold tracking-wide whitespace-normal break-words sm:text-sm sm:whitespace-nowrap">
+                    <th
+                      key={`icc-${idx}-${cell}`}
+                      className={`border-y border-amber-200/35 px-4 py-3 text-xs font-semibold tracking-wide sm:text-sm ${idx === 0 || idx === 3 ? "whitespace-normal break-words" : "whitespace-nowrap"}`}
+                    >
                       {cleanMojibake(cell || "") || `Column ${idx + 1}`}
                     </th>
                   ))}
@@ -274,7 +303,7 @@ export default function CricketStatsPage() {
                     {row.map((cell, cIdx) => (
                       <td
                         key={`icc-${rIdx}-${cIdx}`}
-                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 1 ? "whitespace-normal break-words sm:whitespace-nowrap" : ""}`}
+                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 3 ? "whitespace-normal break-words" : "whitespace-nowrap"}`}
                       >
                         {cleanMojibake(cell || "") || "-"}
                       </td>
