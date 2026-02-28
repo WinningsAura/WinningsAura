@@ -21,7 +21,7 @@
   <rect x="110" y="120" width="830" height="540" rx="28" fill="#09172d" stroke="#7df9ff" stroke-width="4"/>
   <rect x="145" y="160" width="760" height="460" rx="14" fill="#0f2850"/>
   <!-- Same court turned 90° to fit the card boundary orientation -->
-  <g transform="rotate(90 525 390)">
+  <g transform="translate(525 390) rotate(90) scale(1.18) translate(-525 -390)">
     <rect x="365" y="160" width="320" height="460" fill="none" stroke="#9ff" stroke-width="4"/>
     <line x1="405" y1="160" x2="405" y2="620" stroke="#9ff" stroke-width="4"/>
     <line x1="645" y1="160" x2="645" y2="620" stroke="#9ff" stroke-width="4"/>
