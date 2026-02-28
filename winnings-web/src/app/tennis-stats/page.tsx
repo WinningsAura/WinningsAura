@@ -772,18 +772,9 @@ export default function TennisStatsPage() {
             <div className="grid h-full grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1">
               {grandSlamCourts.map((court) => (
                 <div key={court.name} className={`relative border border-white/10 bg-gradient-to-br ${court.colors}`}>
-                  {/* Doubles boundary */}
                   <div className="absolute inset-3 rounded-md border border-white/25" />
-                  {/* Singles sidelines */}
-                  <div className="absolute top-3 bottom-3 left-[26%] w-px bg-white/25" />
-                  <div className="absolute top-3 bottom-3 right-[26%] w-px bg-white/25" />
-                  {/* Service lines (inside singles only) */}
-                  <div className="absolute left-[26%] right-[26%] top-[34%] h-px bg-white/25" />
-                  <div className="absolute left-[26%] right-[26%] bottom-[34%] h-px bg-white/25" />
-                  {/* Center service line */}
-                  <div className="absolute left-1/2 top-[34%] bottom-[34%] w-px -translate-x-1/2 bg-white/25" />
-                  {/* Net */}
-                  <div className="absolute left-3 right-3 top-1/2 h-[2px] -translate-y-1/2 bg-white/30" />
+                  <div className="absolute left-1/2 top-3 bottom-3 w-px -translate-x-1/2 bg-white/25" />
+                  <div className="absolute left-3 right-3 top-1/2 h-px -translate-y-1/2 bg-white/20" />
                 </div>
               ))}
             </div>
