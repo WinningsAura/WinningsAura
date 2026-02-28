@@ -295,7 +295,7 @@ export default function CricketStatsPage() {
                     {row.map((cell, cIdx) => (
                       <td
                         key={`icc-${rIdx}-${cIdx}`}
-                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 || cIdx === 3 ? "whitespace-normal break-words" : "whitespace-nowrap"}`}
+                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal break-words" : "whitespace-nowrap text-center"}`}
                       >
                         {cleanMojibake(cell || "") || "-"}
                       </td>
