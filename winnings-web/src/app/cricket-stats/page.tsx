@@ -41,6 +41,17 @@ function normalizeContractCurrency(value: string, country: string) {
   return text;
 }
 
+function formatContractCell(value: string, country: string, colIdx: number) {
+  let text = normalizeContractCurrency(value, country);
+  if (!text) return "-";
+
+  if (country.toLowerCase().includes("england") && colIdx >= 2) {
+    text = text.replace(/^~\u00A3\s*/i, "~");
+  }
+
+  return text;
+}
+
 type IccTable = { header: string[]; body: string[][] };
 const ICC_DEFAULT_HEADER = ["Tournament", "Winner", "Runner Up", "Other Key Prizes"];
 
@@ -49,7 +60,7 @@ function extractIccTable(rows: string[][], gender: "men" | "women", fallbackHead
   if (headingIdx === -1) return { header: fallbackHeader, body: [] };
 
   const headerRow = (rows[headingIdx + 1] || []).map((c) => cleanMojibake(c || ""));
-  const colCount = Math.max(4, headerRow.filter((c) => c.trim().length > 0).length);
+  const colCount = Math.max(1, headerRow.filter((c) => c.trim().length > 0).length);
   const header = Array.from({ length: colCount }, (_, i) => headerRow[i] || fallbackHeader[i] || `Column ${i + 1}`);
 
   const body: string[][] = [];
@@ -134,7 +145,18 @@ export default function CricketStatsPage() {
   const iccMensTable = useMemo(() => extractMensIccRows13To33(rows, ICC_DEFAULT_HEADER), [rows]);
   const iccWomensTable = useMemo(() => extractIccTable(rows, "women", ICC_DEFAULT_HEADER), [rows]);
   const activeIccTable = selectedCategory === "Men's" ? iccMensTable : iccWomensTable;
-  const iccHeader = activeIccTable.header.length ? activeIccTable.header : ICC_DEFAULT_HEADER;
+
+  const displayIccTable = useMemo(() => {
+    if (selectedCategory === "Men's") return activeIccTable;
+    const removeIdx = activeIccTable.header.findIndex((h) => cleanMojibake(h).toLowerCase().includes("other key prizes"));
+    if (removeIdx === -1) return activeIccTable;
+    return {
+      header: activeIccTable.header.filter((_, i) => i !== removeIdx),
+      body: activeIccTable.body.map((row) => row.filter((_, i) => i !== removeIdx)),
+    };
+  }, [activeIccTable, selectedCategory]);
+
+  const iccHeader = displayIccTable.header.length ? displayIccTable.header : ICC_DEFAULT_HEADER;
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#0f2a3a_0%,_#0a1626_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
@@ -205,7 +227,7 @@ export default function CricketStatsPage() {
 
         {selectedCategory === "Men's" ? (
           <section className="mt-5">
-            <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Central Contracts and Match Fees</h2>
+            <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Player Central Contracts and Match Fees</h2>
             <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
               <table className="min-w-full text-left text-sm">
                 {contractsTable.header.length > 0 ? (
@@ -228,7 +250,7 @@ export default function CricketStatsPage() {
                     >
                       {row.map((cell, cIdx) => (
                         <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-normal break-words align-top text-amber-50/95 sm:whitespace-nowrap">
-                          {cIdx === 0 ? (cleanMojibake(cell || "") || "-") : (normalizeContractCurrency(cell || "", row[0] || "") || "-")}
+                          {cIdx === 0 ? (cleanMojibake(cell || "") || "-") : formatContractCell(cell || "", row[0] || "", cIdx)}
                         </td>
                       ))}
                     </tr>
@@ -241,7 +263,7 @@ export default function CricketStatsPage() {
 
         <section className="mt-8">
           <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">
-            {selectedCategory === "Men's" ? "ICC Event Prize Money Structures - Men's" : "ICC Event Prize Money Structures - Women's"}
+            {selectedCategory === "Men's" ? "ICC Event Prize Money Structures - Men's Team" : "ICC Event Prize Money Structures - Women's Team"}
           </h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-full table-fixed border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
@@ -258,7 +280,7 @@ export default function CricketStatsPage() {
                 </tr>
               </thead>
               <tbody>
-                {activeIccTable.body.map((row, rIdx) => (
+                {displayIccTable.body.map((row, rIdx) => (
                   <tr
                     key={`icc-${rIdx}`}
                     className="odd:bg-black/25 even:bg-black/45"
