@@ -13,8 +13,8 @@
   <g transform="translate(190 140)">
     <rect x="0" y="0" width="700" height="560" rx="24" fill="#0f172a" stroke="#c4b5fd" stroke-width="4"/>
     <g transform="translate(40 40)">
-      <rect x="0" y="0" width="620" height="480" fill="#1f2937"/>
-      <g fill="#e9d5ff" opacity="0.72">
+      <rect x="0" y="0" width="620" height="480" fill="#1b2433"/>
+      <g fill="#d8b4fe" opacity="0.56">
         <rect x="0" y="0" width="77.5" height="60"/>
         <rect x="155" y="0" width="77.5" height="60"/>
         <rect x="310" y="0" width="77.5" height="60"/>
@@ -52,12 +52,13 @@
     </g>
   </g>
 
-  <g transform="translate(962 154)">
-    <path d="M158 72c28 0 52 18 52 48 0 19-10 31-26 42-8 6-12 11-12 20h-62c0-26 15-43 32-56 8-6 12-12 12-20 0-10-7-16-18-16-9 0-18 4-25 10l-23-32c14-12 40-24 70-24z" fill="#f8fafc"/>
-    <circle cx="184" cy="56" r="14" fill="#f8fafc"/>
-    <path d="M94 206h120l-12 30h-96z" fill="#f8fafc"/>
-    <rect x="82" y="236" width="144" height="26" rx="4" fill="#f8fafc"/>
-    <rect x="70" y="264" width="168" height="24" rx="4" fill="#f8fafc"/>
-    <ellipse cx="154" cy="302" rx="96" ry="10" fill="#a78bfa" opacity="0.45"/>
+  <g transform="translate(968 148)">
+    <rect x="146" y="34" width="14" height="34" rx="4" fill="#f8fafc"/>
+    <rect x="136" y="44" width="34" height="14" rx="4" fill="#f8fafc"/>
+    <path d="M126 74h54c0 22-4 34-14 46 22 14 30 30 30 56h-86c0-26 8-42 30-56-10-12-14-24-14-46z" fill="#f8fafc"/>
+    <path d="M96 204h114l-10 28h-94z" fill="#f8fafc"/>
+    <rect x="84" y="232" width="138" height="24" rx="4" fill="#f8fafc"/>
+    <rect x="72" y="258" width="162" height="24" rx="4" fill="#f8fafc"/>
+    <ellipse cx="153" cy="296" rx="94" ry="10" fill="#a78bfa" opacity="0.42"/>
   </g>
 </svg>
