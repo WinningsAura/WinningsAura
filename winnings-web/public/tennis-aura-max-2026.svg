@@ -20,16 +20,9 @@
 <g transform="rotate(-7 525 390)">
   <rect x="110" y="120" width="830" height="540" rx="28" fill="#09172d" stroke="#7df9ff" stroke-width="4"/>
   <rect x="145" y="160" width="760" height="460" rx="14" fill="#0f2850"/>
-  <!-- Official-style tennis court markings (doubles + singles + service boxes) -->
-  <rect x="180" y="230" width="690" height="320" fill="none" stroke="#9ff" stroke-width="4"/>
-  <line x1="266" y1="230" x2="266" y2="550" stroke="#9ff" stroke-width="4"/>
-  <line x1="784" y1="230" x2="784" y2="550" stroke="#9ff" stroke-width="4"/>
-  <line x1="266" y1="304" x2="784" y2="304" stroke="#9ff" stroke-width="4"/>
-  <line x1="266" y1="476" x2="784" y2="476" stroke="#9ff" stroke-width="4"/>
-  <line x1="525" y1="304" x2="525" y2="476" stroke="#9ff" stroke-width="4"/>
-  <line x1="525" y1="230" x2="525" y2="242" stroke="#9ff" stroke-width="4"/>
-  <line x1="525" y1="550" x2="525" y2="538" stroke="#9ff" stroke-width="4"/>
-  <rect x="180" y="384" width="690" height="12" fill="#f8fafc"/>
+  <!-- Court image provided by user -->
+  <image x="180" y="230" width="690" height="320" href="/tennis-court.png" preserveAspectRatio="xMidYMid slice"/>
+  <rect x="180" y="384" width="690" height="12" fill="#f8fafc" opacity="0.96"/>
   <path d="M180 384H870M180 388H870M180 392H870M180 396H870" stroke="#cbd5e1" stroke-width="1.2"/>
   <path d="M220 382V398M265 382V398M310 382V398M355 382V398M400 382V398M445 382V398M490 382V398M535 382V398M580 382V398M625 382V398M670 382V398M715 382V398M760 382V398M805 382V398M850 382V398" stroke="#e2e8f0" stroke-width="1.2"/>
   <rect x="174" y="368" width="8" height="44" rx="3" fill="#d1d5db"/>
