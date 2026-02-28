@@ -53,12 +53,12 @@
   </g>
 
   <g transform="translate(968 148)">
-    <rect x="146" y="34" width="14" height="34" rx="4" fill="#f8fafc"/>
-    <rect x="136" y="44" width="34" height="14" rx="4" fill="#f8fafc"/>
-    <path d="M126 74h54c0 22-4 34-14 46 22 14 30 30 30 56h-86c0-26 8-42 30-56-10-12-14-24-14-46z" fill="#f8fafc"/>
-    <path d="M96 204h114l-10 28h-94z" fill="#f8fafc"/>
-    <rect x="84" y="232" width="138" height="24" rx="4" fill="#f8fafc"/>
-    <rect x="72" y="258" width="162" height="24" rx="4" fill="#f8fafc"/>
-    <ellipse cx="153" cy="296" rx="94" ry="10" fill="#a78bfa" opacity="0.42"/>
+    <rect x="146" y="34" width="14" height="34" rx="4" fill="#dbe3f1"/>
+    <rect x="136" y="44" width="34" height="14" rx="4" fill="#dbe3f1"/>
+    <path d="M126 74h54c0 22-4 34-14 46 22 14 30 30 30 56h-86c0-26 8-42 30-56-10-12-14-24-14-46z" fill="#dbe3f1"/>
+    <path d="M96 204h114l-10 28h-94z" fill="#dbe3f1"/>
+    <rect x="84" y="232" width="138" height="24" rx="4" fill="#dbe3f1"/>
+    <rect x="72" y="258" width="162" height="24" rx="4" fill="#dbe3f1"/>
+    <ellipse cx="153" cy="296" rx="94" ry="10" fill="#a78bfa" opacity="0.32"/>
   </g>
 </svg>
