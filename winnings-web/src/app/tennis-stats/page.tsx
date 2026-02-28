@@ -131,7 +131,7 @@ function formatCurrencyByHeader(header: string, value: string, sectionTitle = ""
   }
 
   const normalizedSection = (sectionTitle || "").toLowerCase();
-  const isWta500Women = normalizedSection.includes("wta 500") && normalizedSection.includes("women");
+  const isWta500Women = normalizedSection.includes("wta 500") || normalizedSection.includes("2025wta500");
   if (isWta500Women) {
     if (/^(A\$|\$|€|£)/.test(text)) return text;
     const numericPart = text.replace(/[^0-9.,-]/g, "").trim();
