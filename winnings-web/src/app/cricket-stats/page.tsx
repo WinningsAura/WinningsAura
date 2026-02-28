@@ -214,7 +214,7 @@ export default function CricketStatsPage() {
 
         <section className="mt-5">
           <h2 className="mb-3 break-words text-sm font-semibold leading-tight text-amber-100/90">Cricket Categories</h2>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {(["Men's", "Women's"] as const).map((cat) => (
               <button
                 key={cat}
