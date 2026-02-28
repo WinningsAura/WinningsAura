@@ -37,8 +37,8 @@
     <path d="M48 68V282M72 62V288M96 58V292M120 56V294M144 58V292M168 62V288M192 68V282" stroke="#cbd5e1" stroke-width="2" opacity="0.9"/>
     <path d="M34 106H206M30 136H210M28 166H212M30 196H210M34 226H206" stroke="#cbd5e1" stroke-width="2" opacity="0.9"/>
   </g>
-  <path d="M46 252C66 274 86 294 110 324" stroke="#ffffff" stroke-width="14" stroke-linecap="round" fill="none" opacity="1"/>
-  <path d="M194 252C174 274 154 294 130 324" stroke="#ffffff" stroke-width="14" stroke-linecap="round" fill="none" opacity="1"/>
+  <path d="M46 248C66 270 86 292 110 334" stroke="#ffffff" stroke-width="14" stroke-linecap="round" fill="none" opacity="1"/>
+  <path d="M194 248C174 270 154 292 130 334" stroke="#ffffff" stroke-width="14" stroke-linecap="round" fill="none" opacity="1"/>
   <rect x="108" y="334" width="24" height="134" rx="12" fill="#ff9f1a"/>
 </g>
 <g transform="translate(1160 620)">
