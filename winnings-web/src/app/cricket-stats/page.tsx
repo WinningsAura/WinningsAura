@@ -46,8 +46,13 @@ function formatContractCell(value: string, country: string, colIdx: number) {
   if (!text) return "-";
 
   if (country.toLowerCase().includes("england") && colIdx >= 2) {
-    // Keep leading ~, remove any currency/sign noise immediately after it for fee columns.
-    text = text.replace(/^~\s*[^\d]*/i, "~");
+    // Normalize England fee formats like £~£14.5K / ~14.5K / £14.5K -> ~£14.5K
+    text = text.replace(/^£\s*~\s*£?/i, "~£");
+    text = text.replace(/^~\s*£?/i, "~£");
+    if (!text.startsWith("~£")) {
+      text = text.replace(/^£\s*/i, "");
+      text = `~£${text.replace(/^~+/, "")}`;
+    }
   }
 
   return text;
