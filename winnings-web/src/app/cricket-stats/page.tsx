@@ -176,7 +176,7 @@ export default function CricketStatsPage() {
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
 
         <section className="mt-5">
-          <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Central Contracts and Match Fees</h2>
+          <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Players Central Contracts and Match Fees</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-full text-left text-sm">
               {contractsTable.header.length > 0 ? (
