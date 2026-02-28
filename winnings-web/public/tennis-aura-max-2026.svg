@@ -20,20 +20,20 @@
 <g transform="rotate(-7 525 390)">
   <rect x="110" y="120" width="830" height="540" rx="28" fill="#09172d" stroke="#7df9ff" stroke-width="4"/>
   <rect x="145" y="160" width="760" height="460" rx="14" fill="#0f2850"/>
-  <!-- Official-ratio tennis court (78x36 doubles, 27 singles, service line 21' from net) -->
-  <rect x="180" y="230" width="690" height="320" fill="none" stroke="#9ff" stroke-width="4"/>
-  <line x1="266.25" y1="230" x2="266.25" y2="550" stroke="#9ff" stroke-width="4"/>
-  <line x1="783.75" y1="230" x2="783.75" y2="550" stroke="#9ff" stroke-width="4"/>
-  <line x1="266.25" y1="303.85" x2="783.75" y2="303.85" stroke="#9ff" stroke-width="4"/>
-  <line x1="266.25" y1="476.15" x2="783.75" y2="476.15" stroke="#9ff" stroke-width="4"/>
-  <line x1="525" y1="303.85" x2="525" y2="476.15" stroke="#9ff" stroke-width="4"/>
-  <line x1="525" y1="230" x2="525" y2="238" stroke="#9ff" stroke-width="4"/>
-  <line x1="525" y1="550" x2="525" y2="542" stroke="#9ff" stroke-width="4"/>
-  <rect x="180" y="384" width="690" height="12" fill="#f8fafc"/>
-  <path d="M180 384H870M180 388H870M180 392H870M180 396H870" stroke="#cbd5e1" stroke-width="1.2"/>
-  <path d="M220 382V398M265 382V398M310 382V398M355 382V398M400 382V398M445 382V398M490 382V398M535 382V398M580 382V398M625 382V398M670 382V398M715 382V398M760 382V398M805 382V398M850 382V398" stroke="#e2e8f0" stroke-width="1.2"/>
-  <rect x="174" y="368" width="8" height="44" rx="3" fill="#d1d5db"/>
-  <rect x="868" y="368" width="8" height="44" rx="3" fill="#d1d5db"/>
+  <!-- Tennis court rotated so sidelines are longer than baselines -->
+  <rect x="365" y="160" width="320" height="460" fill="none" stroke="#9ff" stroke-width="4"/>
+  <line x1="405" y1="160" x2="405" y2="620" stroke="#9ff" stroke-width="4"/>
+  <line x1="645" y1="160" x2="645" y2="620" stroke="#9ff" stroke-width="4"/>
+  <line x1="405" y1="266" x2="645" y2="266" stroke="#9ff" stroke-width="4"/>
+  <line x1="405" y1="514" x2="645" y2="514" stroke="#9ff" stroke-width="4"/>
+  <line x1="525" y1="266" x2="525" y2="514" stroke="#9ff" stroke-width="4"/>
+  <line x1="525" y1="160" x2="525" y2="172" stroke="#9ff" stroke-width="4"/>
+  <line x1="525" y1="620" x2="525" y2="608" stroke="#9ff" stroke-width="4"/>
+  <rect x="365" y="384" width="320" height="12" fill="#f8fafc"/>
+  <path d="M365 384H685M365 388H685M365 392H685M365 396H685" stroke="#cbd5e1" stroke-width="1.2"/>
+  <path d="M390 382V398M420 382V398M450 382V398M480 382V398M510 382V398M540 382V398M570 382V398M600 382V398M630 382V398M660 382V398" stroke="#e2e8f0" stroke-width="1.2"/>
+  <rect x="359" y="368" width="8" height="44" rx="3" fill="#d1d5db"/>
+  <rect x="683" y="368" width="8" height="44" rx="3" fill="#d1d5db"/>
 </g>
 <g transform="translate(965 160) rotate(18)">
   <ellipse cx="120" cy="175" rx="94" ry="120" fill="none" stroke="#fff" stroke-width="14"/>
