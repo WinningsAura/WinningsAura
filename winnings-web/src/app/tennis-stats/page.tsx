@@ -94,7 +94,7 @@ function toNumber(value: string) {
   return Number.isFinite(num) ? num : NaN;
 }
 
-function formatCurrencyByHeader(header: string, value: string) {
+function formatCurrencyByHeader(header: string, value: string, sectionTitle = "") {
   const text = (value || "").trim();
   if (!text) return "-";
 
@@ -122,6 +122,16 @@ function formatCurrencyByHeader(header: string, value: string) {
   }
 
   if (normalizedHeader.includes("nottingham open")) {
+    if (/^(A\$|\$|€|£)/.test(text)) return text;
+    const numericPart = text.replace(/[^0-9.,-]/g, "").trim();
+    if (!numericPart) return text;
+    const parsed = Number(numericPart.replace(/,/g, ""));
+    const formatted = Number.isFinite(parsed) ? parsed.toLocaleString("en-US") : numericPart;
+    return `$${formatted}`;
+  }
+
+  const normalizedSection = (sectionTitle || "").toLowerCase();
+  if (normalizedSection.includes("wta 500 events (singles - women)")) {
     if (/^(A\$|\$|€|£)/.test(text)) return text;
     const numericPart = text.replace(/[^0-9.,-]/g, "").trim();
     if (!numericPart) return text;
@@ -879,7 +889,7 @@ export default function TennisStatsPage() {
                               key={`${selectedAtpWtaSection.title}-${rIdx}-${cIdx}`}
                               className={`px-2 py-2 text-center align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal" : "whitespace-nowrap text-[11px] sm:text-sm"}`}
                             >
-                              {formatCurrencyByHeader(selectedAtpWtaSection.header[cIdx] || "", cell || "")}
+                              {formatCurrencyByHeader(selectedAtpWtaSection.header[cIdx] || "", cell || "", selectedAtpWtaSection.title)}
                             </td>
                           ))}
                         </tr>
@@ -922,7 +932,7 @@ export default function TennisStatsPage() {
                       const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
                       const y = 20 + (1 - d.value / maxChart) * (220 - 40);
                       const cleanLabel = cleanHeadingText(d.label);
-                      const symbol = currencySymbolFromFormatted(formatCurrencyByHeader(cleanLabel, d.raw || ""));
+                      const symbol = currencySymbolFromFormatted(formatCurrencyByHeader(cleanLabel, d.raw || "", selectedAtpWtaSection.title));
                       const labelText = `${cleanLabel}${symbol ? ` (${symbol})` : ""}`;
                       const [line1, line2] = splitHeaderTwoLines(labelText);
                       const placeBelow = i % 2 === 1;
@@ -942,7 +952,7 @@ export default function TennisStatsPage() {
                     {chartData.map((d, i) => (
                       <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
                         <div className="max-w-[9rem] font-semibold whitespace-normal break-words sm:whitespace-nowrap">{cleanHeadingText(d.label)}</div>
-                        <div>{formatCurrencyByHeader(cleanHeadingText(d.label), d.raw || "")}</div>
+                        <div>{formatCurrencyByHeader(cleanHeadingText(d.label), d.raw || "", selectedAtpWtaSection.title)}</div>
                       </div>
                     ))}
                   </div>
