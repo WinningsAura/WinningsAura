@@ -45,76 +45,40 @@ type IccTable = { header: string[]; body: string[][] };
 const ICC_DEFAULT_HEADER = ["Tournament", "Winner", "Runner Up", "Other Key Prizes"];
 
 function extractIccTable(rows: string[][], gender: "men" | "women", fallbackHeader: string[]): IccTable {
-  const headingIdx = rows.findIndex((r) => {
-    const joined = cleanMojibake(r.join(" ")).toLowerCase();
-    return joined.includes("icc event prize money structures") && joined.includes(gender);
-  });
-
+  const headingIdx = rows.findIndex((r) => cleanMojibake(r[0] || "").toLowerCase().includes(`icc event prize money structures - ${gender}`));
   if (headingIdx === -1) return { header: fallbackHeader, body: [] };
 
-  const headerIdx = rows.findIndex((r, i) => {
-    if (i <= headingIdx) return false;
-    const normalized = r.map((c) => cleanMojibake(c || "").toLowerCase());
-    return normalized.some((c) => c.includes("tournament")) && normalized.some((c) => c.includes("winner"));
-  });
-
-  if (headerIdx === -1) return { header: fallbackHeader, body: [] };
-
-  const normalizedHeader = rows[headerIdx].map((c) => cleanMojibake(c || "").toLowerCase());
-  const optionIdx = normalizedHeader.findIndex((c) => c === "option");
-  const startIdx = optionIdx === -1 ? 0 : optionIdx + 1;
-
-  const headerRowRaw = rows[headerIdx].slice(startIdx, startIdx + 4).map((c) => cleanMojibake(c || ""));
-  const header = headerRowRaw.map((h, i) => h || fallbackHeader[i]);
+  const headerRow = (rows[headingIdx + 1] || []).map((c) => cleanMojibake(c || ""));
+  const colCount = Math.max(4, headerRow.filter((c) => c.trim().length > 0).length);
+  const header = Array.from({ length: colCount }, (_, i) => headerRow[i] || fallbackHeader[i] || `Column ${i + 1}`);
 
   const body: string[][] = [];
-  for (let i = headerIdx + 1; i < rows.length; i++) {
-    const row = rows[i];
-    const joined = cleanMojibake(row.join(" ")).toLowerCase();
-    if (!joined.trim()) {
-      if (body.length) break;
-      continue;
-    }
-    if (joined.includes("prize money for domestic tournaments") || joined.includes("central contracts and match fees")) break;
-    if (joined.includes("icc event prize money structures") && i !== headingIdx) break;
-
-    if (optionIdx !== -1) {
-      const option = cleanMojibake(row[optionIdx] || "");
-      if (option && !/^\d+$/.test(option)) continue;
-    }
-
-    const values = row.slice(startIdx, startIdx + 4).map((c) => cleanMojibake(c || ""));
-    if (!values[0]) continue;
-    body.push(values);
+  for (let i = headingIdx + 2; i < rows.length; i++) {
+    const first = cleanMojibake(rows[i]?.[0] || "").toLowerCase();
+    if (!first) break;
+    if (first.includes("icc event prize money structures -") || first.includes("prize money for domestic tournaments")) break;
+    body.push(Array.from({ length: colCount }, (_, c) => cleanMojibake(rows[i]?.[c] || "") || "-"));
   }
 
   return { header, body };
 }
 
 function extractMensIccRows13To33(rows: string[][], fallbackHeader: string[]): IccTable {
-  const segment = rows.slice(12, 33); // 1-based rows 13..33 (row 13 is header)
-  if (!segment.length) return { header: fallbackHeader, body: [] };
+  const headingIdx = rows.findIndex((r) => cleanMojibake(r[0] || "").toLowerCase().includes("icc event prize money structures - men's"));
+  if (headingIdx === -1) return { header: fallbackHeader, body: [] };
 
-  const headerIdx = segment.findIndex((r) => {
-    const normalized = r.map((c) => cleanMojibake(c || "").toLowerCase());
-    return normalized.some((c) => c.includes("tournament")) && normalized.some((c) => c.includes("winner"));
-  });
-
-  if (headerIdx === -1) return { header: fallbackHeader, body: [] };
-
-  const headerRow = segment[headerIdx].map((c) => cleanMojibake(c || ""));
-  const normalizedHeader = headerRow.map((c) => c.toLowerCase());
-  const optionIdx = normalizedHeader.findIndex((c) => c === "option");
-  const startIdx = optionIdx === -1 ? 0 : optionIdx + 1;
-
-  const header = headerRow.slice(startIdx, startIdx + 4).map((h, i) => h || fallbackHeader[i]);
+  // source rows 13..33 inclusive = heading + header + 19 data rows
+  const segment = rows.slice(headingIdx, headingIdx + 21);
+  const headerRow = (segment[1] || []).map((c) => cleanMojibake(c || ""));
+  const colCount = Math.max(5, headerRow.filter((c) => c.trim().length > 0).length);
+  const header = Array.from({ length: colCount }, (_, i) => headerRow[i] || fallbackHeader[i] || `Column ${i + 1}`);
 
   const body = segment
-    .slice(headerIdx + 1)
-    .map((r) => r.slice(startIdx, startIdx + 4).map((c) => cleanMojibake(c || "") || "-"))
+    .slice(2)
+    .map((r) => Array.from({ length: colCount }, (_, c) => cleanMojibake(r?.[c] || "") || "-"))
     .filter((r) => r.some((c) => c && c !== "-"));
 
-  return { header: header.length ? header : fallbackHeader, body };
+  return { header, body };
 }
 
 export default function CricketStatsPage() {
