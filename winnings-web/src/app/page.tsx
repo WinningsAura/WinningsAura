@@ -23,6 +23,12 @@ const sports = [
     href: "/golf-stats",
     description: "View golf winnings and event prize insights.",
   },
+  {
+    name: "Chess",
+    image: "/chess-aura-max-2026.svg",
+    href: "/chess-stats",
+    description: "Explore chess prize money across open, women's, and mixed events.",
+  },
 ] as const;
 
 export default function HomePage() {
@@ -68,6 +74,7 @@ export default function HomePage() {
                     <Link href="/tennis-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Tennis</span><span>{"\uD83C\uDFBE"}</span></Link>
                     <Link href="/cricket-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Cricket</span><span>{"\uD83C\uDFCF"}</span></Link>
                     <Link href="/golf-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Golf</span><span>{"\u26F3"}</span></Link>
+                    <Link href="/chess-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Chess</span><span>{"\u265F"}</span></Link>
                     <Link href="/contact-us" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Contact Us</span><span>{"\u2709\uFE0F"}</span></Link>
                   </div>
                 </details>
@@ -81,7 +88,7 @@ export default function HomePage() {
           </p>
         </header>
 
-        <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+        <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
           {rotatingSports.map((sport) => (
             <Link
               key={sport.name}
