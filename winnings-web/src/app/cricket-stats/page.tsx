@@ -181,11 +181,11 @@ export default function CricketStatsPage() {
             </Link>
             <nav className="flex items-center gap-2 text-sm sm:gap-3">
               <div className="relative">
-                <details className="group">
+                <details className="group relative z-[90]">
                   <summary className="list-none cursor-pointer rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">
                     Menu
                   </summary>
-                  <div className="pointer-events-none absolute right-0 top-full z-[60] mt-1 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-open:pointer-events-auto group-open:opacity-100">
+                  <div className="pointer-events-none absolute right-0 top-full z-[100] mt-0 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 pt-3 opacity-0 shadow-2xl transition group-open:pointer-events-auto group-open:opacity-100">
                     <Link href="/about-us" className="block w-full rounded-md px-3 py-2 text-amber-100 leading-5 hover:bg-amber-200/10">
                       <span className="flex items-center justify-between"><span>About Us</span><span>{"\uD83D\uDC65"}</span></span>
                     </Link>
