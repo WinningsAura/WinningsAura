@@ -91,8 +91,8 @@ function extractIccTable(rows: string[][], gender: "men" | "women", fallbackHead
   return { header, body };
 }
 
-function extractMensIccRows14To34(rows: string[][], fallbackHeader: string[]): IccTable {
-  const segment = rows.slice(13, 34); // 1-based rows 14..34
+function extractMensIccRows13To33(rows: string[][], fallbackHeader: string[]): IccTable {
+  const segment = rows.slice(12, 33); // 1-based rows 13..33 (row 13 is header)
   if (!segment.length) return { header: fallbackHeader, body: [] };
 
   const headerIdx = segment.findIndex((r) => {
@@ -167,7 +167,7 @@ export default function CricketStatsPage() {
     return { header, body };
   }, [rows]);
 
-  const iccMensTable = useMemo(() => extractMensIccRows14To34(rows, ICC_DEFAULT_HEADER), [rows]);
+  const iccMensTable = useMemo(() => extractMensIccRows13To33(rows, ICC_DEFAULT_HEADER), [rows]);
   const iccWomensTable = useMemo(() => extractIccTable(rows, "women", ICC_DEFAULT_HEADER), [rows]);
   const activeIccTable = selectedCategory === "Men's" ? iccMensTable : iccWomensTable;
   const iccHeader = activeIccTable.header.length ? activeIccTable.header : ICC_DEFAULT_HEADER;
