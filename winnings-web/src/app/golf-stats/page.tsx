@@ -300,7 +300,12 @@ export default function GolfStatsPage() {
                     {activeSection.header.map((cell, idx) => {
                       const [line1, line2] = splitGolfHeader(cell || `Column ${idx + 1}`);
                       return (
-                        <th key={`${idx}-${cell}`} className="px-1 py-2 text-center font-semibold align-middle leading-tight sm:px-2">
+                        <th
+                          key={`${idx}-${cell}`}
+                          className={`px-1 py-2 text-center font-semibold align-middle leading-tight sm:px-2 ${
+                            idx === 0 ? "sticky left-0 z-20 bg-slate-800/95" : ""
+                          }`}
+                        >
                           <span className="inline-flex w-full flex-col items-center whitespace-normal break-words text-[11px] sm:text-xs">
                             <span>{line1}</span>
                             {line2 ? <span>{line2}</span> : null}
@@ -314,7 +319,14 @@ export default function GolfStatsPage() {
                   {activeSection.body.map((row, rIdx) => (
                     <tr key={rIdx} className="border-t border-slate-300/20 odd:bg-slate-900/25 even:bg-slate-800/30">
                       {row.map((cell, cIdx) => (
-                        <td key={`${rIdx}-${cIdx}`} className={`px-1 py-2 text-center align-top sm:px-2 ${cIdx === 0 ? "whitespace-normal break-words sm:whitespace-nowrap" : "whitespace-normal break-words text-[10px] sm:text-xs"}`}>
+                        <td
+                          key={`${rIdx}-${cIdx}`}
+                          className={`px-1 py-2 text-center align-top sm:px-2 ${
+                            cIdx === 0
+                              ? "sticky left-0 z-10 whitespace-normal break-words bg-slate-900 sm:whitespace-nowrap"
+                              : "whitespace-normal break-words text-[10px] sm:text-xs"
+                          }`}
+                        >
                           {cIdx === 0 ? (normalizeFinishLabel(cell) || "-") : formatMoneyText(cell || "")}
                         </td>
                       ))}

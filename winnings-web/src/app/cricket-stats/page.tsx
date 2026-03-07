@@ -231,7 +231,12 @@ export default function CricketStatsPage() {
                   <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                     <tr>
                       {contractsTable.header.map((cell, idx) => (
-                        <th key={`contracts-${idx}-${cell}`} className="px-4 py-3 text-xs font-semibold tracking-wide whitespace-normal break-words sm:text-sm sm:whitespace-nowrap">
+                        <th
+                          key={`contracts-${idx}-${cell}`}
+                          className={`px-4 py-3 text-xs font-semibold tracking-wide whitespace-normal break-words sm:text-sm sm:whitespace-nowrap ${
+                            idx === 0 ? "sticky left-0 z-20 bg-[#173342]" : ""
+                          }`}
+                        >
                           {cleanMojibake(cell || "") || `Column ${idx + 1}`}
                         </th>
                       ))}
@@ -246,7 +251,12 @@ export default function CricketStatsPage() {
                       style={{ animation: "fly-in-row 520ms ease-out both", animationDelay: `${Math.min(rIdx * 45, 900)}ms` }}
                     >
                       {row.map((cell, cIdx) => (
-                        <td key={`contracts-${rIdx}-${cIdx}`} className="px-4 py-3 whitespace-normal break-words align-top text-amber-50/95 sm:whitespace-nowrap">
+                        <td
+                          key={`contracts-${rIdx}-${cIdx}`}
+                          className={`px-4 py-3 whitespace-normal break-words align-top text-amber-50/95 sm:whitespace-nowrap ${
+                            cIdx === 0 ? "sticky left-0 z-10 bg-[#0d2230]" : ""
+                          }`}
+                        >
                           {cIdx === 0 ? (cleanMojibake(cell || "") || "-") : formatContractCell(cell || "", row[0] || "", cIdx)}
                         </td>
                       ))}
@@ -269,7 +279,13 @@ export default function CricketStatsPage() {
                   {iccHeader.map((cell, idx) => (
                     <th
                       key={`icc-${idx}-${cell}`}
-                      className={`border-y border-amber-200/35 px-4 py-3 text-xs font-semibold tracking-wide sm:text-sm ${idx === 0 || idx === 3 ? "whitespace-normal break-words" : "whitespace-nowrap"}`}
+                      className={`border-y border-amber-200/35 px-4 py-3 text-xs font-semibold tracking-wide sm:text-sm ${
+                        idx === 0
+                          ? "sticky left-0 z-20 whitespace-normal break-words bg-[#173342]"
+                          : idx === 3
+                            ? "whitespace-normal break-words"
+                            : "whitespace-nowrap"
+                      }`}
                     >
                       {cleanMojibake(cell || "") || `Column ${idx + 1}`}
                     </th>
@@ -286,7 +302,11 @@ export default function CricketStatsPage() {
                     {row.map((cell, cIdx) => (
                       <td
                         key={`icc-${rIdx}-${cIdx}`}
-                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal break-words" : "whitespace-nowrap text-center"}`}
+                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${
+                          cIdx === 0
+                            ? "sticky left-0 z-10 whitespace-normal break-words bg-[#0d2230]"
+                            : "whitespace-nowrap text-center"
+                        }`}
                       >
                         {cleanMojibake(cell || "") || "-"}
                       </td>
