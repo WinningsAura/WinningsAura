@@ -28,7 +28,7 @@ export default function PrivacyPolicyPage() {
         </div>
 
         <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-amber-100/70">Last updated: February 24, 2026</p>
+        <p className="mt-2 text-sm text-amber-100/70">Last updated: March 7, 2026</p>
 
         <div className="mt-6 space-y-5 text-sm leading-7 text-amber-100/90 sm:text-base">
           <p>
@@ -55,7 +55,16 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">3. Advertising and Cookies</h2>
+            <h2 className="text-lg font-semibold text-amber-100">3. Contact Form Confidentiality</h2>
+            <p className="mt-2">
+              Messages received through our <Link href="/contact-us" className="underline underline-offset-4">Contact Us</Link> page are treated as confidential.
+              We do not intentionally publish or disclose contact submissions, except where disclosure is required by law,
+              needed to protect rights/safety, or required to operate trusted service providers who support the website.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-amber-100">4. Advertising and Cookies</h2>
             <p className="mt-2">
               We may use third-party advertising services (including Google AdSense) that use cookies to serve ads.
               These cookies may be used to show more relevant advertisements based on prior visits to this and other
@@ -68,7 +77,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">4. Data Sharing</h2>
+            <h2 className="text-lg font-semibold text-amber-100">5. Data Sharing</h2>
             <p className="mt-2">
               We do not sell personal information. We may share limited data with trusted service providers that help
               us host, analyze, and maintain the website.
@@ -76,14 +85,14 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">5. Data Retention</h2>
+            <h2 className="text-lg font-semibold text-amber-100">6. Data Retention</h2>
             <p className="mt-2">
               We keep information only as long as needed for legitimate business or legal purposes.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">6. Your Rights</h2>
+            <h2 className="text-lg font-semibold text-amber-100">7. Your Rights</h2>
             <p className="mt-2">
               Depending on your location, you may have rights to request access, correction, or deletion of your
               personal data.
@@ -91,14 +100,15 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">7. Contact</h2>
+            <h2 className="text-lg font-semibold text-amber-100">8. Related Legal Terms</h2>
             <p className="mt-2">
-              If you have privacy-related questions, please use our <Link href="/contact-us" className="underline underline-offset-4">Contact Us</Link> page.
+              For website-use rules, data accuracy disclaimers, and content usage restrictions, see our
+              <Link href="/terms-and-conditions" className="ml-1 underline underline-offset-4">Terms and Conditions</Link>.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">8. Policy Updates</h2>
+            <h2 className="text-lg font-semibold text-amber-100">9. Policy Updates</h2>
             <p className="mt-2">
               We may update this Privacy Policy from time to time. Any changes will be posted on this page with an
               updated effective date.

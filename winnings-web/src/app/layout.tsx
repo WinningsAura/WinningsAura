@@ -127,6 +127,10 @@ export default function RootLayout({
             <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-amber-100">
               Privacy Policy
             </Link>
+            <span aria-hidden="true">•</span>
+            <Link href="/terms-and-conditions" className="underline underline-offset-4 hover:text-amber-100">
+              Terms & Conditions
+            </Link>
           </div>
         </footer>
       </body>
