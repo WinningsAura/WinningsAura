@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
@@ -968,9 +967,6 @@ export default function TennisStatsPage() {
           <>
             <div className="mb-3 flex items-center gap-2">
               <h2 className="break-words text-base font-semibold leading-tight text-amber-100 sm:text-xl">{processed.sectionHeader}</h2>
-              <a href="#prize-chart" className="inline-flex rounded-md border border-amber-200/40 p-1 hover:border-amber-200/80" aria-label="Open prize chart">
-                <Image src="/graph-line-icon.svg" alt="Open line graph" width={18} height={18} />
-              </a>
             </div>
 
             <div className="hidden rounded-2xl border border-amber-200/35 bg-black/55 shadow-[0_0_40px_rgba(245,185,59,0.08)] backdrop-blur-sm md:block">
