@@ -146,7 +146,14 @@ export default function ChessStatsPage() {
               <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                 <tr>
                   {table.header.map((cell, idx) => (
-                    <th key={`chess-${idx}-${cell}`} className={`border-y border-amber-200/35 px-4 py-3 text-xs font-semibold tracking-wide sm:text-sm ${idx === 0 ? "whitespace-normal break-words" : "whitespace-nowrap text-center"}`}>
+                    <th
+                      key={`chess-${idx}-${cell}`}
+                      className={`border-y border-amber-200/35 px-4 py-3 text-xs font-semibold tracking-wide sm:text-sm ${
+                        idx === 0
+                          ? "sticky left-0 z-20 whitespace-normal break-words bg-[#151a2d]"
+                          : "whitespace-nowrap text-center"
+                      }`}
+                    >
                       {cell}
                     </th>
                   ))}
@@ -156,7 +163,14 @@ export default function ChessStatsPage() {
                 {table.body.map((row, rIdx) => (
                   <tr key={`chess-row-${rIdx}`} className="odd:bg-black/25 even:bg-black/45">
                     {row.map((cell, cIdx) => (
-                      <td key={`chess-${rIdx}-${cIdx}`} className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${cIdx === 0 ? "whitespace-normal break-words" : "whitespace-nowrap text-center"}`}>
+                      <td
+                        key={`chess-${rIdx}-${cIdx}`}
+                        className={`border-t border-amber-200/20 px-4 py-3 align-top text-amber-50/95 ${
+                          cIdx === 0
+                            ? "sticky left-0 z-10 whitespace-normal break-words bg-[#101528]"
+                            : "whitespace-nowrap text-center"
+                        }`}
+                      >
                         {cell || "-"}
                       </td>
                     ))}
