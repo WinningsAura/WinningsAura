@@ -15,6 +15,7 @@ const sheetToCsv: Record<string, string> = {
   "All Sports Match Total Times": "All Sports Match Total Times.csv",
   "About Us": "About Us.csv",
   Chess: "Chess.csv",
+  Badminton: "Badminton_Payouts_Clean_2024_2026_split_rounds.csv",
 };
 
 function findExistingPath(candidates: string[]) {

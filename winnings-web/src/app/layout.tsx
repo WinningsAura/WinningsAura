@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 const siteUrl = "https://winnings-aura.vercel.app";
 const siteName = "WinningsAura";
 const description =
-  "WinningsAura tracks tennis, cricket, and golf prize money insights with clean dashboards, historical context, and fast stats navigation.";
+  "WinningsAura tracks tennis, cricket, golf, chess, and badminton prize money insights with clean dashboards, historical context, and fast stats navigation.";
 
 const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -47,6 +47,8 @@ export const metadata: Metadata = {
     "tennis prize money",
     "cricket stats",
     "golf prize money",
+    "chess prize money",
+    "badminton prize money",
     "sports analytics",
     "winnings dashboard",
   ],

@@ -29,6 +29,12 @@ const sports = [
     href: "/chess-stats",
     description: "Explore chess prize money across open, women's, and mixed events.",
   },
+  {
+    name: "Badminton",
+    image: "/badminton-aura-max-2026.svg",
+    href: "/badminton-stats",
+    description: "Track badminton payouts by category, year, and round.",
+  },
 ] as const;
 
 export default function HomePage() {
@@ -75,6 +81,7 @@ export default function HomePage() {
                     <Link href="/cricket-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Cricket</span><span>{"\uD83C\uDFCF"}</span></Link>
                     <Link href="/golf-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Golf</span><span>{"\u26F3"}</span></Link>
                     <Link href="/chess-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Chess</span><span>{"\u265F"}</span></Link>
+                    <Link href="/badminton-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Badminton</span><span>{"\uD83C\uDFF8"}</span></Link>
                     <Link href="/contact-us" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Contact Us</span><span>{"\u2709\uFE0F"}</span></Link>
                   </div>
                 </details>
@@ -156,6 +163,7 @@ export default function HomePage() {
     </div>
   );
 }
+
 
 
 

@@ -152,7 +152,7 @@ export default function ChessStatsPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#1d2238_0%,_#0d1120_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <main className="relative z-30 mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
-        <section className="relative mb-4 overflow-visible rounded-2xl border border-amber-200/25 bg-black/45 p-4 sm:p-5">
+        <section className="relative mt-2 mb-4 overflow-visible rounded-2xl border border-amber-200/25 bg-black/45 p-4 sm:p-6">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-35" style={{ backgroundImage: "url('/chess-aura-max-2026.svg')" }} />
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-indigo-900/45 via-black/40 to-black/70" />
 
@@ -170,6 +170,7 @@ export default function ChessStatsPage() {
                     <Link href="/cricket-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Cricket</span><span>{"\uD83C\uDFCF"}</span></Link>
                     <Link href="/golf-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Golf</span><span>{"\u26F3"}</span></Link>
                     <Link href="/chess-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Chess</span><span>{"\u265F"}</span></Link>
+                    <Link href="/badminton-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Badminton</span><span>{"\uD83C\uDFF8"}</span></Link>
                     <Link href="/contact-us" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Contact Us</span><span>{"\u2709\uFE0F"}</span></Link>
                   </div>
                 </details>
@@ -300,3 +301,4 @@ export default function ChessStatsPage() {
     </div>
   );
 }
+
