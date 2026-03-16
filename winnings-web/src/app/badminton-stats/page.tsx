@@ -43,16 +43,18 @@ function formatMoney(value: string, currency = "USD") {
   const text = clean(value);
   if (!text) return "-";
   if (text === "-" || text === "—" || text === "–") return "-";
-  if (/[$€£]/.test(text)) return text;
+
+  const cur = clean(currency).toUpperCase();
+  const symbol = cur.includes("USD") ? "$" : cur.includes("EUR") ? "€" : cur.includes("GBP") ? "£" : "";
+
+  if (/^([$€£])/.test(text)) return text;
 
   const numeric = Number(text.replace(/,/g, ""));
-  if (!Number.isFinite(numeric)) return text;
+  if (!Number.isFinite(numeric)) return symbol ? `${symbol}${text}` : (cur ? `${cur} ${text}` : text);
 
   const formatted = numeric.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  if (currency.toUpperCase().includes("USD")) return `$${formatted}`;
-  if (currency.toUpperCase().includes("EUR")) return `€${formatted}`;
-  if (currency.toUpperCase().includes("GBP")) return `£${formatted}`;
-  return formatted;
+  if (symbol) return `${symbol}${formatted}`;
+  return cur ? `${cur} ${formatted}` : formatted;
 }
 
 export default function BadmintonStatsPage() {
@@ -195,10 +197,10 @@ export default function BadmintonStatsPage() {
             </div>
           </div>
 
-          <div className="mt-5 max-w-md">
-            <label className="mb-2 block text-sm font-semibold text-amber-100/90">Year</label>
+          <div className="mt-4 w-full max-w-[150px]">
+            <label className="mb-1 block text-xs font-semibold text-amber-100/90">Year</label>
             <select
-              className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-sm text-amber-100 outline-none transition focus:border-amber-200 sm:text-base"
+              className="w-full rounded-lg border border-amber-200/40 bg-black/60 px-3 py-1.5 text-sm text-amber-100 outline-none transition focus:border-amber-200"
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value as YearFilter)}
             >
