@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-type BadmintonCategory = "Men's Doubles" | "Men's Singles" | "Women's Doubles" | "Women's Singles" | "Mixed Doubles";
+type BadmintonCategory = "Men's Singles" | "Women's Singles" | "Men's Doubles" | "Women's Doubles" | "Mixed Doubles";
 type YearFilter = "2026" | "2025" | "2024";
 
 type BadmintonRow = {
@@ -21,8 +21,19 @@ type BadmintonRow = {
   Currency: string;
 };
 
-const categories: BadmintonCategory[] = ["Men's Doubles", "Men's Singles", "Women's Doubles", "Women's Singles", "Mixed Doubles"];
+const categories: BadmintonCategory[] = ["Men's Singles", "Women's Singles", "Men's Doubles", "Women's Doubles", "Mixed Doubles"];
 const years: YearFilter[] = ["2026", "2025", "2024"];
+
+const roundDefs = [
+  { key: "Winner", label: "Winner" },
+  { key: "Runner-up", label: "Runner-up" },
+  { key: "Semi-finalists", label: "Semi-finalists" },
+  { key: "QF", label: "QF" },
+  { key: "R16", label: "R16" },
+  { key: "R32", label: "R32" },
+  { key: "3rd in Group", label: "3rd in Group" },
+  { key: "4th in Group", label: "4th in Group" },
+] as const;
 
 function clean(value: string) {
   return (value || "").replace(/\uFEFF/g, "").trim();
@@ -48,7 +59,7 @@ export default function BadmintonStatsPage() {
   const [rows, setRows] = useState<string[][]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<BadmintonCategory>("Men's Doubles");
+  const [selectedCategory, setSelectedCategory] = useState<BadmintonCategory>("Men's Singles");
   const [selectedYear, setSelectedYear] = useState<YearFilter>("2026");
 
   useEffect(() => {
@@ -113,11 +124,26 @@ export default function BadmintonStatsPage() {
     }));
   }, [rows]);
 
-  const tableRows = useMemo(() => {
+  const filteredRows = useMemo(() => {
     return parsedRows
       .filter((r) => r.Year === selectedYear && r.Category === selectedCategory)
       .sort((a, b) => a["Tournament/Event"].localeCompare(b["Tournament/Event"]));
   }, [parsedRows, selectedYear, selectedCategory]);
+
+  const tournaments = useMemo(() => {
+    return Array.from(new Set(filteredRows.map((r) => r["Tournament/Event"]).filter(Boolean)));
+  }, [filteredRows]);
+
+  const matrixRows = useMemo(() => {
+    return roundDefs.map((round) => {
+      const values = tournaments.map((event) => {
+        const row = filteredRows.find((r) => r["Tournament/Event"] === event);
+        if (!row) return "-";
+        return formatMoney(row[round.key], row.Currency);
+      });
+      return { round: round.label, values };
+    });
+  }, [filteredRows, tournaments]);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#123524_0%,_#0b1020_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
@@ -150,19 +176,6 @@ export default function BadmintonStatsPage() {
 
           <h1 className="relative z-0 mt-3 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:z-10 sm:text-4xl">Badminton Winnings</h1>
 
-          <div className="mt-5 max-w-md">
-            <label className="mb-2 block text-sm font-semibold text-amber-100/90">Year</label>
-            <select
-              className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-sm text-amber-100 outline-none transition focus:border-amber-200 sm:text-base"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value as YearFilter)}
-            >
-              {years.map((y) => (
-                <option className="bg-black" key={y} value={y}>{y}</option>
-              ))}
-            </select>
-          </div>
-
           <div className="mt-5">
             <h2 className="mb-3 break-words text-sm font-semibold leading-tight text-amber-100/90">Badminton Categories</h2>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -181,6 +194,19 @@ export default function BadmintonStatsPage() {
               ))}
             </div>
           </div>
+
+          <div className="mt-5 max-w-md">
+            <label className="mb-2 block text-sm font-semibold text-amber-100/90">Year</label>
+            <select
+              className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-sm text-amber-100 outline-none transition focus:border-amber-200 sm:text-base"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value as YearFilter)}
+            >
+              {years.map((y) => (
+                <option className="bg-black" key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
         </section>
 
         {loading ? <p className="mt-4 text-sm text-amber-100/80">Loading data...</p> : null}
@@ -189,52 +215,35 @@ export default function BadmintonStatsPage() {
         <section className="mt-8">
           <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">{selectedCategory} • {selectedYear}</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
-            <table className="min-w-[1180px] w-full table-fixed border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
+            <table className="min-w-[960px] w-full table-fixed border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
               <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
                 <tr>
-                  {[
-                    "Tournament/Event",
-                    "Winner",
-                    "Runner-up",
-                    "Semi-finalists",
-                    "QF",
-                    "R16",
-                    "R32",
-                    "3rd in Group",
-                    "4th in Group",
-                    "Currency",
-                  ].map((cell, idx) => (
-                    <th
-                      key={cell}
-                      className={`border-y border-amber-200/35 px-3 py-3 text-xs font-semibold tracking-wide sm:text-sm ${
-                        idx === 0 ? "sticky left-0 z-20 whitespace-normal break-words bg-[#153124]" : "whitespace-nowrap text-center"
-                      }`}
-                    >
-                      {cell}
+                  <th className="sticky left-0 z-20 border-y border-amber-200/35 bg-[#153124] px-3 py-3 text-xs font-semibold tracking-wide sm:text-sm">
+                    Round
+                  </th>
+                  {tournaments.map((event) => (
+                    <th key={event} className="border-y border-amber-200/35 px-3 py-3 text-center text-xs font-semibold tracking-wide sm:text-sm">
+                      {event}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {tableRows.map((row, rIdx) => (
-                  <tr key={`${row.Year}-${row.Category}-${row["Tournament/Event"]}-${rIdx}`} className="odd:bg-black/25 even:bg-black/45">
-                    <td className="sticky left-0 z-10 border-t border-amber-200/20 bg-[#101f18] px-3 py-3 align-top text-amber-50/95 whitespace-normal break-words">
-                      {row["Tournament/Event"] || "-"}
+                {matrixRows.map((row, rIdx) => (
+                  <tr key={`${row.round}-${rIdx}`} className="odd:bg-black/25 even:bg-black/45">
+                    <td className="sticky left-0 z-10 border-t border-amber-200/20 bg-[#101f18] px-3 py-3 align-top text-amber-50/95 whitespace-nowrap">
+                      {row.round}
                     </td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{formatMoney(row.Winner, row.Currency)}</td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{formatMoney(row["Runner-up"], row.Currency)}</td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{formatMoney(row["Semi-finalists"], row.Currency)}</td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{formatMoney(row.QF, row.Currency)}</td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{formatMoney(row.R16, row.Currency)}</td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{formatMoney(row.R32, row.Currency)}</td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{formatMoney(row["3rd in Group"], row.Currency)}</td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{formatMoney(row["4th in Group"], row.Currency)}</td>
-                    <td className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">{row.Currency || "-"}</td>
+                    {row.values.map((value, cIdx) => (
+                      <td key={`${row.round}-${cIdx}`} className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">
+                        {value}
+                      </td>
+                    ))}
                   </tr>
                 ))}
-                {!loading && !error && tableRows.length === 0 ? (
+                {!loading && !error && tournaments.length === 0 ? (
                   <tr>
-                    <td className="border-t border-amber-200/20 px-3 py-4 text-center text-amber-100/80" colSpan={10}>
+                    <td className="border-t border-amber-200/20 px-3 py-4 text-center text-amber-100/80" colSpan={Math.max(1, tournaments.length + 1)}>
                       No rows available for this year/category.
                     </td>
                   </tr>
