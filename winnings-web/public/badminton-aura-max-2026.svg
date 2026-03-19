@@ -57,17 +57,32 @@
     </g>
   </g>
 
-  <!-- Racket -->
+  <!-- Racket (badminton-style isometric teardrop head) -->
   <g transform="translate(965 160) rotate(17)">
-    <ellipse cx="120" cy="175" rx="92" ry="118" fill="none" stroke="#f8fafc" stroke-width="12"/>
-    <g clip-path="url(#racketHead)">
-      <path d="M52 72V278M74 66V284M96 60V290M120 58V292M144 60V290M166 66V284M188 72V278" stroke="#dbe7f5" stroke-width="2"/>
-      <path d="M38 108H202M34 136H206M32 166H208M34 196H206M38 224H202" stroke="#dbe7f5" stroke-width="2"/>
+    <path d="M120 56C168 56 204 100 204 164C204 220 170 258 120 292C70 258 36 220 36 164C36 100 72 56 120 56Z" fill="none" stroke="#f8fafc" stroke-width="10"/>
+    <path d="M120 72C160 72 190 108 190 164C190 212 160 244 120 273C80 244 50 212 50 164C50 108 80 72 120 72Z" fill="none" stroke="#cfdcf1" stroke-width="1.5"/>
+
+    <!-- strings -->
+    <g stroke="#dbe7f5" stroke-width="1.8" opacity="0.92">
+      <line x1="70" y1="96" x2="70" y2="232"/>
+      <line x1="86" y1="82" x2="86" y2="246"/>
+      <line x1="103" y1="74" x2="103" y2="255"/>
+      <line x1="120" y1="72" x2="120" y2="258"/>
+      <line x1="137" y1="74" x2="137" y2="255"/>
+      <line x1="154" y1="82" x2="154" y2="246"/>
+      <line x1="170" y1="96" x2="170" y2="232"/>
+
+      <line x1="56" y1="112" x2="184" y2="112"/>
+      <line x1="50" y1="136" x2="190" y2="136"/>
+      <line x1="48" y1="160" x2="192" y2="160"/>
+      <line x1="50" y1="184" x2="190" y2="184"/>
+      <line x1="56" y1="208" x2="184" y2="208"/>
     </g>
-    <path d="M52 248C72 270 92 294 112 334" stroke="#ffffff" stroke-width="12" stroke-linecap="round" fill="none"/>
-    <path d="M188 248C168 270 148 294 128 334" stroke="#ffffff" stroke-width="12" stroke-linecap="round" fill="none"/>
-    <rect x="108" y="334" width="24" height="132" rx="12" fill="#c08444"/>
-    <path d="M110 352L130 364M110 374L130 386M110 396L130 408M110 418L130 430" stroke="#fde68a" stroke-width="2"/>
+
+    <path d="M88 250C96 274 104 294 112 324" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <path d="M152 250C144 274 136 294 128 324" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <rect x="108" y="324" width="24" height="140" rx="12" fill="#b7793b"/>
+    <path d="M110 342L130 355M110 364L130 377M110 386L130 399M110 408L130 421M110 430L130 443" stroke="#fde68a" stroke-width="2"/>
   </g>
 
   <!-- Shuttlecock -->
