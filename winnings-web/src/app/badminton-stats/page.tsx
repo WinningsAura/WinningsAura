@@ -57,6 +57,19 @@ function formatMoney(value: string, currency = "USD") {
   return cur ? `${cur} ${formatted}` : formatted;
 }
 
+function renderTournamentHeader(event: string) {
+  const marker = "(Super 1000)";
+  if (!event.includes(marker)) return event;
+
+  const name = clean(event.replace(marker, ""));
+  return (
+    <>
+      <span className="block">{name}</span>
+      <span className="block">{marker}</span>
+    </>
+  );
+}
+
 export default function BadmintonStatsPage() {
   const [rows, setRows] = useState<string[][]>([]);
   const [loading, setLoading] = useState(false);
@@ -225,7 +238,7 @@ export default function BadmintonStatsPage() {
                   </th>
                   {tournaments.map((event) => (
                     <th key={event} className="border-y border-amber-200/35 px-3 py-3 text-center text-xs font-semibold tracking-wide sm:text-sm">
-                      {event}
+                      {renderTournamentHeader(event)}
                     </th>
                   ))}
                 </tr>
