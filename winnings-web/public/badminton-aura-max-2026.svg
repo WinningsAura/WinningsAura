@@ -89,16 +89,15 @@
     <!-- T-joint + shaft -->
     <rect x="106" y="300" width="28" height="22" rx="8" fill="#dbe7f5"/>
     <rect x="112" y="320" width="16" height="26" rx="7" fill="#f8fafc"/>
-    <rect x="108" y="344" width="24" height="148" rx="12" fill="#b7793b"/>
+    <rect x="110" y="344" width="20" height="112" rx="10" fill="#b7793b"/>
 
-    <!-- grip wrapping -->
+    <!-- grip wrapping (shorter modern grip) -->
     <g stroke="#fde68a" stroke-width="2">
-      <line x1="110" y1="360" x2="130" y2="372"/>
-      <line x1="110" y1="382" x2="130" y2="394"/>
-      <line x1="110" y1="404" x2="130" y2="416"/>
-      <line x1="110" y1="426" x2="130" y2="438"/>
-      <line x1="110" y1="448" x2="130" y2="460"/>
-      <line x1="110" y1="470" x2="130" y2="482"/>
+      <line x1="112" y1="358" x2="128" y2="368"/>
+      <line x1="112" y1="378" x2="128" y2="388"/>
+      <line x1="112" y1="398" x2="128" y2="408"/>
+      <line x1="112" y1="418" x2="128" y2="428"/>
+      <line x1="112" y1="438" x2="128" y2="448"/>
     </g>
   </g>
 
