@@ -5,8 +5,8 @@
       <stop offset="0.45" stop-color="#10345C"/>
       <stop offset="1" stop-color="#1E0D47"/>
     </linearGradient>
-    <clipPath id="racketHead">
-      <ellipse cx="120" cy="175" rx="82" ry="108"/>
+    <clipPath id="racketHeadOfficial">
+      <path d="M120 54C171 54 210 101 210 166C210 231 171 275 120 308C69 275 30 231 30 166C30 101 69 54 120 54Z"/>
     </clipPath>
   </defs>
 
@@ -57,32 +57,49 @@
     </g>
   </g>
 
-  <!-- Racket (badminton-style isometric teardrop head) -->
-  <g transform="translate(965 160) rotate(17)">
-    <path d="M120 56C168 56 204 100 204 164C204 220 170 258 120 292C70 258 36 220 36 164C36 100 72 56 120 56Z" fill="none" stroke="#f8fafc" stroke-width="10"/>
-    <path d="M120 72C160 72 190 108 190 164C190 212 160 244 120 273C80 244 50 212 50 164C50 108 80 72 120 72Z" fill="none" stroke="#cfdcf1" stroke-width="1.5"/>
+  <!-- Racket (official-style badminton frame) -->
+  <g transform="translate(955 150) rotate(16)">
+    <!-- outer carbon frame -->
+    <path d="M120 54C171 54 210 101 210 166C210 231 171 275 120 308C69 275 30 231 30 166C30 101 69 54 120 54Z" fill="#10243f"/>
+    <path d="M120 54C171 54 210 101 210 166C210 231 171 275 120 308C69 275 30 231 30 166C30 101 69 54 120 54Z" fill="none" stroke="#f8fafc" stroke-width="7"/>
 
-    <!-- strings -->
-    <g stroke="#dbe7f5" stroke-width="1.8" opacity="0.92">
-      <line x1="70" y1="96" x2="70" y2="232"/>
-      <line x1="86" y1="82" x2="86" y2="246"/>
-      <line x1="103" y1="74" x2="103" y2="255"/>
-      <line x1="120" y1="72" x2="120" y2="258"/>
-      <line x1="137" y1="74" x2="137" y2="255"/>
-      <line x1="154" y1="82" x2="154" y2="246"/>
-      <line x1="170" y1="96" x2="170" y2="232"/>
+    <!-- inner grommet ring -->
+    <path d="M120 72C160 72 190 110 190 166C190 221 160 258 120 286C80 258 50 221 50 166C50 110 80 72 120 72Z" fill="none" stroke="#b7c8df" stroke-width="2"/>
 
-      <line x1="56" y1="112" x2="184" y2="112"/>
-      <line x1="50" y1="136" x2="190" y2="136"/>
-      <line x1="48" y1="160" x2="192" y2="160"/>
-      <line x1="50" y1="184" x2="190" y2="184"/>
-      <line x1="56" y1="208" x2="184" y2="208"/>
+    <!-- string bed clipped to official head shape -->
+    <g clip-path="url(#racketHeadOfficial)" stroke="#e6eef9" stroke-width="1.6" opacity="0.95">
+      <line x1="66" y1="76" x2="66" y2="280"/>
+      <line x1="82" y1="68" x2="82" y2="288"/>
+      <line x1="98" y1="63" x2="98" y2="294"/>
+      <line x1="114" y1="60" x2="114" y2="298"/>
+      <line x1="130" y1="60" x2="130" y2="298"/>
+      <line x1="146" y1="63" x2="146" y2="294"/>
+      <line x1="162" y1="68" x2="162" y2="288"/>
+      <line x1="178" y1="76" x2="178" y2="280"/>
+
+      <line x1="46" y1="104" x2="194" y2="104"/>
+      <line x1="40" y1="128" x2="200" y2="128"/>
+      <line x1="36" y1="152" x2="204" y2="152"/>
+      <line x1="34" y1="176" x2="206" y2="176"/>
+      <line x1="36" y1="200" x2="204" y2="200"/>
+      <line x1="42" y1="224" x2="198" y2="224"/>
+      <line x1="52" y1="248" x2="188" y2="248"/>
     </g>
 
-    <path d="M88 250C96 274 104 294 112 324" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none"/>
-    <path d="M152 250C144 274 136 294 128 324" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none"/>
-    <rect x="108" y="324" width="24" height="140" rx="12" fill="#b7793b"/>
-    <path d="M110 342L130 355M110 364L130 377M110 386L130 399M110 408L130 421M110 430L130 443" stroke="#fde68a" stroke-width="2"/>
+    <!-- T-joint + shaft -->
+    <rect x="106" y="300" width="28" height="22" rx="8" fill="#dbe7f5"/>
+    <rect x="112" y="320" width="16" height="26" rx="7" fill="#f8fafc"/>
+    <rect x="108" y="344" width="24" height="148" rx="12" fill="#b7793b"/>
+
+    <!-- grip wrapping -->
+    <g stroke="#fde68a" stroke-width="2">
+      <line x1="110" y1="360" x2="130" y2="372"/>
+      <line x1="110" y1="382" x2="130" y2="394"/>
+      <line x1="110" y1="404" x2="130" y2="416"/>
+      <line x1="110" y1="426" x2="130" y2="438"/>
+      <line x1="110" y1="448" x2="130" y2="460"/>
+      <line x1="110" y1="470" x2="130" y2="482"/>
+    </g>
   </g>
 
   <!-- Shuttlecock -->
