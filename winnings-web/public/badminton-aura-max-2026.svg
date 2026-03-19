@@ -44,9 +44,9 @@
       <line x1="360" y1="80" x2="690" y2="80" stroke="#eaffea" stroke-width="3"/>
       <line x1="360" y1="700" x2="690" y2="700" stroke="#eaffea" stroke-width="3"/>
 
-      <!-- Center service line (both halves) -->
-      <line x1="525" y1="286" x2="525" y2="390" stroke="#eaffea" stroke-width="3"/>
-      <line x1="525" y1="390" x2="525" y2="494" stroke="#eaffea" stroke-width="3"/>
+      <!-- Center service line (official: does not touch net; runs short-service to long-service on each half) -->
+      <line x1="525" y1="80" x2="525" y2="286" stroke="#eaffea" stroke-width="3"/>
+      <line x1="525" y1="494" x2="525" y2="700" stroke="#eaffea" stroke-width="3"/>
 
       <!-- Net band + mesh (same direction style as tennis net) -->
       <rect x="360" y="384" width="330" height="12" fill="#f8fafc"/>
