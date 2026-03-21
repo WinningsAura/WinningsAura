@@ -228,10 +228,10 @@ export default function BadmintonStatsPage() {
         {error ? <p className="mt-4 text-sm text-rose-300">Error: {error}</p> : null}
 
         <section className="mt-8">
-          <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">{selectedCategory} • {selectedYear}</h2>
+          <h2 className="mb-3 break-words text-base font-semibold leading-tight text-white sm:text-lg">{selectedCategory} • {selectedYear}</h2>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-[960px] w-full table-fixed border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
-              <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
+              <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-white">
                 <tr>
                   <th className="sticky left-0 z-20 border-y border-amber-200/35 bg-[#153124] px-3 py-3 text-xs font-semibold tracking-wide sm:text-sm">
                     Round
@@ -246,11 +246,11 @@ export default function BadmintonStatsPage() {
               <tbody>
                 {matrixRows.map((row, rIdx) => (
                   <tr key={`${row.round}-${rIdx}`} className="odd:bg-black/25 even:bg-black/45">
-                    <td className="sticky left-0 z-10 border-t border-amber-200/20 bg-[#101f18] px-3 py-3 align-top text-amber-50/95 whitespace-nowrap">
+                    <td className="sticky left-0 z-10 border-t border-amber-200/20 bg-[#101f18] px-3 py-3 align-top text-white whitespace-nowrap">
                       {row.round}
                     </td>
                     {row.values.map((value, cIdx) => (
-                      <td key={`${row.round}-${cIdx}`} className="border-t border-amber-200/20 px-3 py-3 text-center whitespace-nowrap">
+                      <td key={`${row.round}-${cIdx}`} className="border-t border-amber-200/20 px-3 py-3 text-center text-white whitespace-nowrap">
                         {value}
                       </td>
                     ))}
