@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -133,8 +134,13 @@ export default function RootLayout({
             <Link href="/terms-and-conditions" className="underline underline-offset-4 hover:text-amber-100">
               Terms & Conditions
             </Link>
+            <span aria-hidden="true">•</span>
+            <Link href="/cookie-policy" className="underline underline-offset-4 hover:text-amber-100">
+              Cookie Policy
+            </Link>
           </div>
         </footer>
+        <CookieConsentBanner />
       </body>
     </html>
   );

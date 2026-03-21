@@ -241,6 +241,10 @@ export default function BadmintonStatsPage() {
 
         <section className="mt-8">
           <h2 className="mb-3 break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">{selectedCategory} • {selectedYear}</h2>
+          <p className="mb-3 text-xs leading-6 text-amber-100/80 sm:text-sm">
+            Data shown here is compiled from public badminton sources and organized by tournament, year, category, and round.
+            Amounts are displayed in listed event currency and should be independently verified with official tournament or federation releases.
+          </p>
           <div className="overflow-x-auto rounded-2xl border border-amber-200/35 bg-black/55 backdrop-blur-sm">
             <table className="min-w-[960px] w-full table-fixed border-separate border-spacing-0 border border-amber-200/35 text-left text-sm">
               <thead className="bg-gradient-to-r from-amber-300/20 to-yellow-100/10 text-amber-100">
