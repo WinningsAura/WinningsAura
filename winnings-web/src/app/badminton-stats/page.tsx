@@ -57,6 +57,18 @@ function formatMoney(value: string, currency = "USD") {
   return cur ? `${cur} ${formatted}` : formatted;
 }
 
+function normalizeCategory(value: string): string {
+  const v = clean(value);
+  const map: Record<string, BadmintonCategory> = {
+    MS: "Men's Singles",
+    WS: "Women's Singles",
+    MD: "Men's Doubles",
+    WD: "Women's Doubles",
+    XD: "Mixed Doubles",
+  };
+  return map[v] || v;
+}
+
 function renderTournamentHeader(event: string) {
   const marker = "(Super 1000)";
   if (!event.includes(marker)) return event;
@@ -126,7 +138,7 @@ export default function BadmintonStatsPage() {
     return rows.slice(1).map((r) => ({
       Year: clean(r[idx.year] || ""),
       "Tournament/Event": clean(r[idx.event] || ""),
-      Category: clean(r[idx.category] || ""),
+      Category: normalizeCategory(r[idx.category] || ""),
       Winner: clean(r[idx.winner] || ""),
       "Runner-up": clean(r[idx.runner] || ""),
       "Semi-finalists": clean(r[idx.semi] || ""),
