@@ -191,7 +191,7 @@ export default function BadmintonStatsPage() {
 
           <h1 className="relative z-0 mt-3 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:z-10 sm:text-4xl">Badminton Winnings</h1>
 
-          <div className="mt-5">
+          <div className="relative z-10 mt-5">
             <h2 className="mb-3 break-words text-sm font-semibold leading-tight text-amber-100">Badminton Categories</h2>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {categories.map((cat) => (
@@ -210,7 +210,7 @@ export default function BadmintonStatsPage() {
             </div>
           </div>
 
-          <div className="mt-4 w-full max-w-[150px]">
+          <div className="relative z-10 mt-4 w-full max-w-[150px]">
             <label className="mb-1 block text-xs font-semibold text-amber-100">Year</label>
             <select
               className="w-full rounded-lg border border-amber-200/40 bg-black/60 px-3 py-1.5 text-sm text-amber-100 outline-none transition focus:border-amber-200"
