@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/golf-stats`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${baseUrl}/chess-stats`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${baseUrl}/badminton-stats`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${baseUrl}/soccer-stats`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${baseUrl}/about-us`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${baseUrl}/contact-us`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
   ];

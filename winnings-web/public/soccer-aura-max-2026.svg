@@ -1,0 +1,41 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#052e16"/>
+      <stop offset="0.55" stop-color="#0a4a2d"/>
+      <stop offset="1" stop-color="#071a2e"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 450) rotate(90) scale(480 760)">
+      <stop stop-color="#86efac" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#86efac" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+
+  <g stroke="rgba(255,255,255,0.32)" stroke-width="6" fill="none">
+    <rect x="90" y="70" width="1420" height="760" rx="22"/>
+    <line x1="800" y1="70" x2="800" y2="830"/>
+    <circle cx="800" cy="450" r="118"/>
+    <circle cx="800" cy="450" r="4" fill="rgba(255,255,255,0.55)"/>
+    <rect x="90" y="255" width="220" height="390"/>
+    <rect x="1290" y="255" width="220" height="390"/>
+    <rect x="90" y="335" width="90" height="230"/>
+    <rect x="1420" y="335" width="90" height="230"/>
+    <circle cx="230" cy="450" r="4" fill="rgba(255,255,255,0.55)"/>
+    <circle cx="1370" cy="450" r="4" fill="rgba(255,255,255,0.55)"/>
+    <path d="M90 380C150 380 180 420 180 450C180 480 150 520 90 520"/>
+    <path d="M1510 380C1450 380 1420 420 1420 450C1420 480 1450 520 1510 520"/>
+  </g>
+
+  <g transform="translate(1240 120) scale(1.15)">
+    <circle cx="120" cy="120" r="88" fill="rgba(255,255,255,0.9)"/>
+    <path d="M120 66L148 86L138 120H102L92 86L120 66Z" fill="#0f172a"/>
+    <path d="M102 120L86 152L52 150L44 116L70 96L102 120Z" fill="#0f172a"/>
+    <path d="M138 120L170 96L196 116L188 150L154 152L138 120Z" fill="#0f172a"/>
+    <path d="M86 152L104 182L88 214L52 206L44 172L68 154L86 152Z" fill="#0f172a"/>
+    <path d="M154 152L172 154L196 172L188 206L152 214L136 182L154 152Z" fill="#0f172a"/>
+    <circle cx="120" cy="120" r="88" stroke="rgba(15,23,42,0.18)" stroke-width="10" fill="none"/>
+  </g>
+</svg>
