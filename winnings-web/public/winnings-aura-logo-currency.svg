@@ -27,7 +27,17 @@
     <text x="0" y="-26" text-anchor="middle" fill="url(#gold)" font-size="44" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="800">₹</text>
     <text x="-38" y="16" text-anchor="middle" fill="#F8FAFC" font-size="34" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700">$</text>
     <text x="38" y="16" text-anchor="middle" fill="#F8FAFC" font-size="34" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700">€</text>
-    <text x="0" y="56" text-anchor="middle" fill="#A5F3FC" font-size="30" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700">£</text>
+    <!-- Dynamic rotating popular currency slot -->
+    <g fill="#A5F3FC" font-size="30" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700" text-anchor="middle">
+      <text x="0" y="56" opacity="0">£<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.12;1" dur="16s" begin="0s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">¥<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.12;1" dur="16s" begin="-2s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">A$<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.12;1" dur="16s" begin="-4s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">C$<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.12;1" dur="16s" begin="-6s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">CHF<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.12;1" dur="16s" begin="-8s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">AED<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.12;1" dur="16s" begin="-10s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">SGD<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.12;1" dur="16s" begin="-12s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">HK$<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.12;1" dur="16s" begin="-14s" repeatCount="indefinite"/></text>
+    </g>
 
     <path d="M-70 74 H70" stroke="url(#neon)" stroke-width="6" stroke-linecap="round" filter="url(#softGlow)"/>
   </g>
