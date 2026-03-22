@@ -27,36 +27,36 @@
     <!-- Fixed top slot -->
     <text x="0" y="-26" text-anchor="middle" fill="url(#gold)" font-size="44" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="800">$</text>
 
-    <!-- Dynamic left slot -->
+    <!-- Dynamic left slot (continuous loop) -->
     <g fill="#F8FAFC" font-size="34" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700" text-anchor="middle" stroke="#0f172a" stroke-width="1" paint-order="stroke fill">
-      <text x="-38" y="16" opacity="0">€<set attributeName="opacity" to="1" begin="0s;12s" dur="2s" fill="remove"/></text>
-      <text x="-38" y="16" opacity="0">£<set attributeName="opacity" to="1" begin="2s;14s" dur="2s" fill="remove"/></text>
-      <text x="-38" y="16" opacity="0">₹<set attributeName="opacity" to="1" begin="4s;16s" dur="2s" fill="remove"/></text>
-      <text x="-38" y="16" opacity="0">¥<set attributeName="opacity" to="1" begin="6s;18s" dur="2s" fill="remove"/></text>
-      <text x="-38" y="16" opacity="0">CHF<set attributeName="opacity" to="1" begin="8s;20s" dur="2s" fill="remove"/></text>
-      <text x="-38" y="16" opacity="0">A$<set attributeName="opacity" to="1" begin="10s;22s" dur="2s" fill="remove"/></text>
+      <text x="-38" y="16" opacity="0">€<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="0s" repeatCount="indefinite"/></text>
+      <text x="-38" y="16" opacity="0">£<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-2s" repeatCount="indefinite"/></text>
+      <text x="-38" y="16" opacity="0">₹<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-4s" repeatCount="indefinite"/></text>
+      <text x="-38" y="16" opacity="0">¥<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-6s" repeatCount="indefinite"/></text>
+      <text x="-38" y="16" opacity="0">CHF<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-8s" repeatCount="indefinite"/></text>
+      <text x="-38" y="16" opacity="0">A$<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-10s" repeatCount="indefinite"/></text>
     </g>
 
-    <!-- Dynamic right slot -->
+    <!-- Dynamic right slot (continuous loop) -->
     <g fill="#F8FAFC" font-size="34" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="700" text-anchor="middle" stroke="#0f172a" stroke-width="1" paint-order="stroke fill">
-      <text x="38" y="16" opacity="0">₹<set attributeName="opacity" to="1" begin="0s;12s" dur="2s" fill="remove"/></text>
-      <text x="38" y="16" opacity="0">AED<set attributeName="opacity" to="1" begin="2s;14s" dur="2s" fill="remove"/></text>
-      <text x="38" y="16" opacity="0">SGD<set attributeName="opacity" to="1" begin="4s;16s" dur="2s" fill="remove"/></text>
-      <text x="38" y="16" opacity="0">HK$<set attributeName="opacity" to="1" begin="6s;18s" dur="2s" fill="remove"/></text>
-      <text x="38" y="16" opacity="0">C$<set attributeName="opacity" to="1" begin="8s;20s" dur="2s" fill="remove"/></text>
-      <text x="38" y="16" opacity="0">₩<set attributeName="opacity" to="1" begin="10s;22s" dur="2s" fill="remove"/></text>
+      <text x="38" y="16" opacity="0">₹<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="0s" repeatCount="indefinite"/></text>
+      <text x="38" y="16" opacity="0">AED<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-2s" repeatCount="indefinite"/></text>
+      <text x="38" y="16" opacity="0">SGD<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-4s" repeatCount="indefinite"/></text>
+      <text x="38" y="16" opacity="0">HK$<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-6s" repeatCount="indefinite"/></text>
+      <text x="38" y="16" opacity="0">C$<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-8s" repeatCount="indefinite"/></text>
+      <text x="38" y="16" opacity="0">₩<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.16;0.2;1" dur="12s" begin="-10s" repeatCount="indefinite"/></text>
     </g>
 
-    <!-- Dynamic bottom slot -->
+    <!-- Dynamic bottom slot (continuous loop) -->
     <g fill="#CFFAFE" font-size="32" font-family="Segoe UI, Inter, Arial, sans-serif" font-weight="800" text-anchor="middle" stroke="#0f172a" stroke-width="1.2" paint-order="stroke fill">
-      <text x="0" y="56" opacity="0">£<set attributeName="opacity" to="1" begin="0s;16s" dur="2s" fill="remove"/></text>
-      <text x="0" y="56" opacity="0">¥<set attributeName="opacity" to="1" begin="2s;18s" dur="2s" fill="remove"/></text>
-      <text x="0" y="56" opacity="0">A$<set attributeName="opacity" to="1" begin="4s;20s" dur="2s" fill="remove"/></text>
-      <text x="0" y="56" opacity="0">C$<set attributeName="opacity" to="1" begin="6s;22s" dur="2s" fill="remove"/></text>
-      <text x="0" y="56" opacity="0">CHF<set attributeName="opacity" to="1" begin="8s;24s" dur="2s" fill="remove"/></text>
-      <text x="0" y="56" opacity="0">AED<set attributeName="opacity" to="1" begin="10s;26s" dur="2s" fill="remove"/></text>
-      <text x="0" y="56" opacity="0">SGD<set attributeName="opacity" to="1" begin="12s;28s" dur="2s" fill="remove"/></text>
-      <text x="0" y="56" opacity="0">HK$<set attributeName="opacity" to="1" begin="14s;30s" dur="2s" fill="remove"/></text>
+      <text x="0" y="56" opacity="0">£<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.12;0.16;1" dur="16s" begin="0s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">¥<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.12;0.16;1" dur="16s" begin="-2s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">A$<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.12;0.16;1" dur="16s" begin="-4s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">C$<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.12;0.16;1" dur="16s" begin="-6s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">CHF<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.12;0.16;1" dur="16s" begin="-8s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">AED<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.12;0.16;1" dur="16s" begin="-10s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">SGD<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.12;0.16;1" dur="16s" begin="-12s" repeatCount="indefinite"/></text>
+      <text x="0" y="56" opacity="0">HK$<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.12;0.16;1" dur="16s" begin="-14s" repeatCount="indefinite"/></text>
     </g>
 
     <path d="M-70 74 H70" stroke="url(#neon)" stroke-width="6" stroke-linecap="round" filter="url(#softGlow)"/>
