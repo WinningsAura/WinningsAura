@@ -97,9 +97,17 @@ export default function HomePage() {
           </div>
 
           <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura</h1>
-          <p className="mt-2 text-sm text-amber-100/75 sm:mt-3 sm:text-base">
+          <p className="mt-2 text-sm font-medium text-amber-100/90 sm:mt-3 sm:text-base">
+            Sports Prize Money Intelligence
+          </p>
+          <p className="mt-1 text-sm text-amber-100/75 sm:text-base">
             Every Win <span className="inline-block animate-dollar-spin">$</span>. One Platform.
           </p>
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-amber-100/80 sm:text-sm">
+            <li>Compare payouts across sports, events, and rounds in seconds.</li>
+            <li>See clear prize structures without digging through scattered sources.</li>
+            <li>Track Tennis, Cricket, Golf, Chess, Badminton, and Soccer in one place.</li>
+          </ul>
         </header>
 
         <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
