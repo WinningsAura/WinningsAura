@@ -101,8 +101,8 @@ export default function HomePage() {
             Sports Prize Money Intelligence
           </p>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-amber-100/80 sm:text-sm">
-            <li>Compare payouts across sports, events, and rounds in seconds.</li>
-            <li>See clear prize structures without digging through scattered sources.</li>
+            <li>Compare payouts across sports and events fast.</li>
+            <li>See clear prize structures instantly.</li>
             <li>Track Every Win $ in One Platform.</li>
           </ul>
         </header>

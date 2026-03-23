@@ -82,20 +82,20 @@
       <line x1="54" y1="214" x2="186" y2="214"/>
     </g>
 
-    <!-- T-joint + shaft (reduced) -->
+    <!-- T-joint + shaft (reduced a bit more) -->
     <rect x="106" y="278" width="28" height="18" rx="7" fill="#dbe7f5"/>
-    <rect x="113" y="296" width="14" height="150" rx="7" fill="#f8fafc"/>
+    <rect x="114" y="296" width="12" height="132" rx="6" fill="#f8fafc"/>
 
-    <!-- handle (reduced) -->
-    <rect x="109" y="446" width="22" height="150" rx="11" fill="#b7793b"/>
+    <!-- handle (yellow, reduced) -->
+    <rect x="110" y="428" width="20" height="132" rx="10" fill="#facc15"/>
 
     <!-- grip wrapping -->
-    <g stroke="#fde68a" stroke-width="2">
-      <line x1="111" y1="464" x2="129" y2="474"/>
-      <line x1="111" y1="490" x2="129" y2="500"/>
-      <line x1="111" y1="516" x2="129" y2="526"/>
-      <line x1="111" y1="542" x2="129" y2="552"/>
-      <line x1="111" y1="568" x2="129" y2="578"/>
+    <g stroke="#fff7ae" stroke-width="1.8">
+      <line x1="112" y1="444" x2="128" y2="453"/>
+      <line x1="112" y1="468" x2="128" y2="477"/>
+      <line x1="112" y1="492" x2="128" y2="501"/>
+      <line x1="112" y1="516" x2="128" y2="525"/>
+      <line x1="112" y1="540" x2="128" y2="549"/>
     </g>
   </g>
 
