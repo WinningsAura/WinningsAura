@@ -1,0 +1,289 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+
+type Position = "Winner" | "Runner-up";
+
+type SportPoint = {
+  sport: string;
+  event: string;
+  amount: number;
+  display: string;
+};
+
+const positionOptions: Position[] = ["Winner", "Runner-up"];
+
+const sportSheets = [
+  { sport: "Tennis", sheet: "Tennis Grand Slams" },
+  { sport: "Badminton", sheet: "Badminton" },
+  { sport: "Cricket", sheet: "Cricket" },
+  { sport: "Golf", sheet: "Golf" },
+  { sport: "Chess", sheet: "Chess" },
+  { sport: "Soccer", sheet: "Soccer" },
+] as const;
+
+function clean(value: string) {
+  return (value || "").replace(/[\uFEFF\uFFFD]/g, "").trim();
+}
+
+function toNumber(raw: string) {
+  const text = clean(raw);
+  if (!text) return NaN;
+
+  const rangeMatch = text.match(/(\d[\d,]*(?:\.\d+)?)\s*[–—-]\s*(\d[\d,]*(?:\.\d+)?)/);
+  if (rangeMatch) {
+    const a = Number(rangeMatch[1].replace(/,/g, ""));
+    const b = Number(rangeMatch[2].replace(/,/g, ""));
+    if (Number.isFinite(a) && Number.isFinite(b)) return Math.max(a, b);
+  }
+
+  const withSuffix = text.match(/(\d[\d,]*(?:\.\d+)?)\s*([kKmMbB])\b/);
+  if (withSuffix) {
+    const base = Number(withSuffix[1].replace(/,/g, ""));
+    const mult = withSuffix[2].toLowerCase() === "b" ? 1_000_000_000 : withSuffix[2].toLowerCase() === "m" ? 1_000_000 : 1_000;
+    return Number.isFinite(base) ? base * mult : NaN;
+  }
+
+  const numeric = text.replace(/[^0-9.-]/g, "");
+  const n = Number(numeric);
+  return Number.isFinite(n) ? n : NaN;
+}
+
+function formatCompact(value: number) {
+  if (!Number.isFinite(value)) return "-";
+  if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(1)}B`;
+  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`;
+  if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
+  return `$${Math.round(value).toLocaleString("en-US")}`;
+}
+
+function findBest(values: Array<{ event: string; raw: string }>) {
+  const candidates = values
+    .map((v) => ({ ...v, amount: toNumber(v.raw) }))
+    .filter((v) => Number.isFinite(v.amount));
+  if (!candidates.length) return null;
+  candidates.sort((a, b) => b.amount - a.amount);
+  return candidates[0];
+}
+
+function extractTennis(rows: string[][], position: Position): SportPoint | null {
+  const target = position === "Winner" ? "winner" : "runner";
+  const row = rows.find((r) => clean(r[1] || "").toLowerCase().includes(target));
+  if (!row) return null;
+
+  const events = [
+    { event: "Australian Open", raw: row[2] || "" },
+    { event: "US Open", raw: row[3] || "" },
+    { event: "French Open", raw: row[4] || "" },
+    { event: "Wimbledon", raw: row[5] || "" },
+  ];
+
+  const best = findBest(events);
+  if (!best) return null;
+  return { sport: "Tennis", event: best.event, amount: best.amount, display: clean(best.raw) };
+}
+
+function extractBadminton(rows: string[][], position: Position): SportPoint | null {
+  if (!rows.length) return null;
+  const header = rows[0].map((h) => clean(h));
+  const idxEvent = header.indexOf("Tournament/Event");
+  const idx = header.indexOf(position);
+  if (idxEvent === -1 || idx === -1) return null;
+
+  const events = rows.slice(1).map((r) => ({ event: clean(r[idxEvent] || ""), raw: clean(r[idx] || "") })).filter((r) => r.event);
+  const best = findBest(events);
+  if (!best) return null;
+  return { sport: "Badminton", event: best.event, amount: best.amount, display: best.raw };
+}
+
+function extractCricket(rows: string[][], position: Position): SportPoint | null {
+  const key = position === "Winner" ? "winner" : "runner";
+  const row = rows.find((r) => clean(r[0] || "").toLowerCase().includes(key));
+  if (!row) return null;
+
+  const events = [
+    { event: "ODI World Cup", raw: row[1] || "" },
+    { event: "Champions Trophy", raw: row[2] || "" },
+    { event: "T20 World Cup", raw: row[3] || "" },
+    { event: "WTC Final", raw: row[4] || "" },
+  ];
+  const best = findBest(events);
+  if (!best) return null;
+  return { sport: "Cricket", event: best.event, amount: best.amount, display: clean(best.raw) };
+}
+
+function extractGolf(rows: string[][], position: Position): SportPoint | null {
+  const place = position === "Winner" ? "1" : "2";
+  const row = rows.find((r) => clean(r[0] || "") === place);
+  if (!row) return null;
+
+  const events = [
+    { event: "Masters", raw: row[1] || "" },
+    { event: "U.S. Open", raw: row[2] || "" },
+    { event: "PGA Championship", raw: row[3] || "" },
+    { event: "The Open", raw: row[4] || "" },
+  ];
+  const best = findBest(events);
+  if (!best) return null;
+  return { sport: "Golf", event: best.event, amount: best.amount, display: clean(best.raw) };
+}
+
+function extractChess(rows: string[][], position: Position): SportPoint | null {
+  const key = position === "Winner" ? "winner" : "runner";
+  const row = rows.find((r) => clean(r[0] || "").toLowerCase().includes(key));
+  if (!row) return null;
+
+  const events = [
+    { event: "World Chess Championship", raw: row[1] || "" },
+    { event: "Candidates", raw: row[2] || "" },
+    { event: "Tata Steel", raw: row[3] || "" },
+    { event: "Norway Chess", raw: row[4] || "" },
+    { event: "Sinquefield Cup", raw: row[5] || "" },
+  ];
+  const best = findBest(events);
+  if (!best) return null;
+  return { sport: "Chess", event: best.event, amount: best.amount, display: clean(best.raw) };
+}
+
+function extractSoccer(rows: string[][], position: Position): SportPoint | null {
+  const key = position === "Winner" ? "champion" : "runner";
+  const row = rows.find((r) => clean(r[1] || "").toLowerCase().includes(key));
+  if (!row) return null;
+
+  const events = [
+    { event: "FIFA World Cup", raw: row[2] || "" },
+    { event: "FIFA Club World Cup", raw: row[3] || "" },
+  ];
+  const best = findBest(events);
+  if (!best) return null;
+  return { sport: "Soccer", event: best.event, amount: best.amount, display: clean(best.raw) };
+}
+
+function extractForSport(sport: string, rows: string[][], position: Position): SportPoint | null {
+  if (sport === "Tennis") return extractTennis(rows, position);
+  if (sport === "Badminton") return extractBadminton(rows, position);
+  if (sport === "Cricket") return extractCricket(rows, position);
+  if (sport === "Golf") return extractGolf(rows, position);
+  if (sport === "Chess") return extractChess(rows, position);
+  if (sport === "Soccer") return extractSoccer(rows, position);
+  return null;
+}
+
+export default function CompareSportsPage() {
+  const [selectedPosition, setSelectedPosition] = useState<Position>("Winner");
+  const [rowsBySport, setRowsBySport] = useState<Record<string, string[][]>>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadAll() {
+      setLoading(true);
+      setError(null);
+      try {
+        const fetched = await Promise.all(
+          sportSheets.map(async ({ sport, sheet }) => {
+            const res = await fetch(`/api/sheet-data?sheet=${encodeURIComponent(sheet)}`, { cache: "no-store" });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data?.error || `Failed loading ${sport}`);
+            return { sport, rows: Array.isArray(data.rows) ? data.rows : [] };
+          })
+        );
+
+        if (cancelled) return;
+        const map: Record<string, string[][]> = {};
+        fetched.forEach((f) => {
+          map[f.sport] = f.rows;
+        });
+        setRowsBySport(map);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load data");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadAll();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const points = useMemo(() => {
+    const parsed = sportSheets
+      .map(({ sport }) => extractForSport(sport, rowsBySport[sport] || [], selectedPosition))
+      .filter(Boolean) as SportPoint[];
+
+    return parsed.sort((a, b) => b.amount - a.amount);
+  }, [rowsBySport, selectedPosition]);
+
+  const maxValue = useMemo(() => Math.max(1, ...points.map((p) => p.amount)), [points]);
+
+  return (
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#1f2937_0%,_#0b1020_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
+          </Link>
+          <Link href="/" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-sm text-amber-100 hover:border-amber-200/70">Home</Link>
+        </div>
+
+        <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Compare Sports Prize Money</h1>
+        <p className="mt-2 text-sm text-amber-100/85 sm:text-base">Top-event comparison by finishing position (best available amount per sport).</p>
+
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          {positionOptions.map((p) => (
+            <button
+              key={p}
+              onClick={() => setSelectedPosition(p)}
+              className={`rounded-xl border px-3 py-2 text-sm transition ${
+                selectedPosition === p
+                  ? "border-amber-200/90 bg-amber-200/15 ring-2 ring-amber-300/35"
+                  : "border-amber-200/30 bg-black/45 hover:border-amber-200/70"
+              }`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+
+        {loading ? <p className="mt-5 text-sm text-amber-100/80">Loading comparison data...</p> : null}
+        {error ? <p className="mt-5 text-sm text-rose-300">Error: {error}</p> : null}
+
+        <section className="mt-7 rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
+          <h2 className="mb-3 text-base font-semibold text-amber-100 sm:text-lg">{selectedPosition} Comparison</h2>
+
+          <div className="space-y-3">
+            {points.map((p) => (
+              <div key={p.sport}>
+                <div className="mb-1 flex items-center justify-between gap-3 text-xs sm:text-sm">
+                  <div>
+                    <span className="font-semibold text-amber-100">{p.sport}</span>
+                    <span className="ml-2 text-amber-100/75">{p.event}</span>
+                  </div>
+                  <span className="font-semibold text-amber-50">{p.display || formatCompact(p.amount)}</span>
+                </div>
+                <div className="h-3 w-full rounded-full bg-amber-100/10">
+                  <div
+                    className="h-3 rounded-full bg-gradient-to-r from-amber-400 to-yellow-200"
+                    style={{ width: `${Math.max(2, (p.amount / maxValue) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {!loading && !error && points.length === 0 ? <p className="text-sm text-amber-100/80">No comparable rows found.</p> : null}
+        </section>
+
+        <p className="mt-4 text-xs text-amber-100/70">
+          Note: This MVP compares highest parsed payout for the selected position using currently available sheet data formats.
+          Next upgrade can add currency normalization and tier filters.
+        </p>
+      </main>
+    </div>
+  );
+}
