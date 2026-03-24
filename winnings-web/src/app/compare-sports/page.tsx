@@ -172,6 +172,7 @@ function extractForSport(sport: string, rows: string[][], position: Position): S
 
 export default function CompareSportsPage() {
   const [selectedPosition, setSelectedPosition] = useState<Position>("Winner");
+  const [selectedSports, setSelectedSports] = useState<string[]>(sportSheets.map((s) => s.sport));
   const [rowsBySport, setRowsBySport] = useState<Record<string, string[][]>>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -213,11 +214,12 @@ export default function CompareSportsPage() {
 
   const points = useMemo(() => {
     const parsed = sportSheets
+      .filter(({ sport }) => selectedSports.includes(sport))
       .map(({ sport }) => extractForSport(sport, rowsBySport[sport] || [], selectedPosition))
       .filter(Boolean) as SportPoint[];
 
     return parsed.sort((a, b) => b.amount - a.amount);
-  }, [rowsBySport, selectedPosition]);
+  }, [rowsBySport, selectedPosition, selectedSports]);
 
   const maxValue = useMemo(() => Math.max(1, ...points.map((p) => p.amount)), [points]);
 
@@ -250,6 +252,47 @@ export default function CompareSportsPage() {
           ))}
         </div>
 
+        <section className="mt-4 rounded-xl border border-amber-200/25 bg-black/35 p-3">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <h3 className="text-sm font-semibold text-amber-100">Select Sports</h3>
+            <div className="flex items-center gap-2 text-xs">
+              <button
+                onClick={() => setSelectedSports(sportSheets.map((s) => s.sport))}
+                className="rounded-md border border-amber-200/30 px-2 py-1 text-amber-100/85 hover:border-amber-200/70"
+              >
+                All
+              </button>
+              <button
+                onClick={() => setSelectedSports([])}
+                className="rounded-md border border-amber-200/30 px-2 py-1 text-amber-100/85 hover:border-amber-200/70"
+              >
+                None
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {sportSheets.map(({ sport }) => {
+              const checked = selectedSports.includes(sport);
+              return (
+                <label key={sport} className="flex cursor-pointer items-center gap-2 rounded-lg border border-amber-200/20 px-2 py-2 text-sm text-amber-100/90 hover:border-amber-200/50">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedSports((prev) => (prev.includes(sport) ? prev : [...prev, sport]));
+                      } else {
+                        setSelectedSports((prev) => prev.filter((s) => s !== sport));
+                      }
+                    }}
+                  />
+                  <span>{sport}</span>
+                </label>
+              );
+            })}
+          </div>
+        </section>
+
         {loading ? <p className="mt-5 text-sm text-amber-100/80">Loading comparison data...</p> : null}
         {error ? <p className="mt-5 text-sm text-rose-300">Error: {error}</p> : null}
 
@@ -276,7 +319,11 @@ export default function CompareSportsPage() {
             ))}
           </div>
 
-          {!loading && !error && points.length === 0 ? <p className="text-sm text-amber-100/80">No comparable rows found.</p> : null}
+          {!loading && !error && points.length === 0 ? (
+            <p className="text-sm text-amber-100/80">
+              {selectedSports.length === 0 ? "Select at least one sport to compare." : "No comparable rows found for selected sport(s)."}
+            </p>
+          ) : null}
         </section>
 
         <p className="mt-4 text-xs text-amber-100/70">
