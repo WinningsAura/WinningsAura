@@ -70,9 +70,8 @@ function findBest(values: Array<{ event: string; raw: string }>) {
 }
 
 function extractTennis(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
-  // Current grand-slam source row is mixed/combined, not cleanly split by gender.
-  if (gender === "Women") return null;
-
+  // Product rule: Grand Slam comparison should treat values as Men's reference.
+  // So Women and All both use the same Grand Slam row values.
   const target = position === "Winner" ? "winner" : "runner";
   const row = rows.find((r) => clean(r[1] || "").toLowerCase().includes(target));
   if (!row) return null;
@@ -114,36 +113,67 @@ function extractBadminton(rows: string[][], position: Position, gender: GenderFi
 }
 
 function extractCricket(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
-  if (gender === "Women") return null;
-
   const key = position === "Winner" ? "winner" : "runner";
-  const row = rows.find((r) => clean(r[0] || "").toLowerCase().includes(key));
-  if (!row) return null;
 
-  const events = [
-    { event: "ODI World Cup", raw: row[1] || "" },
-    { event: "Champions Trophy", raw: row[2] || "" },
-    { event: "T20 World Cup", raw: row[3] || "" },
-    { event: "WTC Final", raw: row[4] || "" },
-  ];
+  const menStart = rows.findIndex((r) => clean(r[0] || "").toLowerCase().includes("men's"));
+  const womenStart = rows.findIndex((r) => clean(r[0] || "").toLowerCase().includes("women's"));
+
+  const menRows = menStart >= 0 ? rows.slice(menStart, womenStart >= 0 ? womenStart : undefined) : rows;
+  const womenRows = womenStart >= 0 ? rows.slice(womenStart) : [];
+
+  const menRow = menRows.find((r) => clean(r[0] || "").toLowerCase().includes(key));
+  const womenRow = womenRows.find((r) => clean(r[0] || "").toLowerCase().includes(key));
+
+  const menEvents = menRow
+    ? [
+        { event: "ODI World Cup", raw: menRow[1] || "" },
+        { event: "Champions Trophy", raw: menRow[2] || "" },
+        { event: "T20 World Cup", raw: menRow[3] || "" },
+        { event: "WTC Final", raw: menRow[4] || "" },
+      ]
+    : [];
+
+  const womenEvents = womenRow
+    ? [
+        { event: "Women’s T20 World Cup", raw: womenRow[1] || "" },
+        { event: "Women’s ODI World Cup", raw: womenRow[2] || "" },
+      ]
+    : [];
+
+  const events = gender === "Men" ? menEvents : gender === "Women" ? womenEvents : [...menEvents, ...womenEvents];
   const best = findBest(events);
   if (!best) return null;
   return { sport: "Cricket", event: best.event, amount: best.amount, display: clean(best.raw) };
 }
 
 function extractGolf(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
-  if (gender === "Women") return null;
+  const menPlace = position === "Winner" ? "1" : "2";
+  const menRow = rows.find((r) => clean(r[0] || "") === menPlace);
 
-  const place = position === "Winner" ? "1" : "2";
-  const row = rows.find((r) => clean(r[0] || "") === place);
-  if (!row) return null;
+  const womenStart = rows.findIndex((r) => clean(r[0] || "").toLowerCase().includes("golf - majors women"));
+  const womenPlace = position === "Winner" ? "1st" : "2nd";
+  const womenRow = womenStart >= 0 ? rows.slice(womenStart).find((r) => clean(r[0] || "").toLowerCase() === womenPlace) : undefined;
 
-  const events = [
-    { event: "Masters", raw: row[1] || "" },
-    { event: "U.S. Open", raw: row[2] || "" },
-    { event: "PGA Championship", raw: row[3] || "" },
-    { event: "The Open", raw: row[4] || "" },
-  ];
+  const menEvents = menRow
+    ? [
+        { event: "Masters", raw: menRow[1] || "" },
+        { event: "U.S. Open", raw: menRow[2] || "" },
+        { event: "PGA Championship", raw: menRow[3] || "" },
+        { event: "The Open", raw: menRow[4] || "" },
+      ]
+    : [];
+
+  const womenEvents = womenRow
+    ? [
+        { event: "U.S. Women’s Open", raw: womenRow[1] || "" },
+        { event: "KPMG Women’s PGA", raw: womenRow[2] || "" },
+        { event: "Chevron Championship", raw: womenRow[3] || "" },
+        { event: "AIG Women’s Open", raw: womenRow[4] || "" },
+        { event: "Amundi Evian Championship", raw: womenRow[5] || "" },
+      ]
+    : [];
+
+  const events = gender === "Men" ? menEvents : gender === "Women" ? womenEvents : [...menEvents, ...womenEvents];
   const best = findBest(events);
   if (!best) return null;
   return { sport: "Golf", event: best.event, amount: best.amount, display: clean(best.raw) };
