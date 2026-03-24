@@ -69,6 +69,20 @@ function normalizeCategory(value: string): string {
   return map[v] || v;
 }
 
+function toNumber(value: string) {
+  const cleaned = (value || "").replace(/[^0-9.-]/g, "");
+  const num = Number(cleaned);
+  return Number.isFinite(num) ? num : NaN;
+}
+
+function formatAxisMoney(value: number) {
+  if (!Number.isFinite(value)) return "0";
+  if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(1)}B`;
+  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`;
+  if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
+  return `$${Math.round(value).toLocaleString("en-US")}`;
+}
+
 function renderTournamentHeader(event: string) {
   const marker = "(Super 1000)";
   if (!event.includes(marker)) return event;
@@ -88,6 +102,7 @@ export default function BadmintonStatsPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<BadmintonCategory>("Men's Singles");
   const [selectedYear, setSelectedYear] = useState<YearFilter>("2026");
+  const [selectedRound, setSelectedRound] = useState<string>("Winner");
 
   useEffect(() => {
     let cancelled = false;
@@ -171,6 +186,53 @@ export default function BadmintonStatsPage() {
       return { round: round.label, values };
     });
   }, [filteredRows, tournaments]);
+
+  const rounds = useMemo(() => matrixRows.map((r) => r.round), [matrixRows]);
+
+  useEffect(() => {
+    if (!selectedRound && rounds.length) setSelectedRound(rounds[0]);
+    if (selectedRound && !rounds.includes(selectedRound)) setSelectedRound(rounds[0] || "");
+  }, [rounds, selectedRound]);
+
+  const chartData = useMemo(() => {
+    const targetRow = matrixRows.find((r) => r.round === selectedRound);
+    if (!targetRow) return [] as { label: string; value: number; raw: string }[];
+
+    return tournaments.map((event, idx) => {
+      const raw = targetRow.values[idx] || "-";
+      const value = toNumber(raw);
+      return { label: event, value: Number.isNaN(value) ? 0 : value, raw };
+    });
+  }, [matrixRows, selectedRound, tournaments]);
+
+  const maxChart = useMemo(() => Math.max(1, ...chartData.map((d) => d.value)), [chartData]);
+
+  const yTicks = useMemo(() => {
+    const steps = 5;
+    return Array.from({ length: steps + 1 }, (_, i) => {
+      const value = (maxChart * (steps - i)) / steps;
+      const y = 20 + (i * (220 - 40)) / steps;
+      return { value, y };
+    });
+  }, [maxChart]);
+
+  const linePoints = useMemo(() => {
+    if (chartData.length === 0) return "";
+    const width = 680;
+    const height = 220;
+    const padX = 24;
+    const padY = 20;
+    const plotW = width - padX * 2;
+    const plotH = height - padY * 2;
+
+    return chartData
+      .map((d, i) => {
+        const x = padX + (chartData.length === 1 ? plotW / 2 : (i * plotW) / (chartData.length - 1));
+        const y = padY + (1 - d.value / maxChart) * plotH;
+        return `${x},${y}`;
+      })
+      .join(" ");
+  }, [chartData, maxChart]);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#123524_0%,_#0b1020_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
@@ -282,6 +344,58 @@ export default function BadmintonStatsPage() {
                 ) : null}
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <section id="prize-chart" className="mt-8 rounded-2xl border border-amber-200/35 bg-black/55 p-4 sm:p-6">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h3 className="break-words text-base font-semibold leading-tight text-amber-100 sm:text-lg">Prize Money Chart</h3>
+            <select
+              className="rounded-lg border border-amber-200/40 bg-black/60 px-3 py-2 text-sm"
+              value={selectedRound}
+              onChange={(e) => setSelectedRound(e.target.value)}
+            >
+              {rounds.map((r, i) => (
+                <option key={`${r}-${i}`} value={r}>{r}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="overflow-x-auto rounded-xl border border-amber-200/20 bg-black/35 p-3">
+            <svg viewBox="0 0 760 240" className="h-[240px] min-w-[760px] w-full overflow-visible">
+              {yTicks.map((t, i) => (
+                <g key={`tick-${i}`}>
+                  <line x1="24" y1={t.y} x2="656" y2={t.y} stroke="rgba(253,230,138,0.18)" />
+                  <text x="20" y={t.y + 4} textAnchor="end" fontSize="10" fill="rgba(253,230,138,0.8)">
+                    {formatAxisMoney(t.value)}
+                  </text>
+                </g>
+              ))}
+              <line x1="24" y1="200" x2="656" y2="200" stroke="rgba(253,230,138,0.35)" />
+              <line x1="24" y1="20" x2="24" y2="200" stroke="rgba(253,230,138,0.35)" />
+              <polyline fill="none" stroke="#FBBF24" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" points={linePoints} />
+              {chartData.map((d, i) => {
+                const x = 24 + (chartData.length === 1 ? (680 - 48) / 2 : (i * (680 - 48)) / (chartData.length - 1));
+                const y = 20 + (1 - d.value / maxChart) * (220 - 40);
+                const labelY = Math.max(20, y - 10);
+                return (
+                  <g key={`${d.label}-${i}`}>
+                    <circle cx={x} cy={y} r="4" fill="#FDE68A" />
+                    <text x={x} y={labelY} textAnchor="middle" fontSize="10" fill="rgba(253,230,138,0.95)">
+                      {d.label}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {chartData.map((d, i) => (
+                <div key={`${d.label}-${i}`} className="rounded-lg border border-amber-200/20 px-3 py-2 text-xs text-amber-100/90">
+                  <div className="max-w-[11rem] font-semibold whitespace-normal break-words sm:whitespace-nowrap">{d.label}</div>
+                  <div>{d.raw || "-"}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </main>
