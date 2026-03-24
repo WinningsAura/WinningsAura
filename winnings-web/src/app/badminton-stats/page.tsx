@@ -191,7 +191,7 @@ export default function BadmintonStatsPage() {
 
   useEffect(() => {
     if (!selectedRound && rounds.length) setSelectedRound(rounds[0]);
-    if (selectedRound && !rounds.includes(selectedRound)) setSelectedRound(rounds[0] || "");
+    if (selectedRound && !rounds.some((r) => r === selectedRound)) setSelectedRound(rounds[0] || "");
   }, [rounds, selectedRound]);
 
   const chartData = useMemo(() => {
