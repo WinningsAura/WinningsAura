@@ -60,6 +60,28 @@ function formatCompact(value: number) {
   return `$${Math.round(value).toLocaleString("en-US")}`;
 }
 
+function formatDisplayWithCurrency(raw: string, amount: number) {
+  const text = clean(raw);
+  if (!text) return formatCompact(amount);
+
+  // Already starts with a currency marker.
+  if (/^(USD|EUR|GBP|INR|AUD|CAD|JPY|CNY|CHF|AED|SAR|PKR|BDT|NPR|ZAR|SGD|HKD|NZD|KRW)\b/i.test(text)) return text;
+  if (/^[\$€£₹¥₩]/.test(text)) return text;
+
+  // Find currency code/symbol anywhere in the text and move it before amount.
+  const currencyMatch = text.match(/\b(USD|EUR|GBP|INR|AUD|CAD|JPY|CNY|CHF|AED|SAR|PKR|BDT|NPR|ZAR|SGD|HKD|NZD|KRW)\b/i);
+  const symbolMatch = text.match(/[\$€£₹¥₩]/);
+  const currency = currencyMatch?.[1]?.toUpperCase() || symbolMatch?.[0] || "$";
+
+  const amountPart = text
+    .replace(/\b(USD|EUR|GBP|INR|AUD|CAD|JPY|CNY|CHF|AED|SAR|PKR|BDT|NPR|ZAR|SGD|HKD|NZD|KRW)\b/gi, "")
+    .replace(/[\$€£₹¥₩]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return `${currency} ${amountPart || formatCompact(amount).replace(/^[\$€£₹¥₩]\s?/, "")}`.trim();
+}
+
 function findBest(values: Array<{ event: string; raw: string }>) {
   const candidates = values
     .map((v) => ({ ...v, amount: toNumber(v.raw) }))
@@ -388,7 +410,7 @@ export default function CompareSportsPage() {
                     <span className="font-semibold text-amber-100">{p.sport}</span>
                     <span className="ml-2 text-amber-100/75">{p.event}</span>
                   </div>
-                  <span className="font-semibold text-amber-50">{p.display || formatCompact(p.amount)}</span>
+                  <span className="font-semibold text-amber-50">{formatDisplayWithCurrency(p.display, p.amount)}</span>
                 </div>
                 <div className="h-3 w-full rounded-full bg-amber-100/10">
                   <div
@@ -409,7 +431,7 @@ export default function CompareSportsPage() {
 
         <p className="mt-4 text-xs text-amber-100/70">
           Note: This MVP compares highest parsed payout for the selected position using currently available sheet data formats.
-          Next upgrade can add currency normalization and tier filters.
+          Display enforces currency-first formatting for readability.
         </p>
       </main>
     </div>
