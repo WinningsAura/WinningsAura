@@ -63,6 +63,18 @@ function getCsvPath() {
 
 const csvPath = getCsvPath();
 
+function sanitizeFileName(name: string) {
+  return (name || "unknown").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "unknown";
+}
+
+function getPublishedPath(sport: string) {
+  const file = `${sanitizeFileName(sport)}.csv`;
+  if (process.env.VERCEL) {
+    return path.join("/tmp", "published-prize-submissions", file);
+  }
+  return path.resolve(process.cwd(), "data", "published-prize-submissions", file);
+}
+
 function toCsvCell(value: string) {
   return `"${(value || "").replace(/"/g, '""')}"`;
 }
@@ -170,6 +182,48 @@ function writeAll(list: Submission[]) {
   fs.writeFileSync(csvPath, head + body, "utf8");
 }
 
+function appendPublishedRow(submission: Submission) {
+  const publishedPath = getPublishedPath(submission.sport);
+  const dir = path.dirname(publishedPath);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+  const publishedHeaders = [
+    "Submission Id",
+    "Sport",
+    "Event",
+    "Category",
+    "Position",
+    "Prize Amount",
+    "Currency",
+    "Prize Structure",
+    "Submitter Name",
+    "Submitter Email",
+    "Admin Comment",
+    "Published At",
+  ];
+
+  if (!fs.existsSync(publishedPath)) {
+    fs.writeFileSync(publishedPath, `${publishedHeaders.map(toCsvCell).join(",")}\n`, "utf8");
+  }
+
+  const row = [
+    submission.id,
+    submission.sport,
+    submission.event,
+    submission.category,
+    submission.position,
+    submission.prizeAmount,
+    submission.currency,
+    submission.prizeStructure,
+    submission.submitterName,
+    submission.submitterEmail,
+    submission.adminComment,
+    new Date().toISOString(),
+  ];
+
+  fs.appendFileSync(publishedPath, `${row.map(toCsvCell).join(",")}\n`, "utf8");
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as PrizePayload;
@@ -247,28 +301,40 @@ export async function GET() {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const body = (await req.json()) as { id?: string; status?: "Approved" | "Rejected" | "Pending"; adminComment?: string };
+    const body = (await req.json()) as {
+      id?: string;
+      status?: "Approved" | "Rejected" | "Pending";
+      adminComment?: string;
+      publish?: boolean;
+    };
     const id = (body.id || "").trim();
     const status = body.status;
     const adminComment = (body.adminComment || "").trim();
+    const publish = Boolean(body.publish);
 
-    if (!id || !status) {
-      return NextResponse.json({ error: "id and status are required" }, { status: 400 });
+    if (!id || (!status && !publish)) {
+      return NextResponse.json({ error: "id and status (or publish=true) are required" }, { status: 400 });
     }
 
     const list = readAll();
     const idx = list.findIndex((s) => s.id === id);
     if (idx < 0) return NextResponse.json({ error: "Submission not found" }, { status: 404 });
 
+    const nextStatus = publish ? "Approved" : status!;
+
     list[idx] = {
       ...list[idx],
-      status,
+      status: nextStatus,
       adminComment,
       reviewedAt: new Date().toISOString(),
     };
 
+    if (publish) {
+      appendPublishedRow(list[idx]);
+    }
+
     writeAll(list);
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, published: publish });
   } catch (e) {
     return NextResponse.json(
       { error: "Failed to update submission", detail: e instanceof Error ? e.message : "Unknown" },

@@ -56,6 +56,21 @@ export default function PrizeSubmissionsAdminPage() {
     await load();
   }
 
+  async function publishSubmission(id: string) {
+    const adminComment = window.prompt("Optional admin comment for publish:") || "";
+
+    const res = await fetch("/api/prize-submissions", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, publish: true, adminComment }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error || "Failed to publish submission");
+    window.alert("Published to sport-specific file successfully.");
+    await load();
+  }
+
   useEffect(() => {
     load();
   }, []);
@@ -110,6 +125,7 @@ export default function PrizeSubmissionsAdminPage() {
                   <td className="px-3 py-3 whitespace-nowrap">
                     <div className="flex flex-col gap-2">
                       <button onClick={() => updateStatus(s.id, "Approved")} className="rounded-md border border-emerald-300/60 px-2 py-1 text-emerald-200 hover:bg-emerald-400/20">Approve</button>
+                      <button onClick={() => publishSubmission(s.id)} className="rounded-md border border-cyan-300/60 px-2 py-1 text-cyan-200 hover:bg-cyan-400/20">Publish</button>
                       <button onClick={() => updateStatus(s.id, "Rejected")} className="rounded-md border border-rose-300/60 px-2 py-1 text-rose-200 hover:bg-rose-400/20">Reject</button>
                       <button onClick={() => updateStatus(s.id, "Pending")} className="rounded-md border border-amber-300/60 px-2 py-1 text-amber-200 hover:bg-amber-400/20">Reset</button>
                     </div>
