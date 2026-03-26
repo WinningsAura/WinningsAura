@@ -113,6 +113,16 @@ export default function HomePage() {
             <li>See clear prize structures instantly.</li>
             <li>Track Every Win $ in One Platform.</li>
           </ul>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <Link
+              href="/submit-prize-structure"
+              className="rounded-xl border border-amber-200/60 bg-amber-300/20 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200 hover:bg-amber-300/30"
+            >
+              Submit Prize Structure
+            </Link>
+            <p className="text-xs text-amber-100/80 sm:text-sm">Know an event payout? Submit it for admin review.</p>
+          </div>
         </header>
 
         <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
