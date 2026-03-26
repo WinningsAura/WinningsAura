@@ -43,7 +43,7 @@ const sports = [
   },
   {
     name: "Compare Sports",
-    image: "/winnings-aura-logo-currency.svg",
+    image: "/sports-legends-bg.svg",
     href: "/compare-sports",
     description: "Compare top prize amounts across sports by position.",
   },
@@ -153,9 +153,25 @@ export default function HomePage() {
                   </div>
                 ) : null}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
+
+                {sport.name === "Compare Sports" ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4">
+                    <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura logo" className="h-9 w-auto drop-shadow-[0_0_12px_rgba(245,185,59,0.45)] sm:h-11" />
+                    <div className="flex items-end gap-1.5">
+                      <span className="h-5 w-2 rounded bg-amber-300/85" />
+                      <span className="h-8 w-2 rounded bg-amber-300/85" />
+                      <span className="h-12 w-2 rounded bg-amber-200" />
+                      <span className="h-9 w-2 rounded bg-amber-300/85" />
+                      <span className="h-14 w-2 rounded bg-amber-100" />
+                    </div>
+                  </div>
+                ) : null}
+
                 <p className="absolute bottom-3 left-3 max-w-[85%] break-words text-lg font-bold leading-tight text-amber-100 sm:bottom-4 sm:left-4 sm:max-w-none sm:text-2xl">{sport.name}</p>
               </div>
-              <div className="p-4 text-sm text-amber-100/85 sm:p-5">{sport.description}</div>
+              <div className="p-4 text-sm text-amber-100/85 sm:p-5">
+                {sport.name === "Compare Sports" ? "Logo + graph view for quick cross-sport comparison." : sport.description}
+              </div>
             </Link>
           ))}
         </section>
