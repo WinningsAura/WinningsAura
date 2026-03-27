@@ -4,29 +4,53 @@ import path from "path";
 
 export const runtime = "nodejs";
 
+type PrizeItem = {
+  position: string;
+  prizeAmount: string;
+  currency: string;
+};
+
+type PrizeCategory = {
+  name: string;
+  items: PrizeItem[];
+};
+
 type PrizePayload = {
   sport?: string;
   event?: string;
+  country?: string;
+  province?: string;
+  city?: string;
   category?: string;
   position?: string;
   prizeAmount?: string;
   currency?: string;
+  categoryDataJson?: string;
+  categories?: PrizeCategory[];
   prizeStructure?: string;
+  prizeBasis?: "Official" | "Modeled";
+  sourceLink?: string;
   submitterName?: string;
   submitterEmail?: string;
   notes?: string;
-  website?: string; // honeypot
+  website?: string;
 };
 
 type Submission = {
   id: string;
   sport: string;
   event: string;
+  country: string;
+  province: string;
+  city: string;
   category: string;
   position: string;
   prizeAmount: string;
   currency: string;
+  categoryDataJson: string;
   prizeStructure: string;
+  prizeBasis: "Official" | "Modeled";
+  sourceLink: string;
   submitterName: string;
   submitterEmail: string;
   notes: string;
@@ -40,11 +64,17 @@ const headers = [
   "Id",
   "Sport",
   "Event",
+  "Country",
+  "Province",
+  "City",
   "Category",
   "Position",
   "Prize Amount",
   "Currency",
+  "Category Data JSON",
   "Prize Structure",
+  "Prize Basis",
+  "Source Link",
   "Submitter Name",
   "Submitter Email",
   "Notes",
@@ -55,9 +85,7 @@ const headers = [
 ];
 
 function getCsvPath() {
-  if (process.env.VERCEL) {
-    return path.join("/tmp", "prize-submissions.csv");
-  }
+  if (process.env.VERCEL) return path.join("/tmp", "prize-submissions.csv");
   return path.resolve(process.cwd(), "..", "prize-submissions.csv");
 }
 
@@ -69,9 +97,7 @@ function sanitizeFileName(name: string) {
 
 function getPublishedPath(sport: string) {
   const file = `${sanitizeFileName(sport)}.csv`;
-  if (process.env.VERCEL) {
-    return path.join("/tmp", "published-prize-submissions", file);
-  }
+  if (process.env.VERCEL) return path.join("/tmp", "published-prize-submissions", file);
   return path.resolve(process.cwd(), "data", "published-prize-submissions", file);
 }
 
@@ -129,23 +155,102 @@ function validateEmail(email: string) {
   return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email);
 }
 
+function parseCategoryDataJson(raw: string, fallback: { category: string; position: string; prizeAmount: string; currency: string }): string {
+  try {
+    if (!raw) throw new Error("empty");
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) throw new Error("bad");
+
+    const cleaned = parsed
+      .map((cat) => ({
+        name: String(cat?.name || "").trim(),
+        items: Array.isArray(cat?.items)
+          ? cat.items.map((it: PrizeItem) => ({
+              position: String(it?.position || "").trim(),
+              prizeAmount: String(it?.prizeAmount || "").trim(),
+              currency: String(it?.currency || "").trim().toUpperCase(),
+            }))
+          : [],
+      }))
+      .filter((cat) => cat.name || cat.items.some((it) => it.position || it.prizeAmount));
+
+    if (cleaned.length > 0) return JSON.stringify(cleaned);
+  } catch {
+    // use fallback below
+  }
+
+  const fallbackCategory = [{
+    name: fallback.category || "",
+    items: [{
+      position: fallback.position || "",
+      prizeAmount: fallback.prizeAmount || "",
+      currency: (fallback.currency || "USD").toUpperCase(),
+    }],
+  }];
+
+  return JSON.stringify(fallbackCategory);
+}
+
 function toSubmission(row: string[]): Submission {
-  return {
+  const looksLegacy = row.length <= 15;
+
+  if (looksLegacy) {
+    const legacy = {
+      id: row[0] || "",
+      sport: row[1] || "",
+      event: row[2] || "",
+      category: row[3] || "",
+      position: row[4] || "",
+      prizeAmount: row[5] || "",
+      currency: row[6] || "",
+      prizeStructure: row[7] || "",
+      submitterName: row[8] || "",
+      submitterEmail: row[9] || "",
+      notes: row[10] || "",
+      status: ((row[11] || "Pending") as Submission["status"]),
+      adminComment: row[12] || "",
+      submittedAt: row[13] || "",
+      reviewedAt: row[14] || "",
+    };
+
+    return {
+      ...legacy,
+      country: "",
+      province: "",
+      city: "",
+      categoryDataJson: parseCategoryDataJson("", legacy),
+      prizeBasis: "Official",
+      sourceLink: "",
+    };
+  }
+
+  const modern = {
     id: row[0] || "",
     sport: row[1] || "",
     event: row[2] || "",
-    category: row[3] || "",
-    position: row[4] || "",
-    prizeAmount: row[5] || "",
-    currency: row[6] || "",
-    prizeStructure: row[7] || "",
-    submitterName: row[8] || "",
-    submitterEmail: row[9] || "",
-    notes: row[10] || "",
-    status: ((row[11] || "Pending") as Submission["status"]),
-    adminComment: row[12] || "",
-    submittedAt: row[13] || "",
-    reviewedAt: row[14] || "",
+    country: row[3] || "",
+    province: row[4] || "",
+    city: row[5] || "",
+    category: row[6] || "",
+    position: row[7] || "",
+    prizeAmount: row[8] || "",
+    currency: row[9] || "",
+    categoryDataJson: row[10] || "",
+    prizeStructure: row[11] || "",
+    prizeBasis: ((row[12] || "Official") as Submission["prizeBasis"]),
+    sourceLink: row[13] || "",
+    submitterName: row[14] || "",
+    submitterEmail: row[15] || "",
+    notes: row[16] || "",
+    status: ((row[17] || "Pending") as Submission["status"]),
+    adminComment: row[18] || "",
+    submittedAt: row[19] || "",
+    reviewedAt: row[20] || "",
+  };
+
+  return {
+    ...modern,
+    categoryDataJson: parseCategoryDataJson(modern.categoryDataJson, modern),
   };
 }
 
@@ -154,11 +259,17 @@ function fromSubmission(s: Submission) {
     s.id,
     s.sport,
     s.event,
+    s.country,
+    s.province,
+    s.city,
     s.category,
     s.position,
     s.prizeAmount,
     s.currency,
+    s.categoryDataJson,
     s.prizeStructure,
+    s.prizeBasis,
+    s.sourceLink,
     s.submitterName,
     s.submitterEmail,
     s.notes,
@@ -191,11 +302,17 @@ function appendPublishedRow(submission: Submission) {
     "Submission Id",
     "Sport",
     "Event",
+    "Country",
+    "Province",
+    "City",
     "Category",
     "Position",
     "Prize Amount",
     "Currency",
+    "Category Data JSON",
     "Prize Structure",
+    "Prize Basis",
+    "Source Link",
     "Submitter Name",
     "Submitter Email",
     "Admin Comment",
@@ -210,11 +327,17 @@ function appendPublishedRow(submission: Submission) {
     submission.id,
     submission.sport,
     submission.event,
+    submission.country,
+    submission.province,
+    submission.city,
     submission.category,
     submission.position,
     submission.prizeAmount,
     submission.currency,
+    submission.categoryDataJson,
     submission.prizeStructure,
+    submission.prizeBasis,
+    submission.sourceLink,
     submission.submitterName,
     submission.submitterEmail,
     submission.adminComment,
@@ -230,23 +353,66 @@ export async function POST(req: NextRequest) {
 
     const sport = (body.sport || "").trim();
     const event = (body.event || "").trim();
-    const category = (body.category || "").trim();
-    const position = (body.position || "").trim();
-    const prizeAmount = (body.prizeAmount || "").trim();
-    const currency = (body.currency || "").trim();
+    const country = (body.country || "").trim();
+    const province = (body.province || "").trim();
+    const city = (body.city || "").trim();
     const prizeStructure = (body.prizeStructure || "").trim();
+    const prizeBasis = (body.prizeBasis === "Modeled" ? "Modeled" : "Official") as Submission["prizeBasis"];
+    const sourceLink = (body.sourceLink || "").trim();
     const submitterName = (body.submitterName || "").trim();
     const submitterEmail = (body.submitterEmail || "").trim();
     const notes = (body.notes || "").trim();
     const website = (body.website || "").trim();
 
+    const normalizedCategories = Array.isArray(body.categories)
+      ? body.categories
+          .map((cat) => ({
+            name: String(cat?.name || "").trim(),
+            items: Array.isArray(cat?.items)
+              ? cat.items.map((it) => ({
+                  position: String(it?.position || "").trim(),
+                  prizeAmount: String(it?.prizeAmount || "").trim(),
+                  currency: String(it?.currency || "USD").trim().toUpperCase() || "USD",
+                }))
+              : [],
+          }))
+          .filter((cat) => cat.name || cat.items.some((it) => it.position || it.prizeAmount))
+      : [];
+
+    const fallbackCategory = (body.category || "").trim();
+    const fallbackPosition = (body.position || "").trim();
+    const fallbackPrizeAmount = (body.prizeAmount || "").trim();
+    const fallbackCurrency = (body.currency || "").trim().toUpperCase();
+
+    const categories = normalizedCategories.length > 0
+      ? normalizedCategories
+      : [{
+          name: fallbackCategory,
+          items: [{
+            position: fallbackPosition,
+            prizeAmount: fallbackPrizeAmount,
+            currency: fallbackCurrency || "USD",
+          }],
+        }];
+
+    const firstCategory = categories[0] || { name: "", items: [{ position: "", prizeAmount: "", currency: "USD" }] };
+    const firstItem = firstCategory.items[0] || { position: "", prizeAmount: "", currency: "USD" };
+
     if (website) return NextResponse.json({ error: "Spam check failed." }, { status: 400 });
 
-    if (!sport || !event || !prizeStructure || !submitterName || !submitterEmail) {
+    if (!sport || !event || !country || !prizeStructure || !submitterName || !submitterEmail) {
       return NextResponse.json(
-        { error: "Sport, Event, Prize Structure, Submitter Name, and Submitter Email are required." },
+        { error: "Sport, Event, Country, Prize Structure, Submitter Name, and Submitter Email are required." },
         { status: 400 }
       );
+    }
+
+    if (prizeStructure.length < 20) {
+      return NextResponse.json({ error: "Prize Structure must be at least 20 characters." }, { status: 400 });
+    }
+
+    if (prizeBasis === "Official" && !sourceLink) {
+      return NextResponse.json({ error: "Source link is required for official amounts." }, { status: 400 });
     }
 
     if (!validateEmail(submitterEmail)) {
@@ -261,11 +427,22 @@ export async function POST(req: NextRequest) {
       id,
       sport,
       event,
-      category,
-      position,
-      prizeAmount,
-      currency,
+      country,
+      province,
+      city,
+      category: firstCategory.name,
+      position: firstItem.position,
+      prizeAmount: firstItem.prizeAmount,
+      currency: firstItem.currency,
+      categoryDataJson: parseCategoryDataJson(body.categoryDataJson || JSON.stringify(categories), {
+        category: firstCategory.name,
+        position: firstItem.position,
+        prizeAmount: firstItem.prizeAmount,
+        currency: firstItem.currency,
+      }),
       prizeStructure,
+      prizeBasis,
+      sourceLink,
       submitterName,
       submitterEmail,
       notes,
@@ -307,6 +484,7 @@ export async function PATCH(req: NextRequest) {
       adminComment?: string;
       publish?: boolean;
     };
+
     const id = (body.id || "").trim();
     const status = body.status;
     const adminComment = (body.adminComment || "").trim();
@@ -329,9 +507,7 @@ export async function PATCH(req: NextRequest) {
       reviewedAt: new Date().toISOString(),
     };
 
-    if (publish) {
-      appendPublishedRow(list[idx]);
-    }
+    if (publish) appendPublishedRow(list[idx]);
 
     writeAll(list);
     return NextResponse.json({ ok: true, published: publish });
