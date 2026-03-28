@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as XLSX from "xlsx";
-import pdfParse from "pdf-parse";
+import { PDFParse } from "pdf-parse";
 import mammoth from "mammoth";
 
 export const runtime = "nodejs";
@@ -124,8 +124,11 @@ export async function POST(req: NextRequest) {
     }
 
     if (ext === ".pdf") {
-      const parsed = await pdfParse(buffer);
-      const text = parsed.text || "";
+      const parser = new PDFParse({ data: new Uint8Array(buffer) });
+      const textResult = await parser.getText();
+      const text = textResult?.text || "";
+      await parser.destroy();
+
       return NextResponse.json({
         sport: extractSimpleField(text, ["sport", "game"]),
         event: extractSimpleField(text, ["event", "tournament", "competition"]),
