@@ -32,31 +32,56 @@ export default function AboutUsPage() {
         <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">About WinningsAura</h1>
 
         <div className="mt-5 rounded-xl border border-amber-200/20 bg-black/40 px-4 py-4 sm:px-5 sm:py-5">
-          <div className="space-y-4 text-amber-50/95 leading-7">
+          <div className="space-y-4 leading-7 text-amber-50/95">
             <p>
-              WinningsAura is a sports prize money intelligence platform focused on making payout information
-              easier to find, understand, and compare.
+              WinningsAura is a sports prize money intelligence platform built to make tournament payout information
+              easier to discover, understand, and compare. We organize fragmented prize data into a consistent format
+              so users can quickly move from raw numbers to useful insights.
             </p>
 
-            <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-cyan-200 to-fuchsia-200 drop-shadow-[0_0_10px_rgba(34,211,238,0.28)]">
+            <h2 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-cyan-200 to-fuchsia-200 drop-shadow-[0_0_10px_rgba(34,211,238,0.28)]">
               Our Mission
-            </p>
+            </h2>
             <p>
-              Our mission is to present prize structures in a clean, structured, and consistent format so users can
-              quickly evaluate opportunities across sports, events, and categories.
+              Our mission is to present prize structures in a clean, structured, and transparent way across sports,
+              tournaments, and categories. We believe better access to financial information helps athletes and fans
+              make better decisions.
             </p>
 
-            <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-cyan-200 to-fuchsia-200 drop-shadow-[0_0_10px_rgba(34,211,238,0.28)]">
+            <h2 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-cyan-200 to-fuchsia-200 drop-shadow-[0_0_10px_rgba(34,211,238,0.28)]">
+              What We Publish
+            </h2>
+            <p>
+              WinningsAura provides sport-by-sport payout views, category-level breakdowns, and comparison tools.
+              Our pages are designed for fast scanning, with consistent currency formatting and structured tables that
+              help users identify trends without needing to manually clean source data.
+            </p>
+
+            <h2 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-cyan-200 to-fuchsia-200 drop-shadow-[0_0_10px_rgba(34,211,238,0.28)]">
+              Who Uses WinningsAura
+            </h2>
+            <p>
+              We serve athletes, parents, coaches, researchers, journalists, students, and sports fans who want a
+              practical view of where money flows in modern sports. By making payout structures visible and comparable,
+              we help users evaluate opportunities, career planning paths, and broader market movement.
+            </p>
+
+            <h2 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-cyan-200 to-fuchsia-200 drop-shadow-[0_0_10px_rgba(34,211,238,0.28)]">
               Our Vision
-            </p>
+            </h2>
             <p>
-              We aim to become a trusted reference point for athletes, families, analysts, media professionals,
-              and sponsors who want transparent insights into the economics of sport.
+              Our vision is to become a trusted public reference point for sports prize economics. Over time, we plan
+              to expand data depth, improve historical coverage, and provide clearer cross-sport context while keeping
+              the experience simple, fast, and useful.
             </p>
 
             <p>
-              By comparing prize patterns across tournaments and sports, WinningsAura also helps kids, students,
-              and young athletes explore potential career paths and make more informed long-term training decisions.
+              If you have corrections, suggestions, or event data to share, please use our
+              {" "}<Link href="/contact-us" className="underline hover:text-amber-200">Contact Us</Link>{" "}
+              page. You can also browse key sections like
+              {" "}<Link href="/compare-sports" className="underline hover:text-amber-200">Compare Sports</Link>{" "}
+              and
+              {" "}<Link href="/submit-prize-structure" className="underline hover:text-amber-200">Submit Prize Structure</Link>.
             </p>
           </div>
         </div>
