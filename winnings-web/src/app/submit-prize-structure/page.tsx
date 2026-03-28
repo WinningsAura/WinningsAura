@@ -89,7 +89,6 @@ export default function SubmitPrizeStructurePage() {
   const [form, setForm] = useState<FormState>(initialState);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
-  const [parsingFile, setParsingFile] = useState(false);
 
   const currentCategoryOptions = SPORT_CATEGORY_OPTIONS[form.sport] || CATEGORY_OPTIONS;
   const currentPositionOptions = SPORT_POSITION_OPTIONS[form.sport] || ["Winner", "Runner-up", "Semi-finalist", "Quarter-finalist", "Top 8", "Top 16"];
@@ -149,40 +148,7 @@ export default function SubmitPrizeStructurePage() {
     setForm({ ...form, categories });
   }
 
-  async function onFileUpload(file: File) {
-    setParsingFile(true);
-    setStatus("");
-
-    try {
-      const body = new FormData();
-      body.append("file", file);
-
-      const res = await fetch("/api/prize-submissions/parse-file", {
-        method: "POST",
-        body,
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Failed to parse file");
-
-      setForm((prev) => ({
-        ...prev,
-        sport: data.sport || prev.sport,
-        event: data.event || prev.event,
-        country: data.country || prev.country,
-        province: data.province || prev.province,
-        city: data.city || prev.city,
-        categories: Array.isArray(data.categories) && data.categories.length > 0 ? data.categories : prev.categories,
-        notes: data.extractedNote ? `${prev.notes ? `${prev.notes}\n` : ""}${data.extractedNote}` : prev.notes,
-      }));
-
-      setStatus("File parsed and form populated where possible. Please review before submitting.");
-    } catch (err) {
-      setStatus(err instanceof Error ? err.message : "Could not parse file.");
-    } finally {
-      setParsingFile(false);
-    }
-  }
+  // File upload removed per request.
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -225,19 +191,7 @@ export default function SubmitPrizeStructurePage() {
         <form onSubmit={onSubmit} className="mt-6 space-y-4 [&_label]:text-black [&_input]:bg-white [&_input]:text-black [&_input]:border-black [&_select]:bg-white [&_select]:text-black [&_select]:border-black [&_textarea]:bg-white [&_textarea]:text-black [&_textarea]:border-black [&_button]:text-black [&_button]:border-black">
           <input tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className="hidden" aria-hidden="true" />
 
-          <div>
-            <label className="mb-1 block text-sm">Upload .doc/.docx/.xls/.xlsx/.csv/.pdf (optional)</label>
-            <input
-              type="file"
-              accept=".doc,.docx,.xls,.xlsx,.csv,.pdf"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) onFileUpload(file);
-              }}
-              className="w-full rounded-xl border border-black bg-white px-4 py-2 text-black file:mr-4 file:rounded-md file:border file:border-black file:bg-white file:px-3 file:py-1.5 file:text-black"
-            />
-            {parsingFile ? <p className="mt-1 text-xs text-black/70">Parsing file…</p> : null}
-          </div>
+          {/* File upload removed */}
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
