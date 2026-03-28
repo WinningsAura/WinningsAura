@@ -6,7 +6,7 @@ export default function Head() {
         name="description"
         content="Explore FIFA and continental soccer prize money details on WinningsAura."
       />
-      <link rel="canonical" href="https://winnings-aura.vercel.app/soccer-stats" />
+      <link rel="canonical" href="https://winningsaura.com/soccer-stats" />
     </>
   );
 }

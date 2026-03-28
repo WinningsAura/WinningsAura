@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://winnings-aura.vercel.app";
+const siteUrl = "https://winningsaura.com";
 const siteName = "WinningsAura";
 const description =
   "WinningsAura tracks tennis, cricket, golf, chess, and badminton prize money insights with clean dashboards, historical context, and fast stats navigation.";

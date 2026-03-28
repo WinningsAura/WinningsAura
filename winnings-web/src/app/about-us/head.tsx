@@ -2,7 +2,7 @@ export default function Head() {
   const title = "About WinningsAura";
   const description =
     "Learn about WinningsAura and how we organize tennis, cricket, and golf winnings data for sports fans.";
-  const url = "https://winnings-aura.vercel.app/about-us";
+  const url = "https://winningsaura.com/about-us";
 
   return (
     <>

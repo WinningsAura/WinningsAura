@@ -6,7 +6,7 @@ export default function Head() {
         name="description"
         content="Explore badminton prize money by year, category, and round on WinningsAura."
       />
-      <link rel="canonical" href="https://winnings-aura.vercel.app/badminton-stats" />
+      <link rel="canonical" href="https://winningsaura.com/badminton-stats" />
     </>
   );
 }

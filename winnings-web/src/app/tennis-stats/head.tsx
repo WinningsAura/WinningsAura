@@ -2,7 +2,7 @@ export default function Head() {
   const title = "Tennis Prize Money Stats | WinningsAura";
   const description =
     "Explore tennis prize money, tournament payouts, and player winnings in one streamlined dashboard.";
-  const url = "https://winnings-aura.vercel.app/tennis-stats";
+  const url = "https://winningsaura.com/tennis-stats";
 
   return (
     <>

@@ -6,7 +6,7 @@ export default function Head() {
     <>
       <title>{title}</title>
       <meta name="description" content={description} />
-      <link rel="canonical" href="https://winnings-aura.vercel.app/privacy-policy" />
+      <link rel="canonical" href="https://winningsaura.com/privacy-policy" />
     </>
   );
 }

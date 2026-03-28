@@ -2,7 +2,7 @@ export default function Head() {
   const title = "WinningsAura | Tennis, Cricket & Golf Prize Money Insights";
   const description =
     "Track prize money trends across tennis, cricket, and golf with fast, clean dashboards built for sports fans and data-driven users.";
-  const url = "https://winnings-aura.vercel.app/";
+  const url = "https://winningsaura.com/";
 
   return (
     <>

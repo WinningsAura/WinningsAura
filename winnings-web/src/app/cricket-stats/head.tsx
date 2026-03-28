@@ -2,7 +2,7 @@ export default function Head() {
   const title = "Cricket Prize Money & Stats | WinningsAura";
   const description =
     "Discover cricket prize money insights, tournament-level payouts, and stats designed for quick comparisons.";
-  const url = "https://winnings-aura.vercel.app/cricket-stats";
+  const url = "https://winningsaura.com/cricket-stats";
 
   return (
     <>

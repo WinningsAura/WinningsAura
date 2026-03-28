@@ -2,7 +2,7 @@ export default function Head() {
   const title = "Contact WinningsAura";
   const description =
     "Contact the WinningsAura team for feedback, data requests, and partnership inquiries.";
-  const url = "https://winnings-aura.vercel.app/contact-us";
+  const url = "https://winningsaura.com/contact-us";
 
   return (
     <>

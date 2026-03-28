@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://winnings-aura.vercel.app/sitemap.xml",
-    host: "https://winnings-aura.vercel.app",
+    sitemap: "https://winningsaura.com/sitemap.xml",
+    host: "https://winningsaura.com",
   };
 }

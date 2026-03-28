@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://winnings-aura.vercel.app";
+const baseUrl = "https://winningsaura.com";
 
 function getLastModifiedDate(): Date {
   const gitDate = process.env.VERCEL_GIT_COMMIT_DATE;
