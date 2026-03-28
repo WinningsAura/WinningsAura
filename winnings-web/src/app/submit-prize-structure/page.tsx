@@ -181,7 +181,21 @@ export default function SubmitPrizeStructurePage() {
           <Link href="/" className="flex items-center gap-2">
             <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
           </Link>
-          <Link href="/" className="rounded-lg border border-black px-3 py-1.5 text-black hover:bg-gray-100">Home</Link>
+          <details className="group relative">
+            <summary className="list-none cursor-pointer rounded-lg border border-black px-3 py-1.5 text-black hover:bg-gray-100">Menu</summary>
+            <div className="absolute right-0 top-full z-50 mt-1 w-56 rounded-xl border border-black bg-white p-2 shadow-2xl">
+              <Link href="/" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Home</Link>
+              <Link href="/about-us" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">About Us</Link>
+              <Link href="/tennis-stats" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Tennis</Link>
+              <Link href="/cricket-stats" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Cricket</Link>
+              <Link href="/golf-stats" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Golf</Link>
+              <Link href="/chess-stats" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Chess</Link>
+              <Link href="/badminton-stats" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Badminton</Link>
+              <Link href="/soccer-stats" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Soccer</Link>
+              <Link href="/compare-sports" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Compare Sports</Link>
+              <Link href="/contact-us" className="block rounded-md px-3 py-2 text-black hover:bg-gray-100">Contact Us</Link>
+            </div>
+          </details>
         </div>
 
         <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-black sm:text-4xl">Submit Prize Structure</h1>
