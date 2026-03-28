@@ -76,24 +76,20 @@ function formatCompact(value: number) {
 
 function formatDisplayWithCurrency(raw: string, amount: number) {
   const text = clean(raw);
-  if (!text) return formatCompact(amount);
 
-  // Already starts with a currency marker.
-  if (/^(USD|EUR|GBP|INR|AUD|CAD|JPY|CNY|CHF|AED|SAR|PKR|BDT|NPR|ZAR|SGD|HKD|NZD|KRW)\b/i.test(text)) return text;
-  if (/^[\$€£₹¥₩]/.test(text)) return text;
-
-  // Find currency code/symbol anywhere in the text and move it before amount.
   const currencyMatch = text.match(/\b(USD|EUR|GBP|INR|AUD|CAD|JPY|CNY|CHF|AED|SAR|PKR|BDT|NPR|ZAR|SGD|HKD|NZD|KRW)\b/i);
   const symbolMatch = text.match(/[\$€£₹¥₩]/);
   const currency = currencyMatch?.[1]?.toUpperCase() || symbolMatch?.[0] || "$";
 
-  const amountPart = text
-    .replace(/\b(USD|EUR|GBP|INR|AUD|CAD|JPY|CNY|CHF|AED|SAR|PKR|BDT|NPR|ZAR|SGD|HKD|NZD|KRW)\b/gi, "")
-    .replace(/[\$€£₹¥₩]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+  const formattedAmount = Number.isFinite(amount)
+    ? Math.round(amount).toLocaleString("en-US")
+    : "0";
 
-  return `${currency} ${amountPart || formatCompact(amount).replace(/^[\$€£₹¥₩]\s?/, "")}`.trim();
+  if (/^[\$€£₹¥₩]$/.test(currency)) {
+    return `${currency}${formattedAmount}`;
+  }
+
+  return `${currency} ${formattedAmount}`;
 }
 
 function findBest(values: SportEventValue[]) {
