@@ -121,6 +121,24 @@ export default function HomePage() {
             >
               Submit Prize Structure
             </Link>
+            <Link
+              href="/account/login"
+              className="rounded-xl border border-amber-200/50 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200/80 hover:bg-amber-200/10"
+            >
+              Login
+            </Link>
+            <Link
+              href="/account/register"
+              className="rounded-xl border border-amber-200/50 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200/80 hover:bg-amber-200/10"
+            >
+              Register
+            </Link>
+            <Link
+              href="/account/forgot-password"
+              className="rounded-xl border border-amber-200/50 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200/80 hover:bg-amber-200/10"
+            >
+              Forgot Password
+            </Link>
             <p className="text-xs text-amber-100/80 sm:text-sm">Know an event payout? Submit it for admin review.</p>
           </div>
         </header>
