@@ -76,7 +76,7 @@ export default function HomePage() {
       </div>
 
       <main className="relative z-10 mx-auto w-full max-w-6xl">
-        <header className="relative z-30 mb-6 rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:mb-8 sm:rounded-3xl sm:p-8">
+        <header className="relative z-30 mb-6 rounded-2xl border border-amber-300/30 bg-black/55 p-5 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:mb-8 sm:rounded-3xl sm:p-8">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
             <Link href="/" className="flex items-center gap-2">
               <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
@@ -104,17 +104,18 @@ export default function HomePage() {
             </nav>
           </div>
 
-          <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl lg:text-5xl">WinningsAura</h1>
-          <p className="mt-2 text-sm font-medium text-amber-100/90 sm:mt-3 sm:text-base">
-            Sports Prize Money Intelligence
+          <h1 className="mt-2 break-words text-[clamp(1.75rem,6vw,2.7rem)] font-bold leading-tight tracking-tight text-amber-100 sm:text-5xl">WinningsAura</h1>
+          <p className="mt-3 max-w-3xl text-sm font-medium leading-6 text-amber-100/90 sm:text-base">
+            Sports Prize Money Intelligence — structured, comparable, and easy to explore across tournaments,
+            categories, and sports.
           </p>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-amber-100/80 sm:text-sm">
-            <li>Compare payouts across sports and events fast.</li>
-            <li>See clear prize structures instantly.</li>
-            <li>Track Every Win $ in One Platform.</li>
+          <ul className="mt-4 list-disc space-y-1.5 pl-5 text-xs leading-6 text-amber-100/80 sm:text-sm">
+            <li>Compare payouts across sports and events in seconds.</li>
+            <li>See clean prize structures without spreadsheet noise.</li>
+            <li>Track trends and opportunities from one platform.</li>
           </ul>
 
-          <div className="mt-4 flex flex-wrap items-center gap-3">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
             <Link
               href="/submit-prize-structure"
               className="rounded-xl border border-amber-200/60 bg-amber-300/20 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200 hover:bg-amber-300/30"
@@ -125,6 +126,14 @@ export default function HomePage() {
           </div>
         </header>
 
+        <section className="mb-6 rounded-2xl border border-amber-200/20 bg-black/35 p-4 sm:mb-8 sm:rounded-3xl sm:p-6">
+          <h2 className="text-lg font-semibold text-amber-100 sm:text-xl">Why WinningsAura</h2>
+          <p className="mt-2 max-w-4xl text-sm leading-6 text-amber-100/80 sm:text-base">
+            Sports payout information is often fragmented across formats and sources. WinningsAura standardizes that
+            data so athletes, fans, and analysts can compare prize structures quickly and make better decisions.
+          </p>
+        </section>
+
         <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {rotatingSports.map((sport) => (
             <Link
@@ -132,7 +141,7 @@ export default function HomePage() {
               href={sport.href}
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
-              className={`group overflow-hidden rounded-2xl border border-amber-300/30 bg-black/50 shadow-2xl backdrop-blur-sm transition hover:border-amber-200/80 hover:shadow-[0_0_50px_rgba(245,185,59,0.2)] sm:rounded-3xl ${
+              className={`group flex h-full flex-col overflow-hidden rounded-2xl border border-amber-300/30 bg-black/50 shadow-2xl backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-amber-200/80 hover:shadow-[0_0_50px_rgba(245,185,59,0.2)] sm:rounded-3xl ${
                 sport.name === "Golf"
                   ? "shadow-[0_24px_60px_rgba(16,185,129,0.22),0_0_35px_rgba(34,211,238,0.16)]"
                   : ""
@@ -180,7 +189,7 @@ export default function HomePage() {
 
                 <p className="absolute bottom-3 left-3 max-w-[85%] break-words text-lg font-bold leading-tight text-amber-100 sm:bottom-4 sm:left-4 sm:max-w-none sm:text-2xl">{sport.name}</p>
               </div>
-              <div className="p-4 text-sm text-amber-100/85 sm:p-5">
+              <div className="flex-1 p-4 text-sm leading-6 text-amber-100/85 sm:p-5">
                 {sport.name === "Compare Sports" ? "Graphs view for quick cross-sport comparison." : sport.description}
               </div>
             </Link>
