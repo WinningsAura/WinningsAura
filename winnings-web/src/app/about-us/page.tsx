@@ -90,19 +90,7 @@ export default function AboutUsPage() {
               );
             })}
 
-            <p className="mt-4 text-amber-100/90">
-              WinningsAura is a specialized sports financial intelligence platform dedicated to documenting, analyzing,
-              and presenting prize money and athlete compensation structures across global sporting events. We provide
-              structured, standardized, and professionally curated payout data covering major championships,
-              international tournaments, domestic leagues, and emerging competitions. Our approach emphasizes accuracy,
-              clarity, and consistency—transforming complex financial distributions into accessible, comparable insights.
-              WinningsAura operates with a commitment to credibility and neutrality. By consolidating verified financial
-              information across sports, we deliver a centralized reference point for industry professionals, analysts,
-              media organizations, sponsors, and informed audiences seeking authoritative data on the economics of
-              sport. At the same time, this platform also helps kids, students, and young athletes explore possible
-              sports-career paths by comparing sports, categories, and payout patterns so families and youth can make
-              more informed decisions about where to invest time, training, and long-term effort.
-            </p>
+            {/* note removed as requested */}
           </div>
         </div>
       </main>
