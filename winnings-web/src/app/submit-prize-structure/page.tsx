@@ -176,18 +176,18 @@ export default function SubmitPrizeStructurePage() {
 
   return (
     <div className="min-h-screen bg-white px-3 py-6 text-black sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-      <main className="relative z-30 mx-auto w-full max-w-4xl rounded-2xl border border-amber-300/30 bg-white p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
+      <main className="relative z-30 mx-auto w-full max-w-4xl rounded-2xl border border-black bg-white p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-black pb-3">
           <Link href="/" className="flex items-center gap-2">
             <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
           </Link>
-          <Link href="/" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">Home</Link>
+          <Link href="/" className="rounded-lg border border-black px-3 py-1.5 text-black hover:bg-gray-100">Home</Link>
         </div>
 
-        <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Submit Prize Structure</h1>
-        <p className="mt-2 text-amber-100/80">Add event and prize details. You can add/remove categories and entries under each category.</p>
+        <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-black sm:text-4xl">Submit Prize Structure</h1>
+        <p className="mt-2 text-black/80">Add event and prize details. You can add/remove categories and entries under each category.</p>
 
-        <form onSubmit={onSubmit} className="mt-6 space-y-4 [&_label]:text-black [&_input]:bg-white [&_input]:text-black [&_select]:bg-white [&_select]:text-black [&_textarea]:bg-white [&_textarea]:text-black">
+        <form onSubmit={onSubmit} className="mt-6 space-y-4 [&_label]:text-black [&_input]:bg-white [&_input]:text-black [&_input]:border-black [&_select]:bg-white [&_select]:text-black [&_select]:border-black [&_textarea]:bg-white [&_textarea]:text-black [&_textarea]:border-black [&_button]:text-black [&_button]:border-black">
           <input tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className="hidden" aria-hidden="true" />
 
           <div>
@@ -237,7 +237,7 @@ export default function SubmitPrizeStructurePage() {
 
           <div className="rounded-xl border border-amber-200/25 bg-white p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
-              <h2 className="text-lg font-semibold text-amber-100">Prize Categories</h2>
+              <h2 className="text-lg font-semibold text-black">Prize Categories</h2>
               <button type="button" onClick={addCategory} className="rounded-md border border-amber-200/50 px-3 py-1.5 text-sm text-amber-100 hover:bg-amber-200/10">+ Add Category</button>
             </div>
 
