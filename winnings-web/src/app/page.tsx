@@ -121,7 +121,7 @@ export default function HomePage() {
             >
               Submit Prize Structure
             </Link>
-            <p className="text-xs text-amber-100/80 sm:text-sm">Know an event payout? Submit it for admin review.</p>
+            {/* helper text removed */}
           </div>
         </header>
 

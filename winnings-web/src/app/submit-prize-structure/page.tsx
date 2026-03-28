@@ -220,7 +220,7 @@ export default function SubmitPrizeStructurePage() {
 
         <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-black sm:text-4xl">Submit Prize Structure</h1>
         <p className="mt-2 text-black/80">Add event and prize details. You can add/remove categories and entries under each category.</p>
-        <p className="mt-1 text-sm text-black/70">Track your submission status: <Link href="/my-submissions" className="underline">My Submissions</Link> · <Link href="/account/login" className="underline">Login</Link> · <Link href="/account/register" className="underline">Register</Link></p>
+        {/* status links removed */}
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4 [&_label]:text-black [&_input]:bg-white [&_input]:text-black [&_input]:border-black [&_select]:bg-white [&_select]:text-black [&_select]:border-black [&_textarea]:bg-white [&_textarea]:text-black [&_textarea]:border-black [&_button]:text-black [&_button]:border-black">
           <input tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className="hidden" aria-hidden="true" />
