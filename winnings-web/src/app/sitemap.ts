@@ -24,3 +24,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/cookie-policy`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
   ];
 }
+
