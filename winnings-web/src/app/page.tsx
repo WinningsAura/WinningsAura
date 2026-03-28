@@ -68,7 +68,7 @@ export default function HomePage() {
   }, [startIndex]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_#1f2937_0%,_#0b1020_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_#1f2937_0%,_#0b1020_45%,_#05070f_100%)] px-3 py-5 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 left-[-8%] h-72 w-72 rounded-full bg-amber-400/20 blur-3xl" />
         <div className="absolute top-1/3 right-[-10%] h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl" />
@@ -76,18 +76,18 @@ export default function HomePage() {
       </div>
 
       <main className="relative z-10 mx-auto w-full max-w-6xl">
-        <header className="relative z-30 mb-6 rounded-2xl border border-amber-300/30 bg-black/55 p-5 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:mb-8 sm:rounded-3xl sm:p-8">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
+        <header className="relative z-30 mb-5 rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:mb-8 sm:rounded-3xl sm:p-8">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2.5 border-b border-amber-200/20 pb-2.5 sm:mb-4 sm:gap-3 sm:pb-3">
             <Link href="/" className="flex items-center gap-2">
               <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
             </Link>
             <nav className="flex items-center gap-2 text-sm sm:gap-3">
               <div className="relative">
                 <details className="group">
-                  <summary className="list-none cursor-pointer rounded-lg border border-amber-200/30 px-3 py-1.5 text-amber-100 hover:border-amber-200/70">
+                  <summary className="list-none cursor-pointer rounded-lg border border-amber-200/30 px-2.5 py-1.5 text-sm text-amber-100 hover:border-amber-200/70 sm:px-3 sm:text-base">
                     Menu
                   </summary>
-                  <div className="absolute right-0 top-full z-50 mt-1 w-52 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-open:opacity-100">
+                  <div className="absolute right-0 top-full z-50 mt-1 w-48 rounded-xl border border-amber-200/30 bg-black/95 p-2 opacity-0 shadow-2xl transition group-open:opacity-100 sm:w-52">
                     <Link href="/about-us" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>About Us</span><span>{"\uD83D\uDC65"}</span></Link>
                     <Link href="/tennis-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Tennis</span><span>{"\uD83C\uDFBE"}</span></Link>
                     <Link href="/cricket-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Cricket</span><span>{"\uD83C\uDFCF"}</span></Link>
@@ -104,21 +104,21 @@ export default function HomePage() {
             </nav>
           </div>
 
-          <h1 className="mt-2 break-words text-[clamp(1.75rem,6vw,2.7rem)] font-bold leading-tight tracking-tight text-amber-100 sm:text-5xl">WinningsAura</h1>
-          <p className="mt-3 max-w-3xl text-sm font-medium leading-6 text-amber-100/90 sm:text-base">
+          <h1 className="mt-1.5 break-words text-[clamp(1.6rem,7vw,2.7rem)] font-bold leading-tight tracking-tight text-amber-100 sm:mt-2 sm:text-5xl">WinningsAura</h1>
+          <p className="mt-2.5 max-w-3xl text-sm font-medium leading-6 text-amber-100/90 sm:mt-3 sm:text-base">
             Sports Prize Money Intelligence — structured, comparable, and easy to explore across tournaments,
             categories, and sports.
           </p>
-          <ul className="mt-4 list-disc space-y-1.5 pl-5 text-xs leading-6 text-amber-100/80 sm:text-sm">
+          <ul className="mt-3 list-disc space-y-1.5 pl-5 text-xs leading-6 text-amber-100/80 sm:mt-4 sm:text-sm">
             <li>Compare payouts across sports and events in seconds.</li>
             <li>See clean prize structures without spreadsheet noise.</li>
             <li>Track trends and opportunities from one platform.</li>
           </ul>
 
-          <div className="mt-5 flex flex-wrap items-center gap-3">
+          <div className="mt-4 flex flex-wrap items-center gap-2.5 sm:mt-5 sm:gap-3">
             <Link
               href="/submit-prize-structure"
-              className="rounded-xl border border-amber-200/60 bg-amber-300/20 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200 hover:bg-amber-300/30"
+              className="rounded-xl border border-amber-200/60 bg-amber-300/20 px-3.5 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200 hover:bg-amber-300/30 sm:px-4"
             >
               Submit Prize Structure
             </Link>
@@ -126,15 +126,15 @@ export default function HomePage() {
           </div>
         </header>
 
-        <section className="mb-6 rounded-2xl border border-amber-200/20 bg-black/35 p-4 sm:mb-8 sm:rounded-3xl sm:p-6">
-          <h2 className="text-lg font-semibold text-amber-100 sm:text-xl">Why WinningsAura</h2>
-          <p className="mt-2 max-w-4xl text-sm leading-6 text-amber-100/80 sm:text-base">
+        <section className="mb-5 rounded-2xl border border-amber-200/20 bg-black/35 p-3.5 sm:mb-8 sm:rounded-3xl sm:p-6">
+          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">Why WinningsAura</h2>
+          <p className="mt-1.5 max-w-4xl text-sm leading-6 text-amber-100/80 sm:mt-2 sm:text-base">
             Sports payout information is often fragmented across formats and sources. WinningsAura standardizes that
             data so athletes, fans, and analysts can compare prize structures quickly and make better decisions.
           </p>
         </section>
 
-        <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <section className="grid grid-cols-1 gap-3.5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {rotatingSports.map((sport) => (
             <Link
               key={sport.name}
