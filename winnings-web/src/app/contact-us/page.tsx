@@ -77,7 +77,19 @@ export default function ContactUsPage() {
           </nav>
         </div>
         <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Contact Us</h1>
-        <p className="mt-2 text-amber-100/80">Share your details and message. We will get back to you soon.</p>
+        <p className="mt-2 text-amber-100/80">
+          Share your details and message. We review every valid submission and reply as quickly as possible.
+        </p>
+        <div className="mt-4 rounded-xl border border-amber-200/20 bg-black/35 px-4 py-3 text-sm leading-6 text-amber-100/85">
+          <p>
+            Use this page for general inquiries, data corrections, partnership requests, technical issue reports,
+            and feedback about prize structures shown on WinningsAura.
+          </p>
+          <p className="mt-2">
+            To help us respond faster, include the relevant sport, event name, season/year, and a clear explanation
+            of what should be reviewed.
+          </p>
+        </div>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <input
@@ -140,6 +152,25 @@ export default function ContactUsPage() {
         </form>
 
         {status ? <p className="mt-4 text-sm text-amber-100">{status}</p> : null}
+
+        <section className="mt-8 space-y-3 rounded-xl border border-amber-200/20 bg-black/30 px-4 py-4 text-sm leading-6 text-amber-100/85">
+          <h2 className="text-base font-semibold text-amber-100">Before You Submit</h2>
+          <ul className="list-disc space-y-1 pl-5">
+            <li>Provide a valid email so we can reply if we need clarification.</li>
+            <li>For prize-data issues, include the sport, event, category, and expected payout details.</li>
+            <li>Avoid sharing sensitive personal or financial information in your message body.</li>
+          </ul>
+          <p>
+            Contact submissions are treated as confidential operational messages and are used to support site quality,
+            user support, and data accuracy workflows.
+          </p>
+          <p>
+            For policy details, please review our
+            {" "}<Link href="/privacy-policy" className="underline hover:text-amber-200">Privacy Policy</Link>{" "}
+            and
+            {" "}<Link href="/terms-and-conditions" className="underline hover:text-amber-200">Terms and Conditions</Link>.
+          </p>
+        </section>
       </main>
     </div>
   );
