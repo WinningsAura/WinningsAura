@@ -27,7 +27,7 @@ type FormState = {
   website: string;
 };
 
-const SPORT_OPTIONS = ["Tennis", "Cricket", "Golf", "Chess", "Badminton", "Soccer", "Compare Sports"];
+const SPORT_OPTIONS = ["Tennis", "Cricket", "Golf", "Chess", "Badminton", "Soccer", "Others"];
 const CATEGORY_OPTIONS = ["Men", "Women", "Open", "Mixed", "Singles", "Doubles", "Team", "Other"];
 const CURRENCY_OPTIONS = ["USD", "EUR", "GBP", "INR", "CAD", "AUD", "JPY", "CNY", "CHF", "AED", "SGD", "NZD"];
 
