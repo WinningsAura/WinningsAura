@@ -104,7 +104,19 @@ export default function TermsAndConditionsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">7. Changes to Terms</h2>
+            <h2 className="text-lg font-semibold text-amber-100">7. Sports Prize Structure Submissions</h2>
+            <p className="mt-2">
+              If you submit sports prize structure data through the website, you represent that the information is true,
+              accurate to the best of your knowledge, and does not violate any third-party rights.
+            </p>
+            <p className="mt-2">
+              WinningsAura may review, edit for formatting clarity, approve, reject, or remove submissions at its sole
+              discretion. Submission does not guarantee publication, and published entries may include moderation notes.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-amber-100">8. Changes to Terms</h2>
             <p className="mt-2">
               We may modify these Terms at any time. Updated Terms are effective once posted on this page.
               Continued use of the website after updates means you accept the revised Terms.
@@ -112,7 +124,7 @@ export default function TermsAndConditionsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">8. Governing Law</h2>
+            <h2 className="text-lg font-semibold text-amber-100">9. Governing Law</h2>
             <p className="mt-2">
               These Terms are governed by applicable laws of the jurisdiction in which WinningsAura is operated,
               without prejudice to mandatory consumer protections that may apply in your location.
