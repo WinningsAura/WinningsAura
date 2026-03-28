@@ -116,28 +116,25 @@ export default function RootLayout({
         />
         {children}
         <footer className="border-t border-amber-200/20 bg-[#05070f] px-4 py-4 text-center text-sm text-amber-100/80">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3">
-            <span>© {new Date().getFullYear()} WinningsAura</span>
-            <span aria-hidden="true">•</span>
-            <Link href="/about-us" className="underline underline-offset-4 hover:text-amber-100">
-              About Us
-            </Link>
-            <span aria-hidden="true">•</span>
-            <Link href="/contact-us" className="underline underline-offset-4 hover:text-amber-100">
-              Contact Us
-            </Link>
-            <span aria-hidden="true">•</span>
-            <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-amber-100">
-              Privacy Policy
-            </Link>
-            <span aria-hidden="true">•</span>
-            <Link href="/terms-and-conditions" className="underline underline-offset-4 hover:text-amber-100">
-              Terms & Conditions
-            </Link>
-            <span aria-hidden="true">•</span>
-            <Link href="/cookie-policy" className="underline underline-offset-4 hover:text-amber-100">
-              Cookie Policy
-            </Link>
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-2">© {new Date().getFullYear()} WinningsAura</div>
+            <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-sm">
+              <Link href="/about-us" className="underline underline-offset-4 hover:text-amber-100">
+                About Us
+              </Link>
+              <Link href="/contact-us" className="underline underline-offset-4 hover:text-amber-100">
+                Contact Us
+              </Link>
+              <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-amber-100">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-and-conditions" className="underline underline-offset-4 hover:text-amber-100">
+                Terms & Conditions
+              </Link>
+              <Link href="/cookie-policy" className="underline underline-offset-4 hover:text-amber-100">
+                Cookie Policy
+              </Link>
+            </nav>
           </div>
         </footer>
         <CookieConsentBanner />
