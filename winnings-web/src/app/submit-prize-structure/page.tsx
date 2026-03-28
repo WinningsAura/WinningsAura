@@ -29,6 +29,7 @@ type FormState = {
 
 const SPORT_OPTIONS = ["Tennis", "Cricket", "Golf", "Chess", "Badminton", "Soccer", "Compare Sports"];
 const CATEGORY_OPTIONS = ["Men", "Women", "Open", "Mixed", "Singles", "Doubles", "Team", "Other"];
+const POSITION_OPTIONS = ["Winner", "Runner-up", "Semi-finalist", "Quarter-finalist", "Top 4", "Top 8", "Champion", "MVP"];
 const CURRENCY_OPTIONS = ["USD", "EUR", "GBP", "INR", "CAD", "AUD", "JPY", "CNY", "CHF", "AED", "SGD", "NZD"];
 
 const COUNTRY_OPTIONS = [
@@ -262,7 +263,31 @@ export default function SubmitPrizeStructurePage() {
                       <div key={itemIndex} className="grid gap-2 sm:grid-cols-[1.4fr_1fr_0.8fr_auto] sm:items-end">
                         <div>
                           <label className="mb-1 block text-xs">Position</label>
-                          <input value={item.position} onChange={(e) => updateItem(index, itemIndex, "position", e.target.value)} placeholder="Winner / Runner-up" className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black" />
+                          <select
+                            value={item.position && POSITION_OPTIONS.includes(item.position) ? item.position : "__custom__"}
+                            onChange={(e) => {
+                              if (e.target.value === "__custom__") {
+                                updateItem(index, itemIndex, "position", "");
+                                return;
+                              }
+                              updateItem(index, itemIndex, "position", e.target.value);
+                            }}
+                            className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black"
+                          >
+                            <option value="">Select position</option>
+                            {POSITION_OPTIONS.map((positionOption) => (
+                              <option key={positionOption} value={positionOption}>{positionOption}</option>
+                            ))}
+                            <option value="__custom__">Other (type your own)</option>
+                          </select>
+                          {(!item.position || !POSITION_OPTIONS.includes(item.position)) ? (
+                            <input
+                              value={item.position}
+                              onChange={(e) => updateItem(index, itemIndex, "position", e.target.value)}
+                              placeholder="Type custom position"
+                              className="mt-2 w-full rounded-lg border px-3 py-2 outline-none focus:border-black"
+                            />
+                          ) : null}
                         </div>
                         <div>
                           <label className="mb-1 block text-xs">Prize Amount</label>
@@ -270,11 +295,30 @@ export default function SubmitPrizeStructurePage() {
                         </div>
                         <div>
                           <label className="mb-1 block text-xs">Currency</label>
-                          <select value={item.currency} onChange={(e) => updateItem(index, itemIndex, "currency", e.target.value)} className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black">
+                          <select
+                            value={item.currency && CURRENCY_OPTIONS.includes(item.currency) ? item.currency : "__custom__"}
+                            onChange={(e) => {
+                              if (e.target.value === "__custom__") {
+                                updateItem(index, itemIndex, "currency", "");
+                                return;
+                              }
+                              updateItem(index, itemIndex, "currency", e.target.value);
+                            }}
+                            className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black"
+                          >
                             {CURRENCY_OPTIONS.map((currencyOption) => (
                               <option key={currencyOption} value={currencyOption}>{currencyOption}</option>
                             ))}
+                            <option value="__custom__">Other (type your own)</option>
                           </select>
+                          {(!item.currency || !CURRENCY_OPTIONS.includes(item.currency)) ? (
+                            <input
+                              value={item.currency}
+                              onChange={(e) => updateItem(index, itemIndex, "currency", e.target.value)}
+                              placeholder="Type custom currency"
+                              className="mt-2 w-full rounded-lg border px-3 py-2 outline-none focus:border-black"
+                            />
+                          ) : null}
                         </div>
                         <button type="button" onClick={() => removeItem(index, itemIndex)} disabled={category.items.length <= 1} className="rounded-md border border-black px-2 py-2 text-xs disabled:opacity-50">Remove</button>
                       </div>
