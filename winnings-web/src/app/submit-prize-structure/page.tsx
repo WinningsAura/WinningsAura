@@ -31,6 +31,26 @@ const SPORT_OPTIONS = ["Tennis", "Cricket", "Golf", "Chess", "Badminton", "Socce
 const CATEGORY_OPTIONS = ["Men", "Women", "Open", "Mixed", "Singles", "Doubles", "Team", "Other"];
 const CURRENCY_OPTIONS = ["USD", "EUR", "GBP", "INR", "CAD", "AUD", "JPY", "CNY", "CHF", "AED", "SGD", "NZD"];
 
+const SPORT_CATEGORY_OPTIONS: Record<string, string[]> = {
+  Tennis: ["Men", "Women", "Singles", "Doubles", "Mixed"],
+  Cricket: ["Men", "Women", "Team", "Open"],
+  Golf: ["Men", "Women", "Open"],
+  Chess: ["Open", "Women", "Mixed", "Team"],
+  Badminton: ["Men", "Women", "Singles", "Doubles", "Mixed"],
+  Soccer: ["Men", "Women", "Team"],
+  "Compare Sports": ["Open", "Men", "Women", "Mixed"],
+};
+
+const SPORT_POSITION_OPTIONS: Record<string, string[]> = {
+  Tennis: ["Winner", "Runner-up", "Semi-finalist", "Quarter-finalist", "Round of 16", "Round of 32"],
+  Cricket: ["Winner", "Runner-up", "Semi-finalist", "Player of the Match", "Player of the Series"],
+  Golf: ["Winner", "2nd", "3rd", "Top 5", "Top 10", "Top 20"],
+  Chess: ["1st", "2nd", "3rd", "Top 10", "Best Woman", "Best Junior"],
+  Badminton: ["Winner", "Runner-up", "Semi-finalist", "Quarter-finalist"],
+  Soccer: ["Winner", "Runner-up", "Semi-finalist", "Quarter-finalist", "Golden Boot", "Golden Ball"],
+  "Compare Sports": ["Winner", "Runner-up", "Top 4", "Top 8"],
+};
+
 const COUNTRY_OPTIONS = [
   "United States",
   "Canada",
@@ -70,6 +90,25 @@ export default function SubmitPrizeStructurePage() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
   const [parsingFile, setParsingFile] = useState(false);
+
+  const currentCategoryOptions = SPORT_CATEGORY_OPTIONS[form.sport] || CATEGORY_OPTIONS;
+  const currentPositionOptions = SPORT_POSITION_OPTIONS[form.sport] || ["Winner", "Runner-up", "Semi-finalist", "Quarter-finalist", "Top 8", "Top 16"];
+
+  function handleSportChange(sport: string) {
+    const allowedCategories = SPORT_CATEGORY_OPTIONS[sport] || CATEGORY_OPTIONS;
+    const allowedPositions = SPORT_POSITION_OPTIONS[sport] || ["Winner", "Runner-up", "Semi-finalist", "Quarter-finalist", "Top 8", "Top 16"];
+
+    const categories = form.categories.map((category) => ({
+      ...category,
+      name: allowedCategories.includes(category.name) ? category.name : "",
+      items: category.items.map((item) => ({
+        ...item,
+        position: allowedPositions.includes(item.position) ? item.position : "",
+      })),
+    }));
+
+    setForm({ ...form, sport, categories });
+  }
 
   function updateCategoryName(index: number, name: string) {
     const categories = [...form.categories];
@@ -202,7 +241,7 @@ export default function SubmitPrizeStructurePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-sm">Sport *</label>
-              <select value={form.sport} onChange={(e) => setForm({ ...form, sport: e.target.value })} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" required>
+              <select value={form.sport} onChange={(e) => handleSportChange(e.target.value)} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" required>
                 <option value="">Select sport</option>
                 {SPORT_OPTIONS.map((sport) => (
                   <option key={sport} value={sport}>{sport}</option>
@@ -249,7 +288,7 @@ export default function SubmitPrizeStructurePage() {
                       <label className="mb-1 block text-sm">Category Name</label>
                       <select value={category.name} onChange={(e) => updateCategoryName(index, e.target.value)} className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black">
                         <option value="">Select category</option>
-                        {CATEGORY_OPTIONS.map((categoryOption) => (
+                        {currentCategoryOptions.map((categoryOption) => (
                           <option key={categoryOption} value={categoryOption}>{categoryOption}</option>
                         ))}
                       </select>
@@ -262,7 +301,12 @@ export default function SubmitPrizeStructurePage() {
                       <div key={itemIndex} className="grid gap-2 sm:grid-cols-[1.4fr_1fr_0.8fr_auto] sm:items-end">
                         <div>
                           <label className="mb-1 block text-xs">Position</label>
-                          <input value={item.position} onChange={(e) => updateItem(index, itemIndex, "position", e.target.value)} placeholder="Winner / Runner-up" className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black" />
+                          <select value={item.position} onChange={(e) => updateItem(index, itemIndex, "position", e.target.value)} className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black">
+                            <option value="">Select position</option>
+                            {currentPositionOptions.map((positionOption) => (
+                              <option key={positionOption} value={positionOption}>{positionOption}</option>
+                            ))}
+                          </select>
                         </div>
                         <div>
                           <label className="mb-1 block text-xs">Prize Amount</label>
