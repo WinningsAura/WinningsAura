@@ -13,6 +13,11 @@ type SportPoint = {
   display: string;
 };
 
+type SportEventValue = {
+  event: string;
+  raw: string;
+};
+
 const positionOptions: Position[] = ["Winner", "Runner-up"];
 const genderOptions: GenderFilter[] = ["All", "Men", "Women"];
 
@@ -24,6 +29,15 @@ const sportSheets = [
   { sport: "Chess", sheet: "Chess" },
   { sport: "Soccer", sheet: "Soccer" },
 ] as const;
+
+const SPORT_EVENT_OPTIONS: Record<string, string[]> = {
+  Tennis: ["Australian Open", "US Open", "French Open", "Wimbledon"],
+  Badminton: [],
+  Cricket: ["ODI World Cup", "Champions Trophy", "T20 World Cup", "WTC Final", "Women’s T20 World Cup", "Women’s ODI World Cup"],
+  Golf: ["Masters", "U.S. Open", "PGA Championship", "The Open", "U.S. Women’s Open", "KPMG Women’s PGA", "Chevron Championship", "AIG Women’s Open", "Amundi Evian Championship"],
+  Chess: ["World Chess Championship", "Candidates", "Tata Steel", "Norway Chess", "Sinquefield Cup", "Women’s World Championship", "Women’s Candidates"],
+  Soccer: ["FIFA World Cup", "FIFA Club World Cup"],
+};
 
 function clean(value: string) {
   return (value || "").replace(/[\uFEFF\uFFFD]/g, "").trim();
@@ -82,7 +96,7 @@ function formatDisplayWithCurrency(raw: string, amount: number) {
   return `${currency} ${amountPart || formatCompact(amount).replace(/^[\$€£₹¥₩]\s?/, "")}`.trim();
 }
 
-function findBest(values: Array<{ event: string; raw: string }>) {
+function findBest(values: SportEventValue[]) {
   const candidates = values
     .map((v) => ({ ...v, amount: toNumber(v.raw) }))
     .filter((v) => Number.isFinite(v.amount));
@@ -91,7 +105,12 @@ function findBest(values: Array<{ event: string; raw: string }>) {
   return candidates[0];
 }
 
-function extractTennis(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
+function selectEventOrBest(values: SportEventValue[], selectedEvent?: string) {
+  const scoped = selectedEvent && selectedEvent !== "All Events" ? values.filter((v) => v.event === selectedEvent) : values;
+  return findBest(scoped);
+}
+
+function extractTennis(rows: string[][], position: Position, gender: GenderFilter, selectedEvent?: string): SportPoint | null {
   // Product rule: Grand Slam comparison should treat values as Men's reference.
   // So Women and All both use the same Grand Slam row values.
   const target = position === "Winner" ? "winner" : "runner";
@@ -105,12 +124,12 @@ function extractTennis(rows: string[][], position: Position, gender: GenderFilte
     { event: "Wimbledon", raw: row[5] || "" },
   ];
 
-  const best = findBest(events);
+  const best = selectEventOrBest(events, selectedEvent);
   if (!best) return null;
   return { sport: "Tennis", event: best.event, amount: best.amount, display: clean(best.raw) };
 }
 
-function extractBadminton(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
+function extractBadminton(rows: string[][], position: Position, gender: GenderFilter, selectedEvent?: string): SportPoint | null {
   if (!rows.length) return null;
   const header = rows[0].map((h) => clean(h));
   const idxEvent = header.indexOf("Tournament/Event");
@@ -129,12 +148,12 @@ function extractBadminton(rows: string[][], position: Position, gender: GenderFi
     })
     .map((r) => ({ event: clean(r[idxEvent] || ""), raw: clean(r[idx] || "") }))
     .filter((r) => r.event);
-  const best = findBest(events);
+  const best = selectEventOrBest(events, selectedEvent);
   if (!best) return null;
   return { sport: "Badminton", event: best.event, amount: best.amount, display: best.raw };
 }
 
-function extractCricket(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
+function extractCricket(rows: string[][], position: Position, gender: GenderFilter, selectedEvent?: string): SportPoint | null {
   const key = position === "Winner" ? "winner" : "runner";
 
   const menStart = rows.findIndex((r) => clean(r[0] || "").toLowerCase().includes("men's"));
@@ -163,12 +182,12 @@ function extractCricket(rows: string[][], position: Position, gender: GenderFilt
     : [];
 
   const events = gender === "Men" ? menEvents : gender === "Women" ? womenEvents : [...menEvents, ...womenEvents];
-  const best = findBest(events);
+  const best = selectEventOrBest(events, selectedEvent);
   if (!best) return null;
   return { sport: "Cricket", event: best.event, amount: best.amount, display: clean(best.raw) };
 }
 
-function extractGolf(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
+function extractGolf(rows: string[][], position: Position, gender: GenderFilter, selectedEvent?: string): SportPoint | null {
   const menPlace = position === "Winner" ? "1" : "2";
   const menRow = rows.find((r) => clean(r[0] || "") === menPlace);
 
@@ -196,12 +215,12 @@ function extractGolf(rows: string[][], position: Position, gender: GenderFilter)
     : [];
 
   const events = gender === "Men" ? menEvents : gender === "Women" ? womenEvents : [...menEvents, ...womenEvents];
-  const best = findBest(events);
+  const best = selectEventOrBest(events, selectedEvent);
   if (!best) return null;
   return { sport: "Golf", event: best.event, amount: best.amount, display: clean(best.raw) };
 }
 
-function extractChess(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
+function extractChess(rows: string[][], position: Position, gender: GenderFilter, selectedEvent?: string): SportPoint | null {
   const key = position === "Winner" ? "winner" : "runner";
   const startIdx =
     gender === "Women"
@@ -225,12 +244,12 @@ function extractChess(rows: string[][], position: Position, gender: GenderFilter
           { event: "Norway Chess", raw: row[4] || "" },
           { event: "Sinquefield Cup", raw: row[5] || "" },
         ];
-  const best = findBest(events);
+  const best = selectEventOrBest(events, selectedEvent);
   if (!best) return null;
   return { sport: "Chess", event: best.event, amount: best.amount, display: clean(best.raw) };
 }
 
-function extractSoccer(rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
+function extractSoccer(rows: string[][], position: Position, gender: GenderFilter, selectedEvent?: string): SportPoint | null {
   if (gender === "Women") return null;
 
   const key = position === "Winner" ? "champion" : "runner";
@@ -241,18 +260,18 @@ function extractSoccer(rows: string[][], position: Position, gender: GenderFilte
     { event: "FIFA World Cup", raw: row[2] || "" },
     { event: "FIFA Club World Cup", raw: row[3] || "" },
   ];
-  const best = findBest(events);
+  const best = selectEventOrBest(events, selectedEvent);
   if (!best) return null;
   return { sport: "Soccer", event: best.event, amount: best.amount, display: clean(best.raw) };
 }
 
-function extractForSport(sport: string, rows: string[][], position: Position, gender: GenderFilter): SportPoint | null {
-  if (sport === "Tennis") return extractTennis(rows, position, gender);
-  if (sport === "Badminton") return extractBadminton(rows, position, gender);
-  if (sport === "Cricket") return extractCricket(rows, position, gender);
-  if (sport === "Golf") return extractGolf(rows, position, gender);
-  if (sport === "Chess") return extractChess(rows, position, gender);
-  if (sport === "Soccer") return extractSoccer(rows, position, gender);
+function extractForSport(sport: string, rows: string[][], position: Position, gender: GenderFilter, selectedEvent?: string): SportPoint | null {
+  if (sport === "Tennis") return extractTennis(rows, position, gender, selectedEvent);
+  if (sport === "Badminton") return extractBadminton(rows, position, gender, selectedEvent);
+  if (sport === "Cricket") return extractCricket(rows, position, gender, selectedEvent);
+  if (sport === "Golf") return extractGolf(rows, position, gender, selectedEvent);
+  if (sport === "Chess") return extractChess(rows, position, gender, selectedEvent);
+  if (sport === "Soccer") return extractSoccer(rows, position, gender, selectedEvent);
   return null;
 }
 
@@ -260,6 +279,7 @@ export default function CompareSportsPage() {
   const [selectedPosition, setSelectedPosition] = useState<Position>("Winner");
   const [selectedGender, setSelectedGender] = useState<GenderFilter>("All");
   const [selectedSports, setSelectedSports] = useState<string[]>(sportSheets.map((s) => s.sport));
+  const [selectedEventsBySport, setSelectedEventsBySport] = useState<Record<string, string>>({});
   const [rowsBySport, setRowsBySport] = useState<Record<string, string[][]>>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -299,14 +319,42 @@ export default function CompareSportsPage() {
     };
   }, []);
 
+  const eventOptionsBySport = useMemo(() => {
+    const map: Record<string, string[]> = {};
+
+    sportSheets.forEach(({ sport }) => {
+      if (sport === "Badminton") {
+        const rows = rowsBySport[sport] || [];
+        const header = rows[0]?.map((h) => clean(h)) || [];
+        const idxEvent = header.indexOf("Tournament/Event");
+        const dynamicEvents = idxEvent >= 0
+          ? Array.from(new Set(rows.slice(1).map((r) => clean(r[idxEvent] || "")).filter(Boolean)))
+          : [];
+        map[sport] = dynamicEvents;
+      } else {
+        map[sport] = SPORT_EVENT_OPTIONS[sport] || [];
+      }
+    });
+
+    return map;
+  }, [rowsBySport]);
+
   const points = useMemo(() => {
     const parsed = sportSheets
       .filter(({ sport }) => selectedSports.includes(sport))
-      .map(({ sport }) => extractForSport(sport, rowsBySport[sport] || [], selectedPosition, selectedGender))
+      .map(({ sport }) =>
+        extractForSport(
+          sport,
+          rowsBySport[sport] || [],
+          selectedPosition,
+          selectedGender,
+          selectedEventsBySport[sport]
+        )
+      )
       .filter(Boolean) as SportPoint[];
 
     return parsed.sort((a, b) => b.amount - a.amount);
-  }, [rowsBySport, selectedPosition, selectedSports, selectedGender]);
+  }, [rowsBySport, selectedPosition, selectedSports, selectedGender, selectedEventsBySport]);
 
   const maxValue = useMemo(() => Math.max(1, ...points.map((p) => p.amount)), [points]);
 
@@ -373,24 +421,40 @@ export default function CompareSportsPage() {
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {sportSheets.map(({ sport }) => {
               const checked = selectedSports.includes(sport);
+              const options = eventOptionsBySport[sport] || [];
+              const selectedEvent = selectedEventsBySport[sport] || "All Events";
+
               return (
-                <label key={sport} className="flex cursor-pointer items-center gap-2 rounded-lg border border-amber-200/20 px-2 py-2 text-sm text-amber-100/90 hover:border-amber-200/50">
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedSports((prev) => (prev.includes(sport) ? prev : [...prev, sport]));
-                      } else {
-                        setSelectedSports((prev) => prev.filter((s) => s !== sport));
-                      }
-                    }}
-                  />
-                  <span>{sport}</span>
-                </label>
+                <div key={sport} className="rounded-lg border border-amber-200/20 px-2 py-2 text-sm text-amber-100/90 hover:border-amber-200/50">
+                  <label className="flex cursor-pointer items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedSports((prev) => (prev.includes(sport) ? prev : [...prev, sport]));
+                        } else {
+                          setSelectedSports((prev) => prev.filter((s) => s !== sport));
+                        }
+                      }}
+                    />
+                    <span>{sport}</span>
+                  </label>
+
+                  <select
+                    value={selectedEvent}
+                    onChange={(e) => setSelectedEventsBySport((prev) => ({ ...prev, [sport]: e.target.value }))}
+                    className="mt-2 w-full rounded-md border border-amber-200/30 bg-black/45 px-2 py-1 text-xs text-amber-100"
+                  >
+                    <option value="All Events">All Events</option>
+                    {options.map((eventName) => (
+                      <option key={eventName} value={eventName}>{eventName}</option>
+                    ))}
+                  </select>
+                </div>
               );
             })}
           </div>
@@ -437,3 +501,4 @@ export default function CompareSportsPage() {
     </div>
   );
 }
+
