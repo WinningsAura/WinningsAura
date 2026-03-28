@@ -30,7 +30,7 @@ export default function PrivacyPolicyPage() {
         </div>
 
         <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-amber-100/70">Last updated: March 7, 2026</p>
+        <p className="mt-2 text-sm text-amber-100/70">Last updated: March 28, 2026</p>
 
         <div className="mt-6 space-y-5 text-sm leading-7 text-amber-100/90 sm:text-base">
           <p>
@@ -43,7 +43,10 @@ export default function PrivacyPolicyPage() {
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>Basic usage data such as page views, browser type, and device information.</li>
               <li>Contact information you provide when you submit forms (for example, name and email).</li>
-              <li>Cookies and similar technologies used for analytics and service improvement.</li>
+              <li>Prize-structure submission data you provide (such as sport, event, category, payout values, and notes).</li>
+              <li>Account information for login and access to My Submissions (email and password hash).</li>
+              <li>Security/session data and password reset tokens required for account access and recovery.</li>
+              <li>Cookies and similar technologies used for analytics, authentication, and service improvement.</li>
             </ul>
           </section>
 
@@ -51,6 +54,9 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-lg font-semibold text-amber-100">2. How We Use Information</h2>
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>To operate and improve the website and user experience.</li>
+              <li>To process, review, and publish approved sports prize structure submissions.</li>
+              <li>To enable account login and show users the status of their own submissions.</li>
+              <li>To send essential account or workflow emails (for example, password reset and publication notifications).</li>
               <li>To respond to inquiries sent through our contact channels.</li>
               <li>To monitor performance, troubleshoot issues, and protect site security.</li>
             </ul>
@@ -82,7 +88,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-lg font-semibold text-amber-100">5. Data Sharing</h2>
             <p className="mt-2">
               We do not sell personal information. We may share limited data with trusted service providers that help
-              us host, analyze, and maintain the website.
+              us host, analyze, maintain, secure, and communicate website operations (for example, hosting and email delivery).
             </p>
           </section>
 

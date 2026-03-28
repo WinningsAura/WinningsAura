@@ -30,7 +30,7 @@ export default function TermsAndConditionsPage() {
         </div>
 
         <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Terms and Conditions</h1>
-        <p className="mt-2 text-sm text-amber-100/70">Effective date: March 7, 2026</p>
+        <p className="mt-2 text-sm text-amber-100/70">Effective date: March 28, 2026</p>
 
         <div className="mt-6 space-y-5 text-sm leading-7 text-amber-100/90 sm:text-base">
           <p>
@@ -116,7 +116,18 @@ export default function TermsAndConditionsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">8. Changes to Terms</h2>
+            <h2 className="text-lg font-semibold text-amber-100">8. User Accounts and Access</h2>
+            <p className="mt-2">
+              Certain features (including My Submissions, password reset, and submission-status tracking) require a user account.
+              You are responsible for maintaining the confidentiality of your login credentials and for activity under your account.
+            </p>
+            <p className="mt-2">
+              WinningsAura may suspend or restrict access where misuse, fraud, or security risk is detected.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-amber-100">9. Changes to Terms</h2>
             <p className="mt-2">
               We may modify these Terms at any time. Updated Terms are effective once posted on this page.
               Continued use of the website after updates means you accept the revised Terms.
@@ -124,7 +135,7 @@ export default function TermsAndConditionsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-amber-100">9. Governing Law</h2>
+            <h2 className="text-lg font-semibold text-amber-100">10. Governing Law</h2>
             <p className="mt-2">
               These Terms are governed by applicable laws of the jurisdiction in which WinningsAura is operated,
               without prejudice to mandatory consumer protections that may apply in your location.
