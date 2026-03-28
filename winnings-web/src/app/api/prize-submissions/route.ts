@@ -173,7 +173,7 @@ function parseCategoryDataJson(raw: string, fallback: { category: string; positi
             }))
           : [],
       }))
-      .filter((cat) => cat.name || cat.items.some((it) => it.position || it.prizeAmount));
+      .filter((cat) => cat.name || cat.items.some((it: PrizeItem) => it.position || it.prizeAmount));
 
     if (cleaned.length > 0) return JSON.stringify(cleaned);
   } catch {
@@ -377,7 +377,7 @@ export async function POST(req: NextRequest) {
                 }))
               : [],
           }))
-          .filter((cat) => cat.name || cat.items.some((it) => it.position || it.prizeAmount))
+          .filter((cat) => cat.name || cat.items.some((it: PrizeItem) => it.position || it.prizeAmount))
       : [];
 
     const fallbackCategory = (body.category || "").trim();
