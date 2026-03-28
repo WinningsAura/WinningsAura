@@ -14,23 +14,22 @@ type PrizeCategory = {
   items: PrizeItem[];
 };
 
-type PrizeBasis = "Official" | "Modeled";
-
 type FormState = {
   sport: string;
   event: string;
   country: string;
   province: string;
   city: string;
-  prizeStructure: string;
-  prizeBasis: PrizeBasis;
-  sourceLink: string;
   categories: PrizeCategory[];
   submitterName: string;
   submitterEmail: string;
   notes: string;
   website: string;
 };
+
+const SPORT_OPTIONS = ["Tennis", "Cricket", "Golf", "Chess", "Badminton", "Soccer", "Compare Sports"];
+const CATEGORY_OPTIONS = ["Men", "Women", "Open", "Mixed", "Singles", "Doubles", "Team", "Other"];
+const CURRENCY_OPTIONS = ["USD", "EUR", "GBP", "INR", "CAD", "AUD", "JPY", "CNY", "CHF", "AED", "SGD", "NZD"];
 
 const COUNTRY_OPTIONS = [
   "United States",
@@ -59,9 +58,6 @@ const initialState: FormState = {
   country: "",
   province: "",
   city: "",
-  prizeStructure: "",
-  prizeBasis: "Official",
-  sourceLink: "",
   categories: [emptyCategory()],
   submitterName: "",
   submitterEmail: "",
@@ -137,7 +133,6 @@ export default function SubmitPrizeStructurePage() {
         country: data.country || prev.country,
         province: data.province || prev.province,
         city: data.city || prev.city,
-        sourceLink: data.sourceLink || prev.sourceLink,
         categories: Array.isArray(data.categories) && data.categories.length > 0 ? data.categories : prev.categories,
         notes: data.extractedNote ? `${prev.notes ? `${prev.notes}\n` : ""}${data.extractedNote}` : prev.notes,
       }));
@@ -201,24 +196,29 @@ export default function SubmitPrizeStructurePage() {
               }}
               className="w-full rounded-xl border border-black bg-white px-4 py-2 text-black file:mr-4 file:rounded-md file:border file:border-black file:bg-white file:px-3 file:py-1.5 file:text-black"
             />
-            {parsingFile ? <p className="mt-1 text-xs text-amber-100/80">Parsing file…</p> : null}
+            {parsingFile ? <p className="mt-1 text-xs text-black/70">Parsing file…</p> : null}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-sm">Sport *</label>
-              <input value={form.sport} onChange={(e) => setForm({ ...form, sport: e.target.value })} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" required />
+              <select value={form.sport} onChange={(e) => setForm({ ...form, sport: e.target.value })} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" required>
+                <option value="">Select sport</option>
+                {SPORT_OPTIONS.map((sport) => (
+                  <option key={sport} value={sport}>{sport}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label className="mb-1 block text-sm">Event *</label>
-              <input value={form.event} onChange={(e) => setForm({ ...form, event: e.target.value })} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" required />
+              <input value={form.event} onChange={(e) => setForm({ ...form, event: e.target.value })} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" required />
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label className="mb-1 block text-sm">Country *</label>
-              <select value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" required>
+              <select value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" required>
                 <option value="">Select country</option>
                 {COUNTRY_OPTIONS.map((country) => (
                   <option key={country} value={country}>{country}</option>
@@ -227,18 +227,18 @@ export default function SubmitPrizeStructurePage() {
             </div>
             <div>
               <label className="mb-1 block text-sm">Province / State (optional)</label>
-              <input value={form.province} onChange={(e) => setForm({ ...form, province: e.target.value })} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" />
+              <input value={form.province} onChange={(e) => setForm({ ...form, province: e.target.value })} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" />
             </div>
             <div>
               <label className="mb-1 block text-sm">City (optional)</label>
-              <input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" />
+              <input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" />
             </div>
           </div>
 
           <div className="rounded-xl border border-black bg-white p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <h2 className="text-lg font-semibold text-black">Prize Categories</h2>
-              <button type="button" onClick={addCategory} className="rounded-md border border-amber-200/50 px-3 py-1.5 text-sm text-amber-100 hover:bg-amber-200/10">+ Add Category</button>
+              <button type="button" onClick={addCategory} className="rounded-md border border-black px-3 py-1.5 text-sm hover:bg-gray-100">+ Add Category</button>
             </div>
 
             <div className="space-y-4">
@@ -247,9 +247,14 @@ export default function SubmitPrizeStructurePage() {
                   <div className="mb-3 flex items-end gap-3">
                     <div className="flex-1">
                       <label className="mb-1 block text-sm">Category Name</label>
-                      <input value={category.name} onChange={(e) => updateCategoryName(index, e.target.value)} placeholder="Men / Women / Open / Mixed" className="w-full rounded-lg border border-amber-200/35 bg-black/60 px-3 py-2 text-amber-100 outline-none focus:border-amber-200" />
+                      <select value={category.name} onChange={(e) => updateCategoryName(index, e.target.value)} className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black">
+                        <option value="">Select category</option>
+                        {CATEGORY_OPTIONS.map((categoryOption) => (
+                          <option key={categoryOption} value={categoryOption}>{categoryOption}</option>
+                        ))}
+                      </select>
                     </div>
-                    <button type="button" onClick={() => removeCategory(index)} disabled={form.categories.length <= 1} className="rounded-md border border-rose-300/50 px-3 py-2 text-sm text-rose-200 disabled:opacity-50">Remove Category</button>
+                    <button type="button" onClick={() => removeCategory(index)} disabled={form.categories.length <= 1} className="rounded-md border border-black px-3 py-2 text-sm disabled:opacity-50">Remove Category</button>
                   </div>
 
                   <div className="space-y-2">
@@ -257,20 +262,24 @@ export default function SubmitPrizeStructurePage() {
                       <div key={itemIndex} className="grid gap-2 sm:grid-cols-[1.4fr_1fr_0.8fr_auto] sm:items-end">
                         <div>
                           <label className="mb-1 block text-xs">Position</label>
-                          <input value={item.position} onChange={(e) => updateItem(index, itemIndex, "position", e.target.value)} placeholder="Winner / Runner-up" className="w-full rounded-lg border border-amber-200/35 bg-black/60 px-3 py-2 text-amber-100 outline-none focus:border-amber-200" />
+                          <input value={item.position} onChange={(e) => updateItem(index, itemIndex, "position", e.target.value)} placeholder="Winner / Runner-up" className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black" />
                         </div>
                         <div>
                           <label className="mb-1 block text-xs">Prize Amount</label>
-                          <input value={item.prizeAmount} onChange={(e) => updateItem(index, itemIndex, "prizeAmount", e.target.value)} placeholder="e.g. 250000" className="w-full rounded-lg border border-amber-200/35 bg-black/60 px-3 py-2 text-amber-100 outline-none focus:border-amber-200" />
+                          <input value={item.prizeAmount} onChange={(e) => updateItem(index, itemIndex, "prizeAmount", e.target.value)} placeholder="e.g. 250000" className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black" />
                         </div>
                         <div>
                           <label className="mb-1 block text-xs">Currency</label>
-                          <input value={item.currency} onChange={(e) => updateItem(index, itemIndex, "currency", e.target.value)} placeholder="USD" className="w-full rounded-lg border border-amber-200/35 bg-black/60 px-3 py-2 text-amber-100 outline-none focus:border-amber-200" />
+                          <select value={item.currency} onChange={(e) => updateItem(index, itemIndex, "currency", e.target.value)} className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black">
+                            {CURRENCY_OPTIONS.map((currencyOption) => (
+                              <option key={currencyOption} value={currencyOption}>{currencyOption}</option>
+                            ))}
+                          </select>
                         </div>
-                        <button type="button" onClick={() => removeItem(index, itemIndex)} disabled={category.items.length <= 1} className="rounded-md border border-rose-300/50 px-2 py-2 text-xs text-rose-200 disabled:opacity-50">Remove</button>
+                        <button type="button" onClick={() => removeItem(index, itemIndex)} disabled={category.items.length <= 1} className="rounded-md border border-black px-2 py-2 text-xs disabled:opacity-50">Remove</button>
                       </div>
                     ))}
-                    <button type="button" onClick={() => addItem(index)} className="rounded-md border border-amber-200/50 px-3 py-1.5 text-xs text-amber-100 hover:bg-amber-200/10">+ Add Position</button>
+                    <button type="button" onClick={() => addItem(index)} className="rounded-md border border-black px-3 py-1.5 text-xs hover:bg-gray-100">+ Add Position</button>
                   </div>
                 </div>
               ))}
@@ -279,45 +288,26 @@ export default function SubmitPrizeStructurePage() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm">Are these amounts official or modeled? *</label>
-              <select value={form.prizeBasis} onChange={(e) => setForm({ ...form, prizeBasis: e.target.value as PrizeBasis })} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" required>
-                <option value="Official">Official</option>
-                <option value="Modeled">Modeled</option>
-              </select>
-            </div>
-            <div>
-              <label className="mb-1 block text-sm">Official Source Link {form.prizeBasis === "Official" ? "*" : "(optional)"}</label>
-              <input value={form.sourceLink} onChange={(e) => setForm({ ...form, sourceLink: e.target.value })} placeholder="https://..." className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" required={form.prizeBasis === "Official"} />
-            </div>
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm">Prize Structure * (min 20 chars)</label>
-            <textarea value={form.prizeStructure} onChange={(e) => setForm({ ...form, prizeStructure: e.target.value })} rows={5} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" required />
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
               <label className="mb-1 block text-sm">Your Name *</label>
-              <input value={form.submitterName} onChange={(e) => setForm({ ...form, submitterName: e.target.value })} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" required />
+              <input value={form.submitterName} onChange={(e) => setForm({ ...form, submitterName: e.target.value })} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" required />
             </div>
             <div>
               <label className="mb-1 block text-sm">Your Email *</label>
-              <input type="email" value={form.submitterEmail} onChange={(e) => setForm({ ...form, submitterEmail: e.target.value })} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" required />
+              <input type="email" value={form.submitterEmail} onChange={(e) => setForm({ ...form, submitterEmail: e.target.value })} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" required />
             </div>
           </div>
 
           <div>
             <label className="mb-1 block text-sm">Notes for Admin</label>
-            <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={3} className="w-full rounded-xl border border-amber-200/40 bg-black/60 px-4 py-3 text-amber-100 outline-none focus:border-amber-200" />
+            <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={3} className="w-full rounded-xl border px-4 py-3 outline-none focus:border-black" />
           </div>
 
-          <button type="submit" disabled={loading} className="rounded-xl border border-amber-200/50 bg-amber-300/20 px-5 py-2.5 font-semibold text-amber-100 hover:bg-amber-300/30 disabled:opacity-60">
+          <button type="submit" disabled={loading} className="rounded-xl border border-black bg-white px-5 py-2.5 font-semibold hover:bg-gray-100 disabled:opacity-60">
             {loading ? "Submitting..." : "Submit for Review"}
           </button>
         </form>
 
-        {status ? <p className="mt-4 text-sm text-amber-100">{status}</p> : null}
+        {status ? <p className="mt-4 text-sm text-black">{status}</p> : null}
       </main>
     </div>
   );

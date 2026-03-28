@@ -356,8 +356,8 @@ export async function POST(req: NextRequest) {
     const country = (body.country || "").trim();
     const province = (body.province || "").trim();
     const city = (body.city || "").trim();
-    const prizeStructure = (body.prizeStructure || "").trim();
-    const prizeBasis = (body.prizeBasis === "Modeled" ? "Modeled" : "Official") as Submission["prizeBasis"];
+    const prizeStructure = (body.prizeStructure || "Submitted via structured category form").trim();
+    const prizeBasis = (body.prizeBasis === "Official" ? "Official" : "Modeled") as Submission["prizeBasis"];
     const sourceLink = (body.sourceLink || "").trim();
     const submitterName = (body.submitterName || "").trim();
     const submitterEmail = (body.submitterEmail || "").trim();
@@ -400,19 +400,11 @@ export async function POST(req: NextRequest) {
 
     if (website) return NextResponse.json({ error: "Spam check failed." }, { status: 400 });
 
-    if (!sport || !event || !country || !prizeStructure || !submitterName || !submitterEmail) {
+    if (!sport || !event || !country || !submitterName || !submitterEmail) {
       return NextResponse.json(
-        { error: "Sport, Event, Country, Prize Structure, Submitter Name, and Submitter Email are required." },
+        { error: "Sport, Event, Country, Submitter Name, and Submitter Email are required." },
         { status: 400 }
       );
-    }
-
-    if (prizeStructure.length < 20) {
-      return NextResponse.json({ error: "Prize Structure must be at least 20 characters." }, { status: 400 });
-    }
-
-    if (prizeBasis === "Official" && !sourceLink) {
-      return NextResponse.json({ error: "Source link is required for official amounts." }, { status: 400 });
     }
 
     if (!validateEmail(submitterEmail)) {
