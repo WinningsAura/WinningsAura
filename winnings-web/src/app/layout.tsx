@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -138,6 +139,7 @@ export default function RootLayout({
           </div>
         </footer>
         <CookieConsentBanner />
+        <Analytics />
       </body>
     </html>
   );
