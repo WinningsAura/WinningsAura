@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { sendEmail } from "@/lib/mailer";
 
 export const runtime = "nodejs";
 
@@ -499,10 +500,25 @@ export async function PATCH(req: NextRequest) {
       reviewedAt: new Date().toISOString(),
     };
 
-    if (publish) appendPublishedRow(list[idx]);
+    let emailSent = false;
+    let emailSkippedReason = "";
+
+    if (publish) {
+      appendPublishedRow(list[idx]);
+
+      const notify = await sendEmail({
+        to: list[idx].submitterEmail,
+        subject: `Your submission ${list[idx].id} is now published`,
+        text: `Good news — your submission has been approved and published.\n\nSubmission ID: ${list[idx].id}\nSport: ${list[idx].sport}\nEvent: ${list[idx].event}`,
+        html: `<p>Good news — your submission has been approved and published.</p><p><strong>Submission ID:</strong> ${list[idx].id}<br/><strong>Sport:</strong> ${list[idx].sport}<br/><strong>Event:</strong> ${list[idx].event}</p>`,
+      });
+
+      emailSent = notify.ok;
+      if (!notify.ok) emailSkippedReason = notify.reason || "Email failed";
+    }
 
     writeAll(list);
-    return NextResponse.json({ ok: true, published: publish });
+    return NextResponse.json({ ok: true, published: publish, emailSent, emailSkippedReason });
   } catch (e) {
     return NextResponse.json(
       { error: "Failed to update submission", detail: e instanceof Error ? e.message : "Unknown" },

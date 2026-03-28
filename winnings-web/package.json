@@ -10,8 +10,10 @@
     "verify:sites": "node scripts/verify-sites.mjs"
   },
   "dependencies": {
+    "@types/nodemailer": "^7.0.11",
     "mammoth": "^1.12.0",
     "next": "16.1.6",
+    "nodemailer": "^8.0.4",
     "pdf-parse": "^2.4.5",
     "react": "19.2.3",
     "react-dom": "19.2.3",
