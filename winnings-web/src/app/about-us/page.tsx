@@ -68,13 +68,6 @@ export default function AboutUsPage() {
         {error ? <p className="mt-4 text-sm text-rose-300">{error}</p> : null}
 
         <div className="mt-5 rounded-xl border border-amber-200/20 bg-black/40 px-4 py-4 sm:px-5 sm:py-5">
-          <div className="mb-4 rounded-lg border border-amber-200/20 bg-amber-100/5 p-3 text-amber-100/90">
-            <p>
-              WinningsAura also helps kids, students, and young athletes explore possible sports-career paths by showing
-              real prize structures across tournaments. By comparing sports, categories, and payout patterns, families
-              and youth can make more informed decisions about where to invest time, training, and long-term effort.
-            </p>
-          </div>
           <div className="space-y-3 text-amber-50/95">
             {rows.map((row, idx) => {
               const line = row
@@ -96,6 +89,14 @@ export default function AboutUsPage() {
                 </p>
               );
             })}
+
+            <div className="mt-4 rounded-lg border border-amber-200/20 bg-amber-100/5 p-3 text-amber-100/90">
+              <p>
+                WinningsAura also helps kids, students, and young athletes explore possible sports-career paths by showing
+                real prize structures across tournaments. By comparing sports, categories, and payout patterns, families
+                and youth can make more informed decisions about where to invest time, training, and long-term effort.
+              </p>
+            </div>
           </div>
         </div>
       </main>
