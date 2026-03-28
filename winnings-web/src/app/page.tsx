@@ -181,7 +181,7 @@ export default function HomePage() {
                 <p className="absolute bottom-3 left-3 max-w-[85%] break-words text-lg font-bold leading-tight text-amber-100 sm:bottom-4 sm:left-4 sm:max-w-none sm:text-2xl">{sport.name}</p>
               </div>
               <div className="p-4 text-sm text-amber-100/85 sm:p-5">
-                {sport.name === "Compare Sports" ? "Logo + graph view for quick cross-sport comparison." : sport.description}
+                {sport.name === "Compare Sports" ? "Graphs view for quick cross-sport comparison." : sport.description}
               </div>
             </Link>
           ))}
