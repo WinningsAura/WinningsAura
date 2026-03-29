@@ -807,6 +807,11 @@ export default function TennisStatsPage() {
           </div>
           <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl lg:text-5xl">Tennis Winnings</h1>
 
+          <div className="mt-4 rounded-xl border border-amber-200/25 bg-black/35 p-3 text-xs text-amber-100/85 sm:text-sm">
+            <p className="font-semibold text-amber-100">Start here:</p>
+            <p className="mt-1">Choose <strong>Tennis Events</strong> first, then pick a category/event card to load the payout table and chart.</p>
+          </div>
+
           <div className="mt-5 max-w-md">
             <label className="mb-2 block text-sm font-semibold text-amber-100/90">Tennis Events</label>
             <select
@@ -855,6 +860,9 @@ export default function TennisStatsPage() {
               ))}
             </div>
           )}
+          <p className="mt-2 text-xs text-amber-100/75">
+            Tip: Category buttons update the table below. Use the chart dropdown to switch rounds quickly.
+          </p>
           </div>
         </section>
 

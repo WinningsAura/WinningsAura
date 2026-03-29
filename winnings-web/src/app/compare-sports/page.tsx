@@ -443,6 +443,11 @@ export default function CompareSportsPage() {
         <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Compare Sports Prize Money</h1>
         <p className="mt-2 text-sm text-amber-100/85 sm:text-base">Top-event comparison by finishing position (best available amount per sport).</p>
 
+        <div className="mt-4 rounded-xl border border-amber-200/25 bg-black/35 p-3 text-xs text-amber-100/85 sm:text-sm">
+          <p className="font-semibold text-amber-100">Start here:</p>
+          <p className="mt-1">Choose <strong>Winner</strong> or <strong>Runner-up</strong> → pick <strong>All / Men / Women</strong> → select sports/events to compare.</p>
+        </div>
+
         <div className="mt-5 flex flex-wrap items-center gap-2">
           {positionOptions.map((p) => (
             <button
@@ -474,6 +479,7 @@ export default function CompareSportsPage() {
             </button>
           ))}
         </div>
+        <p className="mt-2 text-xs text-amber-100/75">Tip: Women filter shows women-specific events where available.</p>
 
         <section className="mt-4 rounded-xl border border-amber-200/25 bg-black/35 p-3">
           <div className="mb-2 flex items-center justify-between gap-2">

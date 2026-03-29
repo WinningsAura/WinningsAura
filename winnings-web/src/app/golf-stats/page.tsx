@@ -257,6 +257,11 @@ export default function GolfStatsPage() {
           <div className="relative z-0">
             <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Golf Winnings</h1>
 
+            <div className="mt-4 rounded-xl border border-amber-200/25 bg-black/35 p-3 text-xs text-amber-100/85 sm:text-sm">
+              <p className="font-semibold text-amber-100">Start here:</p>
+              <p className="mt-1">Select <strong>Majors / Non-Majors</strong>, then choose <strong>Men</strong> or <strong>Women</strong>, and read payout rows by finish position.</p>
+            </div>
+
             <div className="mt-5 max-w-md">
             <label className="mb-2 block text-sm font-semibold text-amber-100/90">Golf Events</label>
             <select
