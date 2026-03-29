@@ -126,25 +126,51 @@ export default function HomePage() {
           </p>
         </section>
 
-        <section className="mb-5 rounded-2xl border border-amber-200/25 bg-black/40 p-4 sm:mb-8 sm:rounded-3xl sm:p-6">
-          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">⚙️ How It Works (30 seconds)</h2>
-          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 sm:gap-3">
-            <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
-              <p className="font-semibold text-amber-100">1) Pick a sport</p>
-              <p className="mt-1 text-xs text-amber-100/80">Open Tennis, Cricket, Golf, and more from the cards below.</p>
-            </div>
-            <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
-              <p className="font-semibold text-amber-100">2) Choose filters</p>
-              <p className="mt-1 text-xs text-amber-100/80">Select category, event, and finish position to narrow the data.</p>
-            </div>
-            <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
-              <p className="font-semibold text-amber-100">3) Compare payouts</p>
-              <p className="mt-1 text-xs text-amber-100/80">Use Compare Sports to see top winner/runner-up values side by side.</p>
-            </div>
-            <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
-              <p className="font-semibold text-amber-100">4) Submit Prize Structure</p>
-              <p className="mt-1 text-xs text-amber-100/80">Submit updates free—from school and college events to national and international tournaments.</p>
-            </div>
+        <section className="mb-5 rounded-2xl border border-amber-200/25 bg-[#f8f7f3] p-4 text-slate-800 sm:mb-8 sm:rounded-3xl sm:p-6">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="text-xs tracking-[0.35em] text-slate-400">✦ ✦ ✦</div>
+            <h2 className="mt-2 text-xl font-bold text-slate-900 sm:text-3xl">How It Works</h2>
+            <p className="mt-2 text-sm text-slate-500 sm:text-base">Start in seconds: explore payouts, compare results, and contribute updates.</p>
+          </div>
+
+          <div className="relative mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="hidden lg:block absolute left-[15%] right-[15%] top-12 h-0 border-t-2 border-dashed border-slate-300/90" />
+
+            {[
+              {
+                step: "1",
+                icon: "👤",
+                title: "Pick a Sport",
+                desc: "Open Tennis, Cricket, Golf, and more from the cards below.",
+              },
+              {
+                step: "2",
+                icon: "⚙️",
+                title: "Choose Filters",
+                desc: "Select category, event, and finish position to narrow the view.",
+              },
+              {
+                step: "3",
+                icon: "⚡",
+                title: "Compare Payouts",
+                desc: "Use Compare Sports to view winner and runner-up values side by side.",
+              },
+              {
+                step: "4",
+                icon: "📝",
+                title: "Submit Prize Structure",
+                desc: "Free submissions are welcome, from school and college events to national and international tournaments.",
+              },
+            ].map((item) => (
+              <div key={item.step} className="relative z-10 rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <span className="absolute left-3 top-3 text-xs font-semibold text-slate-400">{item.step}</span>
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-2xl">
+                  {item.icon}
+                </div>
+                <h3 className="mt-3 text-base font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-1 text-xs leading-5 text-slate-500">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
 
