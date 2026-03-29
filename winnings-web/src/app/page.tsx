@@ -157,7 +157,7 @@ export default function HomePage() {
               {
                 step: "4",
                 title: "Submit Prize Structure",
-                desc: "Free submissions are welcome, from school and college events to national and international tournaments.",
+                desc: "Applicable for all competition levels, from grassroots to international tournaments.",
                 icon: "📝",
               },
             ].map((item) => (
