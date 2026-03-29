@@ -311,6 +311,22 @@ function extractForSport(sport: string, rows: string[][], position: Position, ge
   return null;
 }
 
+function filterEventsByGender(sport: string, events: string[], gender: GenderFilter) {
+  if (gender === "All") return events;
+
+  const isWomenEvent = (name: string) => /women/i.test(name);
+
+  // Soccer currently has only men's events in this data source.
+  if (sport === "Soccer" && gender === "Women") return [];
+
+  if (gender === "Men") return events.filter((e) => !isWomenEvent(e));
+
+  // Women: keep women-specific events where available, otherwise keep neutral events.
+  const womenSpecific = events.filter((e) => isWomenEvent(e));
+  if (womenSpecific.length > 0) return womenSpecific;
+  return events;
+}
+
 export default function CompareSportsPage() {
   const [selectedPosition, setSelectedPosition] = useState<Position>("Winner");
   const [selectedGender, setSelectedGender] = useState<GenderFilter>("All");
@@ -460,8 +476,9 @@ export default function CompareSportsPage() {
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {sportSheets.map(({ sport }) => {
               const checked = selectedSports.includes(sport);
-              const options = eventOptionsBySport[sport] || [];
-              const selectedEvent = selectedEventsBySport[sport] || "All Events";
+              const options = filterEventsByGender(sport, eventOptionsBySport[sport] || [], selectedGender);
+              const savedEvent = selectedEventsBySport[sport] || "All Events";
+              const selectedEvent = savedEvent === "All Events" || options.includes(savedEvent) ? savedEvent : "All Events";
 
               return (
                 <div key={sport} className="rounded-lg border border-amber-200/20 px-2 py-2 text-sm text-amber-100/90 hover:border-amber-200/50">
