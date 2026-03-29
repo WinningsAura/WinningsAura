@@ -156,8 +156,8 @@ export default function HomePage() {
               },
               {
                 step: "4",
-                title: "Submit Prize Structure",
-                desc: "Applicable for all competition levels, from grassroots to international tournaments.",
+                title: "Contribute Data (Optional)",
+                desc: "Know an event or spot a gap? Submit prize data for free.",
                 icon: "📝",
               },
             ].map((item) => (
