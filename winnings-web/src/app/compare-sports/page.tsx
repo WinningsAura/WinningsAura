@@ -149,32 +149,72 @@ function extractBadminton(rows: string[][], position: Position, gender: GenderFi
   return { sport: "Badminton", event: best.event, amount: best.amount, display: best.raw };
 }
 
+function pickLatestHeader(headers: string[], matcher: (h: string) => boolean): string | null {
+  const matches = headers.filter((h) => matcher(h));
+  if (!matches.length) return null;
+
+  const withYear = matches.map((h) => {
+    const years = [...h.matchAll(/\b(20\d{2})\b/g)].map((m) => Number(m[1]));
+    return { h, year: years.length ? Math.max(...years) : -1 };
+  });
+
+  withYear.sort((a, b) => b.year - a.year);
+  return withYear[0].h;
+}
+
+function sectionHeaderAndRow(rows: string[][], sectionTitlePart: string, key: string) {
+  const start = rows.findIndex((r) => clean(r[0] || "").toLowerCase().includes(sectionTitlePart));
+  if (start < 0) return { header: [] as string[], row: null as string[] | null };
+
+  const section = rows.slice(start + 1);
+  const headerRow = section.find((r) => clean(r[0] || "").toLowerCase() === "position");
+  const header = (headerRow || []).map((c) => clean(c));
+  const row = section.find((r) => clean(r[0] || "").toLowerCase().startsWith(key));
+
+  return { header, row: row || null };
+}
+
 function extractCricket(rows: string[][], position: Position, gender: GenderFilter, selectedEvent?: string): SportPoint | null {
   const key = position === "Winner" ? "winner" : "runner";
 
-  const menStart = rows.findIndex((r) => clean(r[0] || "").toLowerCase().includes("men's"));
-  const womenStart = rows.findIndex((r) => clean(r[0] || "").toLowerCase().includes("women's"));
+  const men = sectionHeaderAndRow(rows, "icc event prize money structures - men's", key);
+  const women = sectionHeaderAndRow(rows, "icc event prize money structures - women's", key);
 
-  const menRows = menStart >= 0 ? rows.slice(menStart, womenStart >= 0 ? womenStart : undefined) : rows;
-  const womenRows = womenStart >= 0 ? rows.slice(womenStart) : [];
+  const menHeaders = men.header.slice(1);
+  const womenHeaders = women.header.slice(1);
 
-  const menRow = menRows.find((r) => clean(r[0] || "").toLowerCase().includes(key));
-  const womenRow = womenRows.find((r) => clean(r[0] || "").toLowerCase().includes(key));
+  const menEventToHeader: Record<string, string | null> = {
+    "ODI World Cup": pickLatestHeader(menHeaders, (h) => /odi world cup/i.test(h)),
+    "Champions Trophy": pickLatestHeader(menHeaders, (h) => /champions trophy/i.test(h)),
+    "T20 World Cup": pickLatestHeader(menHeaders, (h) => /(^|\b)t20 world cup/i.test(h)),
+    "WTC Final": pickLatestHeader(menHeaders, (h) => /world test championship|wtc final/i.test(h)),
+  };
 
-  const menEvents = menRow
-    ? [
-        { event: "ODI World Cup", raw: menRow[1] || "" },
-        { event: "Champions Trophy", raw: menRow[2] || "" },
-        { event: "T20 World Cup", raw: menRow[3] || "" },
-        { event: "WTC Final", raw: menRow[4] || "" },
-      ]
+  const womenEventToHeader: Record<string, string | null> = {
+    "Women’s T20 World Cup": pickLatestHeader(womenHeaders, (h) => /t20 world cup/i.test(h)),
+    "Women’s ODI World Cup": pickLatestHeader(womenHeaders, (h) => /odi.*world cup|world cup/i.test(h)),
+  };
+
+  const menEvents = men.row
+    ? Object.entries(menEventToHeader)
+        .map(([event, headerName]) => {
+          if (!headerName) return null;
+          const idx = men.header.findIndex((h) => h === headerName);
+          if (idx <= 0) return null;
+          return { event, raw: men.row?.[idx] || "" };
+        })
+        .filter((v): v is SportEventValue => Boolean(v))
     : [];
 
-  const womenEvents = womenRow
-    ? [
-        { event: "Women’s T20 World Cup", raw: womenRow[1] || "" },
-        { event: "Women’s ODI World Cup", raw: womenRow[2] || "" },
-      ]
+  const womenEvents = women.row
+    ? Object.entries(womenEventToHeader)
+        .map(([event, headerName]) => {
+          if (!headerName) return null;
+          const idx = women.header.findIndex((h) => h === headerName);
+          if (idx <= 0) return null;
+          return { event, raw: women.row?.[idx] || "" };
+        })
+        .filter((v): v is SportEventValue => Boolean(v))
     : [];
 
   const events = gender === "Men" ? menEvents : gender === "Women" ? womenEvents : [...menEvents, ...womenEvents];
