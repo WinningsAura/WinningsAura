@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -137,6 +138,7 @@ export default function RootLayout({
                 Cookie Policy
               </Link>
             </nav>
+            <NewsletterSubscribe />
           </div>
         </footer>
         <CookieConsentBanner />
