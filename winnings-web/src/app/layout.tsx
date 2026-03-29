@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import MenuAutoClose from "@/components/MenuAutoClose";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -117,6 +118,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <MenuAutoClose />
         {children}
         <footer className="border-t border-amber-200/20 bg-[#05070f] px-4 py-4 text-center text-sm text-amber-100/80">
           <div className="mx-auto max-w-6xl">
