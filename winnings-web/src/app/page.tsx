@@ -135,7 +135,7 @@ export default function HomePage() {
         </section>
 
         <section className="mb-5 rounded-2xl border border-amber-200/25 bg-black/40 p-4 sm:mb-8 sm:rounded-3xl sm:p-6">
-          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">Start Here (30 seconds)</h2>
+          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">How It Works (30 seconds)</h2>
           <div className="mt-3 grid gap-2 sm:grid-cols-3 sm:gap-3">
             <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
               <p className="font-semibold text-amber-100">1) Pick a sport</p>
