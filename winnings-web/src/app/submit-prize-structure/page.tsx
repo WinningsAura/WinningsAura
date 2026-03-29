@@ -86,6 +86,22 @@ const initialState: FormState = {
 };
 
 export default function SubmitPrizeStructurePage() {
+  const seoStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Submit Prize Structure",
+    url: "https://winningsaura.com/submit-prize-structure",
+    description:
+      "Submit tournament prize money details to help improve WinningsAura sports payouts data quality.",
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://winningsaura.com/" },
+        { "@type": "ListItem", position: 2, name: "Submit Prize Structure", item: "https://winningsaura.com/submit-prize-structure" },
+      ],
+    },
+  };
+
   const [form, setForm] = useState<FormState>(initialState);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
@@ -176,6 +192,10 @@ export default function SubmitPrizeStructurePage() {
 
   return (
     <div className="min-h-screen bg-white px-3 py-6 text-black sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(seoStructuredData) }}
+      />
       <main className="relative z-30 mx-auto w-full max-w-4xl rounded-2xl border border-black bg-white p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-black pb-3">
           <Link href="/" className="flex items-center gap-2">
@@ -200,6 +220,9 @@ export default function SubmitPrizeStructurePage() {
 
         <h1 className="break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-black sm:text-4xl">Submit Prize Structure</h1>
         <p className="mt-2 text-black/80">Add event and prize details. You can add/remove categories and entries under each category.</p>
+        <p className="mt-2 text-xs text-black/70">
+          Need a reference first? See current payouts in <Link href="/tennis-stats" className="underline underline-offset-4">Tennis</Link>, <Link href="/cricket-stats" className="underline underline-offset-4">Cricket</Link>, <Link href="/golf-stats" className="underline underline-offset-4">Golf</Link>, and <Link href="/compare-sports" className="underline underline-offset-4">Compare Sports</Link>.
+        </p>
         {/* status links removed */}
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4 [&_label]:text-black [&_input]:bg-white [&_input]:text-black [&_input]:border-black [&_select]:bg-white [&_select]:text-black [&_select]:border-black [&_textarea]:bg-white [&_textarea]:text-black [&_textarea]:border-black [&_button]:text-black [&_button]:border-black">

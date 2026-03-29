@@ -328,6 +328,22 @@ function filterEventsByGender(sport: string, events: string[], gender: GenderFil
 }
 
 export default function CompareSportsPage() {
+  const seoStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Compare Sports Prize Money",
+    url: "https://winningsaura.com/compare-sports",
+    description:
+      "Compare winner and runner-up payouts across Tennis, Cricket, Golf, Chess, Badminton, and Soccer.",
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://winningsaura.com/" },
+        { "@type": "ListItem", position: 2, name: "Compare Sports", item: "https://winningsaura.com/compare-sports" },
+      ],
+    },
+  };
+
   const [selectedPosition, setSelectedPosition] = useState<Position>("Winner");
   const [selectedGender, setSelectedGender] = useState<GenderFilter>("All");
   const [selectedSports, setSelectedSports] = useState<string[]>(sportSheets.map((s) => s.sport));
@@ -412,6 +428,10 @@ export default function CompareSportsPage() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#1f2937_0%,_#0b1020_45%,_#05070f_100%)] px-3 py-6 text-[#F5E6B3] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(seoStructuredData) }}
+      />
       <main className="mx-auto w-full max-w-6xl rounded-2xl border border-amber-300/30 bg-black/55 p-4 shadow-[0_0_60px_rgba(245,185,59,0.12)] backdrop-blur-xl sm:rounded-3xl sm:p-8">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/20 pb-3">
           <Link href="/" className="flex items-center gap-2">
@@ -550,6 +570,21 @@ export default function CompareSportsPage() {
           Note: This MVP compares highest parsed payout for the selected position using currently available sheet data formats.
           Display enforces currency-first formatting for readability.
         </p>
+
+        <div className="mt-4 flex flex-wrap gap-2 text-xs text-amber-100/85">
+          <span className="mr-1">Explore detailed tables:</span>
+          <Link href="/tennis-stats" className="underline underline-offset-4 hover:text-amber-100">Tennis</Link>
+          <span>•</span>
+          <Link href="/cricket-stats" className="underline underline-offset-4 hover:text-amber-100">Cricket</Link>
+          <span>•</span>
+          <Link href="/golf-stats" className="underline underline-offset-4 hover:text-amber-100">Golf</Link>
+          <span>•</span>
+          <Link href="/badminton-stats" className="underline underline-offset-4 hover:text-amber-100">Badminton</Link>
+          <span>•</span>
+          <Link href="/chess-stats" className="underline underline-offset-4 hover:text-amber-100">Chess</Link>
+          <span>•</span>
+          <Link href="/soccer-stats" className="underline underline-offset-4 hover:text-amber-100">Soccer</Link>
+        </div>
       </main>
     </div>
   );
