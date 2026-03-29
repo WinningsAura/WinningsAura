@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -140,6 +141,7 @@ export default function RootLayout({
         </footer>
         <CookieConsentBanner />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
