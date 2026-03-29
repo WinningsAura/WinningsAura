@@ -127,27 +127,57 @@ export default function HomePage() {
         </header>
 
         <section className="mb-5 rounded-2xl border border-amber-200/20 bg-black/35 p-3.5 sm:mb-8 sm:rounded-3xl sm:p-6">
-          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">Why WinningsAura</h2>
-          <p className="mt-1.5 max-w-4xl text-sm leading-6 text-amber-100/80 sm:mt-2 sm:text-base">
-            Sports payout information is often fragmented across formats and sources. WinningsAura standardizes that
-            data so athletes, fans, and analysts can compare prize structures quickly and make better decisions.
-          </p>
+          <div className="grid grid-cols-1 items-center gap-4 sm:gap-6 md:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <h2 className="text-base font-semibold text-amber-100 sm:text-xl">Why WinningsAura</h2>
+              <p className="mt-1.5 max-w-4xl text-sm leading-6 text-amber-100/80 sm:mt-2 sm:text-base">
+                Sports payout information is often fragmented across formats and sources. WinningsAura standardizes that
+                data so athletes, fans, and analysts can compare prize structures quickly and make better decisions.
+              </p>
+            </div>
+            <div className="relative h-36 overflow-hidden rounded-xl border border-amber-200/20 sm:h-44">
+              <Image
+                src="/sports-legends-bg.svg"
+                alt="Sports visualization"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
+            </div>
+          </div>
         </section>
 
         <section className="mb-5 rounded-2xl border border-amber-200/25 bg-black/40 p-4 sm:mb-8 sm:rounded-3xl sm:p-6">
-          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">How It Works (30 seconds)</h2>
-          <div className="mt-3 grid gap-2 sm:grid-cols-3 sm:gap-3">
-            <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
-              <p className="font-semibold text-amber-100">1) Pick a sport</p>
-              <p className="mt-1 text-xs text-amber-100/80">Open Tennis, Cricket, Golf, and more from the cards below.</p>
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-[1.15fr_0.85fr]">
+            <div>
+              <h2 className="text-base font-semibold text-amber-100 sm:text-xl">How It Works (30 seconds)</h2>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 sm:gap-3">
+                <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
+                  <p className="font-semibold text-amber-100">1) Pick a sport</p>
+                  <p className="mt-1 text-xs text-amber-100/80">Open Tennis, Cricket, Golf, and more from the cards below.</p>
+                </div>
+                <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
+                  <p className="font-semibold text-amber-100">2) Choose filters</p>
+                  <p className="mt-1 text-xs text-amber-100/80">Select category, event, and finish position to narrow the data.</p>
+                </div>
+                <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
+                  <p className="font-semibold text-amber-100">3) Compare payouts</p>
+                  <p className="mt-1 text-xs text-amber-100/80">Use Compare Sports to see top winner/runner-up values side by side.</p>
+                </div>
+                <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
+                  <p className="font-semibold text-amber-100">4) Submit Prize Structure</p>
+                  <p className="mt-1 text-xs text-amber-100/80">Share missing/new prize data (free) from school, college, regional, provincial, country, and international levels.</p>
+                </div>
+              </div>
             </div>
-            <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
-              <p className="font-semibold text-amber-100">2) Choose filters</p>
-              <p className="mt-1 text-xs text-amber-100/80">Select category, event, and finish position to narrow the data.</p>
-            </div>
-            <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
-              <p className="font-semibold text-amber-100">3) Compare payouts</p>
-              <p className="mt-1 text-xs text-amber-100/80">Use Compare Sports to see top winner/runner-up values side by side.</p>
+            <div className="relative h-40 overflow-hidden rounded-xl border border-amber-200/20 sm:h-48">
+              <Image
+                src="/golf-aura-max-2026.svg"
+                alt="How WinningsAura works"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
           </div>
         </section>

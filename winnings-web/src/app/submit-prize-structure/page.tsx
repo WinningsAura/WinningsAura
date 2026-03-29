@@ -223,6 +223,12 @@ export default function SubmitPrizeStructurePage() {
         <p className="mt-2 text-xs text-black/70">
           Need a reference first? See current payouts in <Link href="/tennis-stats" className="underline underline-offset-4">Tennis</Link>, <Link href="/cricket-stats" className="underline underline-offset-4">Cricket</Link>, <Link href="/golf-stats" className="underline underline-offset-4">Golf</Link>, and <Link href="/compare-sports" className="underline underline-offset-4">Compare Sports</Link>.
         </p>
+        <div className="mt-3 rounded-xl border border-black/30 bg-gray-50 p-3 text-xs sm:text-sm">
+          <p className="font-semibold">Submission is free of cost.</p>
+          <p className="mt-1 text-black/80">
+            You can submit prize structures from all levels: school, college, regional, provincial, country, and international competitions.
+          </p>
+        </div>
         {/* status links removed */}
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4 [&_label]:text-black [&_input]:bg-white [&_input]:text-black [&_input]:border-black [&_select]:bg-white [&_select]:text-black [&_select]:border-black [&_textarea]:bg-white [&_textarea]:text-black [&_textarea]:border-black [&_button]:text-black [&_button]:border-black">
