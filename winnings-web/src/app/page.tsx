@@ -115,19 +115,11 @@ export default function HomePage() {
             <li>Track trends and opportunities from one platform.</li>
           </ul>
 
-          <div className="mt-4 flex flex-wrap items-center gap-2.5 sm:mt-5 sm:gap-3">
-            <Link
-              href="/submit-prize-structure"
-              className="rounded-xl border border-amber-200/60 bg-amber-300/20 px-3.5 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200 hover:bg-amber-300/30 sm:px-4"
-            >
-              Submit Prize Structure
-            </Link>
-            {/* helper text removed */}
-          </div>
+          <div className="mt-1" />
         </header>
 
         <section className="mb-5 rounded-2xl border border-amber-200/20 bg-black/35 p-3.5 sm:mb-8 sm:rounded-3xl sm:p-6">
-          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">Why WinningsAura</h2>
+          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">💡 Why WinningsAura</h2>
           <p className="mt-1.5 max-w-4xl text-sm leading-6 text-amber-100/80 sm:mt-2 sm:text-base">
             Sports payout information is often fragmented across formats and sources. WinningsAura standardizes that
             data so athletes, fans, and analysts can compare prize structures quickly and make better decisions.
@@ -135,7 +127,7 @@ export default function HomePage() {
         </section>
 
         <section className="mb-5 rounded-2xl border border-amber-200/25 bg-black/40 p-4 sm:mb-8 sm:rounded-3xl sm:p-6">
-          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">How It Works (30 seconds)</h2>
+          <h2 className="text-base font-semibold text-amber-100 sm:text-xl">⚙️ How It Works (30 seconds)</h2>
           <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 sm:gap-3">
             <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
               <p className="font-semibold text-amber-100">1) Pick a sport</p>
@@ -151,7 +143,7 @@ export default function HomePage() {
             </div>
             <div className="rounded-xl border border-amber-200/20 bg-black/35 p-3 text-sm text-amber-100/90">
               <p className="font-semibold text-amber-100">4) Submit Prize Structure</p>
-              <p className="mt-1 text-xs text-amber-100/80">Contribute updates at no cost, from local school/college tournaments to regional, provincial, national, and international events.</p>
+              <p className="mt-1 text-xs text-amber-100/80">Submit updates free—from school and college events to national and international tournaments.</p>
             </div>
           </div>
         </section>
