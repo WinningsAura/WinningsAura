@@ -152,7 +152,7 @@ export default function HomePage() {
                 step: "3",
                 title: "Compare Payouts",
                 desc: "Use Compare Sports to view winner and runner-up values side by side.",
-                icon: "📈",
+                icon: "📊",
               },
               {
                 step: "4",
@@ -165,11 +165,7 @@ export default function HomePage() {
                 <span className="absolute left-3 top-3 text-xs font-semibold text-amber-200/70">{item.step}</span>
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-amber-200/30 bg-black/40 text-2xl">
                   {item.step === "1" ? (
-                    <div className="flex items-center gap-1 text-[18px]">
-                      <span>{["🎾", "🏏", "⛳", "♟️", "🏸", "⚽"][(startIndex + 0) % 6]}</span>
-                      <span>{["🎾", "🏏", "⛳", "♟️", "🏸", "⚽"][(startIndex + 1) % 6]}</span>
-                      <span>{["🎾", "🏏", "⛳", "♟️", "🏸", "⚽"][(startIndex + 2) % 6]}</span>
-                    </div>
+                    <span>{["🎾", "🏏", "⛳", "♟️", "🏸", "⚽"][startIndex % 6]}</span>
                   ) : (
                     item.icon
                   )}
