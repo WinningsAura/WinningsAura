@@ -29,6 +29,32 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Newsletter Subscription Provider Setup
+
+The footer subscribe form posts to `POST /api/subscribe`.
+
+By default it stores emails in local CSV only (`SUBSCRIBE_PROVIDER=local`).
+
+To send real campaigns, set one provider in your environment:
+
+- `SUBSCRIBE_PROVIDER=buttondown`
+  - `BUTTONDOWN_API_KEY`
+- `SUBSCRIBE_PROVIDER=convertkit`
+  - `CONVERTKIT_API_KEY`
+  - `CONVERTKIT_FORM_ID`
+- `SUBSCRIBE_PROVIDER=mailerlite`
+  - `MAILERLITE_API_KEY`
+  - `MAILERLITE_GROUP_ID` (optional)
+
+Example local env file (`.env.local`):
+
+```env
+SUBSCRIBE_PROVIDER=buttondown
+BUTTONDOWN_API_KEY=your_buttondown_api_key
+```
+
+On Vercel, add the same variables in **Project Settings → Environment Variables**.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
