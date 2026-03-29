@@ -113,21 +113,36 @@ async function subscribeButtondown(email: string): Promise<ProviderResult> {
     return { ok: false, detail: "Missing BUTTONDOWN_API_KEY" };
   }
 
-  const res = await fetch("https://api.buttondown.email/v1/subscribers", {
+  const endpoint = "https://api.buttondown.email/v1/subscribers";
+  const headers = {
+    Authorization: `Token ${apiKey}`,
+    "Content-Type": "application/json",
+  };
+
+  // Buttondown API variants seen in the wild:
+  // 1) { email_address }
+  // 2) { payload: { email_address } }
+  let res = await fetch(endpoint, {
     method: "POST",
-    headers: {
-      Authorization: `Token ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
+    headers,
+    body: JSON.stringify({ email_address: email }),
   });
 
-  const text = await res.text();
+  let text = await res.text();
+
+  if (!res.ok && res.status === 422 && text.toLowerCase().includes("payload") && text.toLowerCase().includes("email_address")) {
+    res = await fetch(endpoint, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ payload: { email_address: email } }),
+    });
+    text = await res.text();
+  }
 
   if (res.ok) return { ok: true };
 
   const lower = text.toLowerCase();
-  if (res.status === 400 && lower.includes("already") && lower.includes("subscr")) {
+  if ((res.status === 400 || res.status === 409) && lower.includes("already") && lower.includes("subscr")) {
     return { ok: true, alreadySubscribed: true };
   }
 
