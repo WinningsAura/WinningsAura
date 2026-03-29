@@ -305,7 +305,7 @@ export default function GolfStatsPage() {
                         <th
                           key={`${idx}-${cell}`}
                           className={`px-1 py-2 text-center font-semibold align-middle leading-tight sm:px-2 ${
-                            idx === 0 ? "sticky left-0 z-20 bg-slate-800/95" : ""
+                            idx === 0 ? "sticky left-0 z-20 w-[64px] bg-slate-800/95 sm:w-[88px]" : ""
                           }`}
                         >
                           <span className="inline-flex w-full flex-col items-center whitespace-normal break-words text-[11px] sm:text-xs">
@@ -325,7 +325,7 @@ export default function GolfStatsPage() {
                           key={`${rIdx}-${cIdx}`}
                           className={`px-1 py-2 text-center align-top sm:px-2 ${
                             cIdx === 0
-                              ? "sticky left-0 z-10 whitespace-normal break-words bg-slate-900 sm:whitespace-nowrap"
+                              ? "sticky left-0 z-10 w-[64px] whitespace-normal break-words bg-slate-900 text-[11px] sm:w-[88px] sm:whitespace-nowrap sm:text-xs"
                               : "whitespace-normal break-words text-[10px] sm:text-xs"
                           }`}
                         >
