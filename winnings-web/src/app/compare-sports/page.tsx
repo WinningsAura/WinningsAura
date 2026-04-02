@@ -437,7 +437,7 @@ export default function CompareSportsPage() {
           <Link href="/" className="flex items-center gap-2">
             <img src="/winnings-aura-logo-currency.svg" alt="WinningsAura" className="h-8 w-auto sm:h-9" />
           </Link>
-          <Link href="/" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-sm text-amber-100 hover:border-amber-200/70">Home</Link>
+          <Link href="/" className="rounded-lg border border-amber-200/30 px-3 py-1.5 text-sm text-amber-100 hover:border-amber-200/70">Menu</Link>
         </div>
 
         <h1 className="mt-2 break-words text-[clamp(1.5rem,6vw,2rem)] font-bold leading-tight text-amber-100 sm:text-4xl">Compare Sports Prize Money</h1>
