@@ -217,6 +217,13 @@ async function subscribeWithProvider(provider: Provider, email: string): Promise
 }
 
 export async function POST(req: NextRequest) {
+  if (process.env.VERCEL) {
+    return NextResponse.json(
+      { error: "Subscribe is disabled on the live site for now." },
+      { status: 404 }
+    );
+  }
+
   try {
     const body = (await req.json()) as SubscribePayload;
 

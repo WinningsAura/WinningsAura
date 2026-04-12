@@ -24,6 +24,7 @@ const description =
   "WinningsAura tracks tennis, cricket, golf, chess, and badminton prize money insights with clean dashboards, historical context, and fast stats navigation.";
 
 const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const showNewsletterSubscribe = !process.env.VERCEL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -140,7 +141,7 @@ export default function RootLayout({
                 Cookie Policy
               </Link>
             </nav>
-            <NewsletterSubscribe />
+            {showNewsletterSubscribe ? <NewsletterSubscribe /> : null}
           </div>
         </footer>
         <CookieConsentBanner />
