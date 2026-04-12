@@ -42,12 +42,6 @@ const sports = [
     description: "View FIFA and continental soccer prize money details.",
   },
   {
-    name: "Formula 1",
-    image: "/formula1-aura-max-2026.svg",
-    href: "/formula1-stats",
-    description: "Explore Formula 1 prize pools and season earnings insights.",
-  },
-  {
     name: "Compare Sports",
     image: "/sports-legends-bg.svg",
     href: "/compare-sports",
@@ -101,7 +95,6 @@ export default function HomePage() {
                     <Link href="/chess-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Chess</span><span>{"\u265F"}</span></Link>
                     <Link href="/badminton-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Badminton</span><span>{"\uD83C\uDFF8"}</span></Link>
                     <Link href="/soccer-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Soccer</span><span>{"\u26BD"}</span></Link>
-                    <Link href="/formula1-stats" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Formula 1</span><span>{"\uD83C\uDFC1"}</span></Link>
                     <Link href="/compare-sports" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Compare Sports</span><span>{"\uD83D\uDCCA"}</span></Link>
                     <Link href="/submit-prize-structure" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Submit Prize Data</span><span>{"\uD83D\uDCDD"}</span></Link>
                     <Link href="/contact-us" className="flex items-center justify-between rounded-md px-3 py-2 text-amber-100 hover:bg-amber-200/10"><span>Contact Us</span><span>{"\u2709\uFE0F"}</span></Link>
@@ -172,7 +165,7 @@ export default function HomePage() {
                 <span className="absolute left-3 top-3 text-xs font-semibold text-amber-200/70">{item.step}</span>
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-amber-200/30 bg-black/40 text-2xl">
                   {item.step === "1" ? (
-                    <span>{["🎾", "🏏", "⛳", "♟️", "🏸", "⚽", "🏁"][startIndex % 7]}</span>
+                    <span>{["🎾", "🏏", "⛳", "♟️", "🏸", "⚽", "🏁"][startIndex % 6]}</span>
                   ) : (
                     item.icon
                   )}
@@ -268,4 +261,5 @@ export default function HomePage() {
     </div>
   );
 }
+
 
